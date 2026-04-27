@@ -1,0 +1,32 @@
+{
+  "name": "ethiopian-aviation-exam-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Telegram Mini App and bot for Ethiopian Aviation University entrance exam preparation.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.8",
+    "grammy": "^1.38.3",
+    "next": "^16.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.1",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "^16.0.0",
+    "typescript": "^5.9.3"
+  }
+}

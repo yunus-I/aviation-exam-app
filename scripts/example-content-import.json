@@ -1,0 +1,41 @@
+{
+  "questionBank": {
+    "key": "pilot-bank-2026",
+    "slug": "pilot-entrance-bank-2026",
+    "title": "Pilot Entrance Bank 2026",
+    "description": "Imported pilot entrance preparation questions",
+    "departmentCode": "PILOT",
+    "topicSlug": "aptitude"
+  },
+  "examSet": {
+    "key": "pilot-mock-2026-01",
+    "slug": "pilot-mock-2026-01",
+    "title": "Pilot Mock Exam 2026 - Set 1",
+    "description": "First pilot mock exam set",
+    "departmentCode": "PILOT",
+    "topicSlug": "aptitude",
+    "mode": "mock",
+    "durationMinutes": 35,
+    "passingScore": 24,
+    "published": true
+  },
+  "questions": [
+    {
+      "key": "pilot-q-0001",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Which number comes next in the sequence 3, 6, 12, 24?",
+      "explanation": "Each term doubles, so the next number is 48.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Imported mock set",
+      "sourceYear": 2026,
+      "options": [
+        { "key": "A", "text": "36", "isCorrect": false },
+        { "key": "B", "text": "42", "isCorrect": false },
+        { "key": "C", "text": "48", "isCorrect": true },
+        { "key": "D", "text": "54", "isCorrect": false }
+      ]
+    }
+  ]
+}
