@@ -12,3 +12,5 @@ coverage/
 *.log
 tsconfig.tsbuildinfo
 package-lock.json
+
+.vercel
