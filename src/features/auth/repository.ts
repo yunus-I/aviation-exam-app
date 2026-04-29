@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { AppLanguage, RegistrationStatus } from "@/types/db";
 

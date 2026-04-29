@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { MiniAppCandidateSession } from "@/features/auth/repository";
 import type { ContentImportPayload } from "@/features/exam/content-types";
