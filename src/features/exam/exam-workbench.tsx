@@ -133,13 +133,17 @@ export function ExamWorkbench({
             );
 
             if (recalculatedRemaining === 0) {
-              setSession({
+              const nextSession: PersistedExamSession = {
                 ...parsed,
                 stage: "submitted",
                 remainingSeconds: 0,
                 submittedAt: parsed.submittedAt ?? Date.now(),
                 result: calculateExamResult(examSet.questions, parsed.answers),
-              });
+              };
+              setSession(nextSession);
+              // If it wasn't submitted before, it will be marked submitted now.
+              // We can't reliably submit inside this effect safely without 
+              // tracking if we already submitted, so we just update local state.
             } else {
               setSession({
                 ...parsed,
@@ -183,13 +187,15 @@ export function ExamWorkbench({
         const nextRemaining = Math.max(0, current.remainingSeconds - 1);
 
         if (nextRemaining === 0) {
-          return {
+          const nextSession: PersistedExamSession = {
             ...current,
             stage: "submitted",
             remainingSeconds: 0,
             submittedAt: Date.now(),
             result: calculateExamResult(examSet.questions, current.answers),
           };
+          void submitToServer(nextSession);
+          return nextSession;
         }
 
         return {
@@ -270,13 +276,42 @@ export function ExamWorkbench({
     }));
   }
 
+  async function submitToServer(finalSession: PersistedExamSession) {
+    const webApp = window.Telegram?.WebApp;
+    const initDataRaw = webApp?.initData?.trim();
+
+    if (!initDataRaw || contentSource !== "live") {
+      return;
+    }
+
+    try {
+      await fetch("/api/exams/submit", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          initDataRaw,
+          examSet,
+          session: finalSession,
+        }),
+      });
+    } catch (e) {
+      console.error("Failed to submit exam attempt", e);
+    }
+  }
+
   function submitExam() {
-    setSession((current) => ({
-      ...current,
-      stage: "submitted",
-      submittedAt: Date.now(),
-      result: calculateExamResult(examSet.questions, current.answers),
-    }));
+    setSession((current) => {
+      const nextSession: PersistedExamSession = {
+        ...current,
+        stage: "submitted",
+        submittedAt: Date.now(),
+        result: calculateExamResult(examSet.questions, current.answers),
+      };
+      void submitToServer(nextSession);
+      return nextSession;
+    });
   }
 
   const selectedOptionIds = currentQuestion

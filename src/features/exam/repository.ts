@@ -367,4 +367,77 @@ export class ExamContentRepository {
       questions,
     } satisfies ExamSet;
   }
+
+  async saveExamAttempt(params: {
+    candidateId: string;
+    departmentId: string;
+    examSet: ExamSet;
+    session: any; // PersistedExamSession type from exam workbench
+  }) {
+    const { candidateId, departmentId, examSet, session } = params;
+
+    if (!session.result) {
+      throw new Error("Cannot save attempt without result.");
+    }
+
+    const timeSpentMs = (session.submittedAt ?? Date.now()) - (session.startedAt ?? Date.now());
+
+    const attemptInsert = await this.supabase
+      .from("exam_attempts")
+      .insert({
+        candidate_id: candidateId,
+        exam_set_id: examSet.id,
+        department_id: departmentId,
+        status: "submitted",
+        started_at: new Date(session.startedAt ?? Date.now()).toISOString(),
+        expires_at: new Date(session.expiresAt ?? Date.now()).toISOString(),
+        submitted_at: new Date(session.submittedAt ?? Date.now()).toISOString(),
+        score: session.result.score,
+        max_score: session.result.maxScore,
+        correct_count: session.result.correctCount,
+        incorrect_count: session.result.incorrectCount,
+        unanswered_count: session.result.unansweredCount,
+        time_spent_seconds: Math.max(0, Math.floor(timeSpentMs / 1000)),
+      })
+      .select("id")
+      .single();
+
+    if (attemptInsert.error) {
+      throw attemptInsert.error;
+    }
+
+    const attemptId = attemptInsert.data.id;
+
+    const answersData = examSet.questions.map((q) => {
+      const selectedIds = session.answers[q.id] ?? [];
+      const isFlagged = session.flags[q.id] ?? false;
+      const isAnswered = selectedIds.length > 0;
+
+      const correctOptionIds = q.options.filter((o: any) => o.isCorrect).map((o: any) => o.id);
+      const isCorrect = isAnswered && 
+        selectedIds.length === correctOptionIds.length && 
+        selectedIds.every((id: string) => correctOptionIds.includes(id));
+
+      return {
+        exam_attempt_id: attemptId,
+        question_id: q.id,
+        selected_option_ids: selectedIds,
+        is_flagged: isFlagged,
+        is_answered: isAnswered,
+        is_correct: isCorrect,
+      };
+    });
+
+    if (answersData.length > 0) {
+      const answersInsert = await this.supabase
+        .from("attempt_answers")
+        .insert(answersData);
+
+      if (answersInsert.error) {
+        throw answersInsert.error;
+      }
+    }
+
+    return attemptId;
+  }
 }
