@@ -1,5 +1,10 @@
 import { readFileSync } from "fs";
 import { resolve } from "path";
+import { loadEnvConfig } from "@next/env";
+
+const projectDir = process.cwd();
+loadEnvConfig(projectDir);
+
 import { ExamContentRepository } from "../src/features/exam/repository";
 import { getSupabaseAdminClient } from "../src/lib/supabase/admin";
 

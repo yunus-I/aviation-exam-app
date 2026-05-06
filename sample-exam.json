@@ -1,0 +1,53 @@
+{
+  "questionBank": {
+    "key": "amt-general-bank-v1",
+    "slug": "amt-general-bank-v1",
+    "title": "AMT General Knowledge Bank",
+    "description": "Standard entry-level questions for Aviation Maintenance Technicians",
+    "departmentCode": "AMT",
+    "topicSlug": "mechanical-reasoning"
+  },
+  "examSet": {
+    "key": "amt-practice-exam-2026",
+    "slug": "amt-practice-exam-2026",
+    "title": "AMT Practice Exam 2026",
+    "description": "Official practice exam for AMT candidates",
+    "departmentCode": "AMT",
+    "mode": "practice",
+    "durationMinutes": 60,
+    "passingScore": 60,
+    "published": true
+  },
+  "questions": [
+    {
+      "key": "amt-q1-lever",
+      "type": "single_choice",
+      "topicSlug": "mechanical-reasoning",
+      "prompt": "Which of the following describes a first-class lever?",
+      "explanation": "In a first-class lever, the fulcrum is located between the effort force and the load.",
+      "points": 1,
+      "difficultyLevel": 2,
+      "options": [
+        { "key": "A", "text": "The fulcrum is between the effort and the load", "isCorrect": true },
+        { "key": "B", "text": "The load is between the fulcrum and the effort", "isCorrect": false },
+        { "key": "C", "text": "The effort is between the fulcrum and the load", "isCorrect": false },
+        { "key": "D", "text": "There is no fulcrum", "isCorrect": false }
+      ]
+    },
+    {
+      "key": "amt-q2-lift",
+      "type": "single_choice",
+      "topicSlug": "mechanical-reasoning",
+      "prompt": "According to Bernoulli's principle, what happens to the pressure of a fluid when its speed increases?",
+      "explanation": "Bernoulli's principle states that an increase in the speed of a fluid occurs simultaneously with a decrease in static pressure.",
+      "points": 1,
+      "difficultyLevel": 3,
+      "options": [
+        { "key": "A", "text": "It increases", "isCorrect": false },
+        { "key": "B", "text": "It decreases", "isCorrect": true },
+        { "key": "C", "text": "It remains the same", "isCorrect": false },
+        { "key": "D", "text": "It fluctuates", "isCorrect": false }
+      ]
+    }
+  ]
+}
