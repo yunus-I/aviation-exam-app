@@ -20,6 +20,25 @@ function getRepository() {
   return new BotRepository();
 }
 
+function createMiniAppWebAppButton(label: string) {
+  const webAppUrl = env.NEXT_PUBLIC_MINI_APP_URL ?? "https://aviation-cyan.vercel.app";
+
+  return {
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text: label,
+            web_app: {
+              url: webAppUrl,
+            },
+          },
+        ],
+      ],
+    },
+  } as const;
+}
+
 function parseLanguageCallback(data: string | undefined) {
   if (!data?.startsWith("lang:")) {
     return null;
@@ -126,12 +145,18 @@ async function beginRegistration(ctx: BotContext) {
   const candidate = await repository.ensureCandidate(user);
 
   if (candidate.current_registration_status === "pending_review") {
-    await ctx.reply(getCopy(candidate.preferred_language).pendingReview);
+    await ctx.reply(
+      getCopy(candidate.preferred_language).pendingReview,
+      createMiniAppWebAppButton("Open the Mini App"),
+    );
     return;
   }
 
   if (candidate.current_registration_status === "approved") {
-    await ctx.reply(getCopy(candidate.preferred_language).alreadyApproved);
+    await ctx.reply(
+      getCopy(candidate.preferred_language).alreadyApproved,
+      createMiniAppWebAppButton("Open the Mini App"),
+    );
     return;
   }
 
@@ -275,12 +300,10 @@ async function handlePhotoMessage(ctx: BotContext) {
   await notifyAdminWithReviewCard(ctx, summary);
 
   if (env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME) {
-    await ctx.reply(copy.pendingReview, {
-      reply_markup: new InlineKeyboard().url(
-        language === "am" ? "ቦትን እንደገና ክፈት" : "Open Bot",
-        `https://t.me/${env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME}`,
-      ),
-    });
+    await ctx.reply(
+      copy.pendingReview,
+      createMiniAppWebAppButton(language === "am" ? "Mini App ክፈት" : "Open the Mini App"),
+    );
     return;
   }
 
