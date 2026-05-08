@@ -2,9 +2,10 @@ import { createTelegramBot } from "@/features/bot/service";
 
 let botInstance: ReturnType<typeof createTelegramBot> | null = null;
 
-export function getTelegramBot() {
+export async function getTelegramBot() {
   if (!botInstance) {
     botInstance = createTelegramBot();
+    await botInstance.init();
   }
 
   return botInstance;

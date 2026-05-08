@@ -16,7 +16,11 @@ export async function POST(request: NextRequest) {
     }
 
     const update = await request.json();
-    const bot = getTelegramBot();
+    const bot = await getTelegramBot();
+
+    if (!bot.botInfo) {
+      await bot.init();
+    }
 
     await bot.handleUpdate(update);
 

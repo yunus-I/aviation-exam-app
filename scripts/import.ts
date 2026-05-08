@@ -5,10 +5,10 @@ import { loadEnvConfig } from "@next/env";
 const projectDir = process.cwd();
 loadEnvConfig(projectDir);
 
-import { ExamContentRepository } from "../src/features/exam/repository";
-import { getSupabaseAdminClient } from "../src/lib/supabase/admin";
-
 async function main() {
+  const { ExamContentRepository } = await import("../src/features/exam/repository");
+  const { getSupabaseAdminClient } = await import("../src/lib/supabase/admin");
+
   const args = process.argv.slice(2);
   const filePath = args[0];
   const adminTelegramId = args[1];
@@ -37,8 +37,17 @@ async function main() {
       .single();
       
     if (adminCheck.error || !adminCheck.data) {
-      console.error(`Error: Admin with Telegram ID ${adminTelegramId} not found in admin_accounts table.`);
-      process.exit(1);
+      if (adminCheck.error?.code === "PGRST205") {
+        console.error("Error: Supabase project has no REST schema for admin_accounts. Check that migrations have been applied to the connected database.");
+      } else {
+        console.error(`Error: Admin with Telegram ID ${adminTelegramId} not found in admin_accounts table.`);
+      }
+      if (adminCheck.error) {
+        console.error("Supabase query error:", adminCheck.error);
+      }
+      console.error("Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
+      process.exitCode = 1;
+      return;
     }
 
     console.log("Admin verified. Starting import...");
@@ -53,7 +62,8 @@ async function main() {
     
   } catch (error) {
     console.error("❌ Import failed:", error);
-    process.exit(1);
+    console.error("Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
+    process.exitCode = 1;
   }
 }
 

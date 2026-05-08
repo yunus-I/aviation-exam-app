@@ -1,5 +1,4 @@
 create extension if not exists pgcrypto;
-
 create type public.app_language as enum ('en', 'am');
 create type public.registration_status as enum ('draft', 'submitted', 'pending_review', 'approved', 'rejected');
 create type public.review_action as enum ('submitted', 'approved', 'rejected', 'needs_update');
@@ -7,7 +6,6 @@ create type public.question_type as enum ('single_choice', 'multiple_choice', 't
 create type public.exam_mode as enum ('practice', 'mock');
 create type public.attempt_status as enum ('in_progress', 'submitted', 'auto_submitted', 'abandoned');
 create type public.media_kind as enum ('image');
-
 create or replace function public.set_updated_at()
 returns trigger
 language plpgsql
@@ -17,7 +15,6 @@ begin
   return new;
 end;
 $$;
-
 create table public.departments (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,
@@ -30,7 +27,6 @@ create table public.departments (
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
-
 create table public.regions (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,
@@ -40,7 +36,6 @@ create table public.regions (
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
-
 create table public.admin_accounts (
   id uuid primary key default gen_random_uuid(),
   telegram_user_id bigint not null unique,
@@ -51,7 +46,6 @@ create table public.admin_accounts (
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
-
 create table public.candidates (
   id uuid primary key default gen_random_uuid(),
   telegram_user_id bigint not null unique,
@@ -72,7 +66,6 @@ create table public.candidates (
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
-
 create table public.registration_submissions (
   id uuid primary key default gen_random_uuid(),
   candidate_id uuid not null references public.candidates(id) on delete cascade,
@@ -100,7 +93,6 @@ create table public.registration_submissions (
   updated_at timestamptz not null default timezone('utc', now()),
   unique (candidate_id, submission_number)
 );
-
 create table public.registration_reviews (
   id uuid primary key default gen_random_uuid(),
   registration_submission_id uuid not null references public.registration_submissions(id) on delete cascade,
@@ -109,12 +101,10 @@ create table public.registration_reviews (
   note text,
   created_at timestamptz not null default timezone('utc', now())
 );
-
 alter table public.candidates
   add constraint candidates_last_approved_registration_fk
   foreign key (last_approved_registration_id)
   references public.registration_submissions(id);
-
 create table public.topics (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,
@@ -126,7 +116,6 @@ create table public.topics (
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
-
 create table public.question_banks (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,
@@ -140,7 +129,6 @@ create table public.question_banks (
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
-
 create table public.questions (
   id uuid primary key default gen_random_uuid(),
   question_bank_id uuid not null references public.question_banks(id) on delete cascade,
@@ -160,7 +148,6 @@ create table public.questions (
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
-
 create table public.question_media (
   id uuid primary key default gen_random_uuid(),
   question_id uuid not null references public.questions(id) on delete cascade,
@@ -171,7 +158,6 @@ create table public.question_media (
   sort_order integer not null default 1,
   created_at timestamptz not null default timezone('utc', now())
 );
-
 create table public.question_options (
   id uuid primary key default gen_random_uuid(),
   question_id uuid not null references public.questions(id) on delete cascade,
@@ -184,7 +170,6 @@ create table public.question_options (
   unique (question_id, option_key),
   unique (question_id, sort_order)
 );
-
 create table public.exam_sets (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,
@@ -207,7 +192,6 @@ create table public.exam_sets (
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
-
 create table public.exam_set_questions (
   id uuid primary key default gen_random_uuid(),
   exam_set_id uuid not null references public.exam_sets(id) on delete cascade,
@@ -218,7 +202,6 @@ create table public.exam_set_questions (
   unique (exam_set_id, question_id),
   unique (exam_set_id, sort_order)
 );
-
 create table public.exam_attempts (
   id uuid primary key default gen_random_uuid(),
   candidate_id uuid not null references public.candidates(id) on delete cascade,
@@ -240,7 +223,6 @@ create table public.exam_attempts (
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
-
 create table public.attempt_answers (
   id uuid primary key default gen_random_uuid(),
   exam_attempt_id uuid not null references public.exam_attempts(id) on delete cascade,
@@ -254,87 +236,63 @@ create table public.attempt_answers (
   updated_at timestamptz not null default timezone('utc', now()),
   unique (exam_attempt_id, question_id)
 );
-
 create index idx_candidates_registration_status
   on public.candidates(current_registration_status);
-
 create index idx_registration_submissions_candidate_id
   on public.registration_submissions(candidate_id);
-
 create index idx_registration_submissions_status
   on public.registration_submissions(status);
-
 create index idx_registration_reviews_submission_id
   on public.registration_reviews(registration_submission_id);
-
 create index idx_questions_bank_id
   on public.questions(question_bank_id);
-
 create index idx_questions_department_topic
   on public.questions(department_id, topic_id);
-
 create index idx_question_media_question_id
   on public.question_media(question_id, sort_order);
-
 create index idx_question_options_question_id
   on public.question_options(question_id, sort_order);
-
 create index idx_exam_sets_department_mode
   on public.exam_sets(department_id, mode);
-
 create index idx_exam_set_questions_exam_set_id
   on public.exam_set_questions(exam_set_id, sort_order);
-
 create index idx_exam_attempts_candidate_id
   on public.exam_attempts(candidate_id, started_at desc);
-
 create index idx_attempt_answers_attempt_id
   on public.attempt_answers(exam_attempt_id);
-
 create trigger departments_set_updated_at
 before update on public.departments
 for each row execute function public.set_updated_at();
-
 create trigger regions_set_updated_at
 before update on public.regions
 for each row execute function public.set_updated_at();
-
 create trigger admin_accounts_set_updated_at
 before update on public.admin_accounts
 for each row execute function public.set_updated_at();
-
 create trigger candidates_set_updated_at
 before update on public.candidates
 for each row execute function public.set_updated_at();
-
 create trigger registration_submissions_set_updated_at
 before update on public.registration_submissions
 for each row execute function public.set_updated_at();
-
 create trigger topics_set_updated_at
 before update on public.topics
 for each row execute function public.set_updated_at();
-
 create trigger question_banks_set_updated_at
 before update on public.question_banks
 for each row execute function public.set_updated_at();
-
 create trigger questions_set_updated_at
 before update on public.questions
 for each row execute function public.set_updated_at();
-
 create trigger exam_sets_set_updated_at
 before update on public.exam_sets
 for each row execute function public.set_updated_at();
-
 create trigger exam_attempts_set_updated_at
 before update on public.exam_attempts
 for each row execute function public.set_updated_at();
-
 create trigger attempt_answers_set_updated_at
 before update on public.attempt_answers
 for each row execute function public.set_updated_at();
-
 insert into public.departments (
   slug,
   code,
@@ -376,7 +334,6 @@ values
     'Math, aptitude, and aviation-oriented entrance preparation.',
     'የሂሳብ፣ አፕቲቱድ እና የአቪዬሽን የመግቢያ ዝግጅት።'
   );
-
 insert into public.regions (slug, name_en, name_am)
 values
   ('addis-ababa', 'Addis Ababa', 'አዲስ አበባ'),
@@ -393,7 +350,6 @@ values
   ('south-ethiopia', 'South Ethiopia', 'ደቡብ ኢትዮጵያ'),
   ('south-west-ethiopia-peoples', 'South West Ethiopia Peoples', 'ደቡብ ምዕራብ ኢትዮጵያ ሕዝቦች'),
   ('tigray', 'Tigray', 'ትግራይ');
-
 insert into public.topics (
   slug,
   name_en,
@@ -444,7 +400,6 @@ values
     'Basic money, commerce, and business entrance questions.',
     'መሠረታዊ የገንዘብ፣ የንግድ እና የቢዝነስ ጥያቄዎች።'
   );
-
 -- Supabase-only storage bootstrap.
 -- Plain PostgreSQL databases do not have the storage schema/table.
--- Create these buckets later inside Supabase when you move to production.
+-- Create these buckets later inside Supabase when you move to production.;
