@@ -24,19 +24,8 @@ function createMiniAppWebAppButton(label: string) {
   const webAppUrl = env.NEXT_PUBLIC_MINI_APP_URL ?? "https://aviation-cyan.vercel.app";
 
   return {
-    reply_markup: {
-      inline_keyboard: [
-        [
-          {
-            text: label,
-            web_app: {
-              url: webAppUrl,
-            },
-          },
-        ],
-      ],
-    },
-  } as const;
+    reply_markup: new InlineKeyboard().webApp(label, webAppUrl),
+  };
 }
 
 function parseLanguageCallback(data: string | undefined) {
