@@ -70,6 +70,12 @@ export function ExamWorkbench({
     (selected) => selected.length > 0,
   ).length;
   const flaggedCount = Object.values(session.flags).filter(Boolean).length;
+  const questionPageIndex = Math.floor(session.currentIndex / 5);
+  const totalQuestionPages = Math.max(1, Math.ceil(examSet.questions.length / 5));
+  const visibleQuestions = examSet.questions.slice(
+    questionPageIndex * 5,
+    questionPageIndex * 5 + 5,
+  );
 
   useEffect(() => {
     const webApp = window.Telegram?.WebApp;
@@ -266,16 +272,6 @@ export function ExamWorkbench({
     });
   }
 
-  function clearAnswer(questionId: string) {
-    setSession((current) => ({
-      ...current,
-      answers: {
-        ...current.answers,
-        [questionId]: [],
-      } satisfies ExamAnswerMap,
-    }));
-  }
-
   async function submitToServer(finalSession: PersistedExamSession) {
     const webApp = window.Telegram?.WebApp;
     const initDataRaw = webApp?.initData?.trim();
@@ -322,43 +318,38 @@ export function ExamWorkbench({
     <section className="exam-panel">
       <div className="exam-panel__header">
         <div>
-          <span className="section-kicker">Exam Engine</span>
           <h2>{examSet.title}</h2>
-          <p className="exam-panel__lede">
-            {contentLoading
-              ? "Loading the right exam content for your approved department."
-              : contentSource === "live"
-                ? "This exam is loaded from your live PostgreSQL content library."
-                : "No live content has been imported yet, so the exam engine is using a polished demo set."}
-          </p>
+          <p className="exam-panel__lede">{studentName}</p>
         </div>
         <div className="exam-status-strip">
           <div>
-            <span>Mode</span>
+            <span>Source</span>
             <strong>{examSet.modeLabel}</strong>
           </div>
           <div>
-            <span>Questions</span>
-            <strong>{examSet.questions.length}</strong>
+            <span>Progress</span>
+            <strong>
+              {answeredCount}/{examSet.questions.length}
+            </strong>
           </div>
           <div>
-            <span>Time Left</span>
+            <span>Time</span>
             <strong>{formatExamTime(session.remainingSeconds)}</strong>
           </div>
         </div>
       </div>
 
       {session.stage === "intro" && (
-        <div className="exam-intro-grid">
+        <div className="exam-intro-grid exam-intro-grid--single">
           <section className="exam-intro-card">
             <span className="exam-chip">
-              {contentSource === "live" ? "Live Content" : "Demo Fallback"}
+              {contentSource === "live" ? "Live Exam" : "Demo Exam"}
             </span>
-            <h3>{studentName}, your mock exam is prepared</h3>
+            <h3>{studentName}, your exam is ready</h3>
             <p>
               {contentSource === "live"
-                ? "Your department exam has been loaded from the real content library. Start when you are ready."
-                : "This device is ready with the demo exam workbench while real question banks are still being imported."}
+                ? "Your department exam has been loaded. Start when you are ready."
+                : "Live content is not available yet, so a demo exam is ready for practice."}
             </p>
             <ul className="exam-rule-list">
               {examSet.instructions.map((rule) => (
@@ -367,40 +358,18 @@ export function ExamWorkbench({
             </ul>
             <div className="exam-action-row">
               <button className="primary-button" onClick={startExam} type="button">
-                Start mock exam
+                Start exam
               </button>
-            </div>
-          </section>
-
-          <section className="exam-insight-card">
-            <h3>Engine capabilities</h3>
-            <div className="exam-insight-grid">
-              <article>
-                <strong>Autosave</strong>
-                <p>Answers and flags are kept on this device while you practice.</p>
-              </article>
-              <article>
-                <strong>Image questions</strong>
-                <p>Questions can include diagrams and visual reasoning prompts.</p>
-              </article>
-              <article>
-                <strong>Timer</strong>
-                <p>The session auto-submits when the countdown reaches zero.</p>
-              </article>
-              <article>
-                <strong>Review flow</strong>
-                <p>Flag uncertain items, jump via palette, and submit with summary.</p>
-              </article>
             </div>
           </section>
         </div>
       )}
 
       {session.stage === "active" && currentQuestion && (
-        <div className="exam-session-grid">
-          <aside className="exam-sidebar">
+        <div className="exam-session-grid exam-session-grid--single">
+          <aside className="exam-sidebar exam-sidebar--top">
             <div className="exam-sidebar__card">
-              <span className="exam-chip exam-chip--soft">Progress</span>
+              <span className="exam-chip exam-chip--soft">Questions</span>
               <div className="exam-metrics">
                 <div>
                   <span>Answered</span>
@@ -417,12 +386,9 @@ export function ExamWorkbench({
                   </strong>
                 </div>
               </div>
-            </div>
-
-            <div className="exam-sidebar__card">
-              <span className="exam-chip exam-chip--soft">Question Palette</span>
               <div className="question-palette">
-                {examSet.questions.map((question, index) => {
+                {visibleQuestions.map((question) => {
+                  const index = examSet.questions.findIndex((item) => item.id === question.id);
                   const hasAnswer = (session.answers[question.id] ?? []).length > 0;
                   const isFlagged = Boolean(session.flags[question.id]);
                   const isCurrent = index === session.currentIndex;
@@ -446,6 +412,31 @@ export function ExamWorkbench({
                   );
                 })}
               </div>
+              <div className="exam-palette-footer">
+                <button
+                  className="secondary-button secondary-button--compact"
+                  disabled={questionPageIndex === 0}
+                  onClick={() => moveToQuestion(Math.max(0, session.currentIndex - 5))}
+                  type="button"
+                >
+                  Prev 5
+                </button>
+                <span>
+                  {questionPageIndex + 1}/{totalQuestionPages}
+                </span>
+                <button
+                  className="secondary-button secondary-button--compact"
+                  disabled={questionPageIndex === totalQuestionPages - 1}
+                  onClick={() =>
+                    moveToQuestion(
+                      Math.min(examSet.questions.length - 1, session.currentIndex + 5),
+                    )
+                  }
+                  type="button"
+                >
+                  Next 5
+                </button>
+              </div>
             </div>
           </aside>
 
@@ -462,7 +453,7 @@ export function ExamWorkbench({
               </div>
               <button
                 className={[
-                  "secondary-button",
+                  "secondary-button secondary-button--compact",
                   session.flags[currentQuestion.id] ? "secondary-button--active" : "",
                 ]
                   .filter(Boolean)
@@ -470,7 +461,7 @@ export function ExamWorkbench({
                 onClick={() => toggleFlag(currentQuestion.id)}
                 type="button"
               >
-                {session.flags[currentQuestion.id] ? "Flagged" : "Flag for review"}
+                {session.flags[currentQuestion.id] ? "Flagged" : "Flag"}
               </button>
             </div>
 
@@ -510,41 +501,32 @@ export function ExamWorkbench({
             </div>
 
             <div className="exam-navigation-row">
-              <div className="exam-navigation-row__group">
-                <button
-                  className="secondary-button"
-                  disabled={session.currentIndex === 0}
-                  onClick={() => moveToQuestion(Math.max(0, session.currentIndex - 1))}
-                  type="button"
-                >
-                  Previous
-                </button>
-                <button
-                  className="secondary-button"
-                  onClick={() => clearAnswer(currentQuestion.id)}
-                  type="button"
-                >
-                  Clear answer
-                </button>
-              </div>
+              <button
+                className="secondary-button"
+                disabled={session.currentIndex === 0}
+                onClick={() => moveToQuestion(Math.max(0, session.currentIndex - 1))}
+                type="button"
+              >
+                Previous
+              </button>
+              <button
+                className="secondary-button"
+                disabled={session.currentIndex === examSet.questions.length - 1}
+                onClick={() =>
+                  moveToQuestion(
+                    Math.min(examSet.questions.length - 1, session.currentIndex + 1),
+                  )
+                }
+                type="button"
+              >
+                Next
+              </button>
+            </div>
 
-              <div className="exam-navigation-row__group">
-                <button
-                  className="secondary-button"
-                  disabled={session.currentIndex === examSet.questions.length - 1}
-                  onClick={() =>
-                    moveToQuestion(
-                      Math.min(examSet.questions.length - 1, session.currentIndex + 1),
-                    )
-                  }
-                  type="button"
-                >
-                  Next
-                </button>
-                <button className="primary-button" onClick={submitExam} type="button">
-                  Submit exam
-                </button>
-              </div>
+            <div className="exam-submit-row">
+              <button className="primary-button exam-submit-button" onClick={submitExam} type="button">
+                Submit exam
+              </button>
             </div>
           </section>
         </div>

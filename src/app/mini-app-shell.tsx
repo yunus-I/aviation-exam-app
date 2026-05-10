@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { APP_COPY } from "@/config/app";
 import { MINI_APP_COPY } from "@/features/auth/copy";
 import type { MiniAppCandidateSession } from "@/features/auth/repository";
 import { ExamWorkbench } from "@/features/exam/exam-workbench";
@@ -31,6 +30,16 @@ type ViewState =
       session: MiniAppCandidateSession | null;
     };
 
+type TabId = "dashboard" | "exam" | "profile" | "help";
+type StatusTone = "success" | "warning" | "danger" | "neutral";
+type StatusDetails = {
+  badge: string;
+  title: string;
+  description: string;
+  action: string;
+  tone: StatusTone;
+};
+
 declare global {
   interface Window {
     Telegram?: {
@@ -58,31 +67,60 @@ function getStatusTone(status: RegistrationStatus | "not_found") {
   }
 }
 
-function StatusPanel({
+function getStatusCopy(session: MiniAppCandidateSession | null): StatusDetails {
+  if (!session) {
+    return {
+      badge: "No Registration",
+      title: MINI_APP_COPY.notFoundTitle,
+      description: MINI_APP_COPY.notFoundDescription,
+      action: MINI_APP_COPY.notFoundAction,
+      tone: "neutral" as const,
+    };
+  }
+
+  const content =
+    MINI_APP_COPY.statusCards[session.registrationStatus] ??
+    MINI_APP_COPY.statusCards.draft;
+
+  return {
+    badge: content.badge,
+    title: content.title,
+    description: content.description,
+    action: content.action,
+    tone: getStatusTone(session.registrationStatus),
+  };
+}
+
+function StatusCard({
+  badge,
   title,
   description,
-  badge,
   action,
   tone,
 }: {
+  badge: string;
   title: string;
   description: string;
-  badge: string;
   action: string;
-  tone: "success" | "warning" | "danger" | "neutral";
+  tone: StatusTone;
 }) {
   return (
-    <section className={`status-panel status-panel--${tone}`}>
-      <div className="status-badge">{badge}</div>
-      <h2>{title}</h2>
-      <p>{description}</p>
-      <div className="status-action">{action}</div>
+    <section className={`mini-card mini-card--status mini-card--${tone}`}>
+      <div className="mini-card__topline">
+        <span className="mini-badge">{badge}</span>
+      </div>
+      <div className="mini-card__body">
+        <h2>{title}</h2>
+        <p>{description}</p>
+      </div>
+      <div className="mini-card__footer">{action}</div>
     </section>
   );
 }
 
 export function MiniAppShell() {
   const [state, setState] = useState<ViewState>({ kind: "loading" });
+  const [activeTab, setActiveTab] = useState<TabId>("dashboard");
 
   useEffect(() => {
     const webApp = window.Telegram?.WebApp;
@@ -123,170 +161,198 @@ export function MiniAppShell() {
       });
   }, []);
 
-  const renderStatusPanel = () => {
-    if (state.kind === "loading") {
-      return (
-        <StatusPanel
-          badge="Loading"
-          title={MINI_APP_COPY.loadingTitle}
-          description={MINI_APP_COPY.loadingDescription}
-          action="Please keep this screen open."
-          tone="neutral"
-        />
-      );
-    }
-
-    if (state.kind === "outside_telegram") {
-      return (
-        <StatusPanel
-          badge="Telegram Only"
-          title={MINI_APP_COPY.loginTitle}
-          description={MINI_APP_COPY.loginDescription}
-          action={MINI_APP_COPY.loginHint}
-          tone="neutral"
-        />
-      );
-    }
-
-    if (state.kind === "error") {
-      return (
-        <StatusPanel
-          badge="Connection Error"
-          title="We couldn't verify your account"
-          description={state.message}
-          action="Try reopening the Mini App from Telegram."
-          tone="danger"
-        />
-      );
-    }
-
-    if (!state.session) {
-      return (
-        <StatusPanel
-          badge="No Registration"
-          title={MINI_APP_COPY.notFoundTitle}
-          description={MINI_APP_COPY.notFoundDescription}
-          action={MINI_APP_COPY.notFoundAction}
-          tone="neutral"
-        />
-      );
-    }
-
-    const content =
-      MINI_APP_COPY.statusCards[state.session.registrationStatus] ??
-      MINI_APP_COPY.statusCards.draft;
-
-    return (
-      <StatusPanel
-        badge={content.badge}
-        title={content.title}
-        description={content.description}
-        action={content.action}
-        tone={getStatusTone(state.session.registrationStatus)}
-      />
-    );
-  };
-
   const session = state.kind === "ready" ? state.session : null;
   const telegramUser = state.kind === "ready" ? state.telegramUser : null;
   const isApproved = session?.registrationStatus === "approved";
 
+  let statusDetails: StatusDetails;
+
+  if (state.kind === "loading") {
+    statusDetails = {
+      badge: "Loading",
+      title: MINI_APP_COPY.loadingTitle,
+      description: MINI_APP_COPY.loadingDescription,
+      action: "Please keep this Mini App open.",
+      tone: "neutral",
+    };
+  } else if (state.kind === "outside_telegram") {
+    statusDetails = {
+      badge: "Telegram Only",
+      title: MINI_APP_COPY.loginTitle,
+      description: MINI_APP_COPY.loginDescription,
+      action: MINI_APP_COPY.loginHint,
+      tone: "neutral",
+    };
+  } else if (state.kind === "error") {
+    statusDetails = {
+      badge: "Connection Error",
+      title: "We couldn't verify your account",
+      description: state.message,
+      action: "Try reopening the Mini App from Telegram.",
+      tone: "danger",
+    };
+  } else {
+    statusDetails = getStatusCopy(state.session);
+  }
+
+  const profileRows = [
+    {
+      label: "Name",
+      value: session?.fullName ?? "Not available",
+    },
+    {
+      label: "Telegram",
+      value: telegramUser?.username
+        ? `@${telegramUser.username}`
+        : telegramUser?.first_name ?? "Waiting for Telegram",
+    },
+    {
+      label: "Department",
+      value: session?.departmentName ?? "Not selected",
+    },
+    {
+      label: "Region",
+      value: session?.regionName ?? "Not selected",
+    },
+    {
+      label: "Status",
+      value: session ? session.registrationStatus.replaceAll("_", " ") : "Not registered",
+    },
+    {
+      label: "Access",
+      value: isApproved ? "Exam unlocked" : "Exam locked",
+    },
+  ];
+
   return (
-    <main className="page-shell page-shell--dashboard">
-      <section className="dashboard-stage">
-        <div className="dashboard-hero">
+    <main className="mini-app-shell">
+      <section className="mini-app-frame">
+        <header className="mini-app-header">
           <div>
-            <p className="eyebrow">{MINI_APP_COPY.heroKicker}</p>
-            <h1 className="dashboard-title">{MINI_APP_COPY.heroTitle}</h1>
-            <p className="lede dashboard-lede">{MINI_APP_COPY.heroDescription}</p>
+            <p className="mini-app-title">EAU Entrance Prep</p>
+            <p className="mini-app-subtitle">
+              {telegramUser?.first_name ?? "Student"} {isApproved ? "is ready" : "dashboard"}
+            </p>
           </div>
-          <div className="hero-orbit" aria-hidden="true">
-            <span className="hero-orbit__ring hero-orbit__ring--one" />
-            <span className="hero-orbit__ring hero-orbit__ring--two" />
-            <span className="hero-orbit__core" />
-          </div>
-        </div>
+          <span className={`mini-pill mini-pill--${statusDetails.tone}`}>
+            {statusDetails.badge}
+          </span>
+        </header>
 
-        <div className="dashboard-grid">
-          {renderStatusPanel()}
+        <section className="mini-app-content">
+          {activeTab === "dashboard" && (
+            <div className="mini-tab-panel">
+              <StatusCard {...statusDetails} />
 
-          <section className="identity-panel">
-            <div className="identity-header">
-              <span className="section-kicker">Account Snapshot</span>
-              <h2>Student profile</h2>
+              <section className="mini-card">
+                <div className="mini-card__topline">
+                  <span className="mini-section-label">Quick Overview</span>
+                </div>
+                <div className="mini-stat-grid">
+                  <article className="mini-stat">
+                    <span>Department</span>
+                    <strong>{session?.departmentName ?? "Pending"}</strong>
+                  </article>
+                  <article className="mini-stat">
+                    <span>Region</span>
+                    <strong>{session?.regionName ?? "Pending"}</strong>
+                  </article>
+                  <article className="mini-stat">
+                    <span>Access</span>
+                    <strong>{isApproved ? "Ready" : "Locked"}</strong>
+                  </article>
+                </div>
+              </section>
             </div>
-
-            <dl className="identity-list">
-              <div>
-                <dt>App</dt>
-                <dd>{APP_COPY.title}</dd>
-              </div>
-              <div>
-                <dt>Telegram</dt>
-                <dd>
-                  {telegramUser?.username
-                    ? `@${telegramUser.username}`
-                    : telegramUser?.first_name ?? "Waiting for Telegram"}
-                </dd>
-              </div>
-              <div>
-                <dt>Full name</dt>
-                <dd>{session?.fullName ?? "Not available yet"}</dd>
-              </div>
-              <div>
-                <dt>Department</dt>
-                <dd>{session?.departmentName ?? "Not selected yet"}</dd>
-              </div>
-              <div>
-                <dt>Region</dt>
-                <dd>{session?.regionName ?? "Not selected yet"}</dd>
-              </div>
-              <div>
-                <dt>Status</dt>
-                <dd>
-                  {session
-                    ? session.registrationStatus.replaceAll("_", " ")
-                    : "Not registered"}
-                </dd>
-              </div>
-            </dl>
-          </section>
-
-          {isApproved ? (
-            <ExamWorkbench
-              candidateId={session.candidateId}
-              studentName={session.fullName ?? "Student"}
-            />
-          ) : (
-            <section className="feature-panel">
-              <span className="section-kicker">What Comes Next</span>
-              <h2>Phase 4 delivery</h2>
-              <div className="feature-stack">
-                <article>
-                  <strong>Secure access gate</strong>
-                  <p>
-                    Telegram WebApp identity is verified on the server before we
-                    show account data.
-                  </p>
-                </article>
-                <article>
-                  <strong>Status-aware dashboard</strong>
-                  <p>
-                    Approved, pending, rejected, and missing-registration
-                    states each get their own UX.
-                  </p>
-                </article>
-                <article>
-                  <strong>Exam-ready shell</strong>
-                  <p>
-                    This layout is now ready for the next phase where the real
-                    exam dashboard and engine will plug in.
-                  </p>
-                </article>
-              </div>
-            </section>
           )}
-        </div>
+
+          {activeTab === "exam" && (
+            <div className="mini-tab-panel">
+              {isApproved && session ? (
+                <ExamWorkbench
+                  candidateId={session.candidateId}
+                  studentName={session.fullName ?? "Student"}
+                />
+              ) : (
+                <section className="mini-card mini-card--exam-lock">
+                  <div className="mini-card__topline">
+                    <span className="mini-section-label">Exam Access</span>
+                  </div>
+                  <div className="mini-card__body">
+                    <h2>{statusDetails.title}</h2>
+                    <p>{statusDetails.description}</p>
+                  </div>
+                  <div className="mini-card__footer">{statusDetails.action}</div>
+                </section>
+              )}
+            </div>
+          )}
+
+          {activeTab === "profile" && (
+            <div className="mini-tab-panel">
+              <section className="mini-card">
+                <div className="mini-card__topline">
+                  <span className="mini-section-label">Student Profile</span>
+                </div>
+                <dl className="mini-profile-list">
+                  {profileRows.map((row) => (
+                    <div key={row.label} className="mini-profile-row">
+                      <dt>{row.label}</dt>
+                      <dd>{row.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+            </div>
+          )}
+
+          {activeTab === "help" && (
+            <div className="mini-tab-panel">
+              <section className="mini-card">
+                <div className="mini-card__topline">
+                  <span className="mini-section-label">Help</span>
+                </div>
+                <div className="mini-help-list">
+                  <article>
+                    <strong>Use the bot to register</strong>
+                    <p>Complete your registration and upload the receipt before opening the exam.</p>
+                  </article>
+                  <article>
+                    <strong>Wait for approval</strong>
+                    <p>The exam tab unlocks only after your registration is approved.</p>
+                  </article>
+                  <article>
+                    <strong>Open from Telegram</strong>
+                    <p>Always launch this Mini App from the bot so your Telegram identity is verified.</p>
+                  </article>
+                </div>
+              </section>
+            </div>
+          )}
+        </section>
+
+        <nav className="mini-tabbar" aria-label="Bottom Tabs">
+          {[
+            { id: "dashboard", label: "Dashboard" },
+            { id: "exam", label: "Exam" },
+            { id: "profile", label: "Profile" },
+            { id: "help", label: "Help" },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              className={[
+                "mini-tabbar__item",
+                activeTab === tab.id ? "mini-tabbar__item--active" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              onClick={() => setActiveTab(tab.id as TabId)}
+              type="button"
+            >
+              {tab.label}
+            </button>
+          ))}
+        </nav>
       </section>
     </main>
   );
