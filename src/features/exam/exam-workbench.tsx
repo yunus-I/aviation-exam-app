@@ -56,6 +56,7 @@ export function ExamWorkbench({
   const [examSet, setExamSet] = useState<ExamSet>(DEMO_EXAM_SET);
   const [contentSource, setContentSource] = useState<"demo" | "live">("demo");
   const [contentLoading, setContentLoading] = useState(true);
+  const [showDetailedReview, setShowDetailedReview] = useState(false);
   const [session, setSession] = useState<PersistedExamSession>(() =>
     createDefaultSession(DEMO_EXAM_SET),
   );
@@ -216,6 +217,7 @@ export function ExamWorkbench({
 
   function startExam() {
     const now = Date.now();
+    setShowDetailedReview(false);
 
     setSession({
       ...createDefaultSession(examSet),
@@ -228,6 +230,7 @@ export function ExamWorkbench({
 
   function resetExam() {
     const next = createDefaultSession(examSet);
+    setShowDetailedReview(false);
     setSession(next);
     window.localStorage.setItem(storageKey, JSON.stringify(next));
   }
@@ -298,6 +301,7 @@ export function ExamWorkbench({
   }
 
   function submitExam() {
+    setShowDetailedReview(false);
     setSession((current) => {
       const nextSession: PersistedExamSession = {
         ...current,
@@ -583,40 +587,58 @@ export function ExamWorkbench({
           </section>
 
           <section className="exam-review-card">
-            <span className="exam-chip exam-chip--soft">Review</span>
-            <h3>Question-by-question feedback</h3>
-            <div className="exam-review-list">
-              {examSet.questions.map((question, index) => {
-                const selected = session.answers[question.id] ?? [];
-                const result = calculateExamResult([question], {
-                  [question.id]: selected,
-                });
-                const isCorrect = result.correctCount === 1;
-
-                return (
-                  <article
-                    key={question.id}
-                    className={[
-                      "exam-review-item",
-                      isCorrect
-                        ? "exam-review-item--correct"
-                        : selected.length === 0
-                          ? "exam-review-item--unanswered"
-                          : "exam-review-item--incorrect",
-                    ]
-                      .filter(Boolean)
-                      .join(" ")}
-                  >
-                    <div className="exam-review-item__header">
-                      <strong>Q{index + 1}</strong>
-                      <span>{question.topic}</span>
-                    </div>
-                    <p>{question.prompt}</p>
-                    <small>{question.explanation}</small>
-                  </article>
-                );
-              })}
+            <div className="exam-review-card__top">
+              <div>
+                <span className="exam-chip exam-chip--soft">Review</span>
+                <h3>Question-by-question feedback</h3>
+              </div>
+              <button
+                className="secondary-button secondary-button--compact exam-review-toggle"
+                onClick={() => setShowDetailedReview((current) => !current)}
+                type="button"
+              >
+                {showDetailedReview ? "Hide review" : "Show review"}
+              </button>
             </div>
+
+            {!showDetailedReview ? (
+              <p className="exam-review-card__hint">
+                Open the detailed review only when you want to check each answer and explanation.
+              </p>
+            ) : (
+              <div className="exam-review-list">
+                {examSet.questions.map((question, index) => {
+                  const selected = session.answers[question.id] ?? [];
+                  const result = calculateExamResult([question], {
+                    [question.id]: selected,
+                  });
+                  const isCorrect = result.correctCount === 1;
+
+                  return (
+                    <article
+                      key={question.id}
+                      className={[
+                        "exam-review-item",
+                        isCorrect
+                          ? "exam-review-item--correct"
+                          : selected.length === 0
+                            ? "exam-review-item--unanswered"
+                            : "exam-review-item--incorrect",
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                    >
+                      <div className="exam-review-item__header">
+                        <strong>Q{index + 1}</strong>
+                        <span>{question.topic}</span>
+                      </div>
+                      <p>{question.prompt}</p>
+                      <small>{question.explanation}</small>
+                    </article>
+                  );
+                })}
+              </div>
+            )}
           </section>
         </div>
       )}

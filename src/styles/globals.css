@@ -791,6 +791,7 @@ h1 {
 }
 
 .exam-question-card__top,
+.exam-review-card__top,
 .exam-navigation-row,
 .exam-navigation-row__group,
 .exam-review-item__header {
@@ -924,6 +925,16 @@ h1 {
   margin-top: 18px;
 }
 
+.exam-review-card__hint {
+  margin-top: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.exam-review-toggle {
+  flex: 0 0 auto;
+}
+
 .exam-review-item {
   padding: 16px;
   border: 1px solid rgba(52, 42, 24, 0.08);
@@ -1022,6 +1033,7 @@ h1 {
   }
 
   .exam-question-card__top,
+  .exam-review-card__top,
   .exam-navigation-row {
     flex-direction: row;
     align-items: center;
