@@ -2,7 +2,7 @@
 
 import type { CSSProperties } from "react";
 import { useEffect, useMemo, useState } from "react";
-import { DEMO_EXAM_SET } from "@/features/exam/mock-data";
+import { DEMO_EXAM_SET, DEMO_EXAM_SETS } from "@/features/exam/mock-data";
 import type {
   ExamAnswerMap,
   ExamFlagMap,
@@ -16,7 +16,7 @@ const STORAGE_VERSION = 1;
 
 type LiveExamResponse = {
   ok: boolean;
-  examSet?: ExamSet | null;
+  examSets?: ExamSet[];
   error?: string;
 };
 
@@ -53,7 +53,8 @@ export function ExamWorkbench({
   candidateId: string;
   studentName: string;
 }) {
-  const [examSet, setExamSet] = useState<ExamSet>(DEMO_EXAM_SET);
+  const [examSets, setExamSets] = useState<ExamSet[]>(DEMO_EXAM_SETS);
+  const [selectedExamSetId, setSelectedExamSetId] = useState<string>(DEMO_EXAM_SET.id);
   const [contentSource, setContentSource] = useState<"demo" | "live">("demo");
   const [contentLoading, setContentLoading] = useState(true);
   const [showDetailedReview, setShowDetailedReview] = useState(false);
@@ -61,6 +62,8 @@ export function ExamWorkbench({
     createDefaultSession(DEMO_EXAM_SET),
   );
   const [hydrated, setHydrated] = useState(false);
+  const examSet =
+    examSets.find((item) => item.id === selectedExamSetId) ?? examSets[0] ?? DEMO_EXAM_SET;
 
   const storageKey = useMemo(
     () => getStorageKey(candidateId, examSet.id),
@@ -84,7 +87,8 @@ export function ExamWorkbench({
 
     if (!initDataRaw) {
       setContentSource("demo");
-      setExamSet(DEMO_EXAM_SET);
+      setExamSets(DEMO_EXAM_SETS);
+      setSelectedExamSetId(DEMO_EXAM_SET.id);
       setContentLoading(false);
       return;
     }
@@ -103,16 +107,19 @@ export function ExamWorkbench({
           throw new Error(payload.error ?? "Unable to load exam content.");
         }
 
-        if (payload.examSet?.questions?.length) {
-          setExamSet(payload.examSet);
+        if (payload.examSets?.length) {
+          setExamSets(payload.examSets);
+          setSelectedExamSetId(payload.examSets[0]?.id ?? DEMO_EXAM_SET.id);
           setContentSource("live");
         } else {
-          setExamSet(DEMO_EXAM_SET);
+          setExamSets(DEMO_EXAM_SETS);
+          setSelectedExamSetId(DEMO_EXAM_SET.id);
           setContentSource("demo");
         }
       })
       .catch(() => {
-        setExamSet(DEMO_EXAM_SET);
+        setExamSets(DEMO_EXAM_SETS);
+        setSelectedExamSetId(DEMO_EXAM_SET.id);
         setContentSource("demo");
       })
       .finally(() => {
@@ -347,14 +354,39 @@ export function ExamWorkbench({
         <div className="exam-intro-grid exam-intro-grid--single">
           <section className="exam-intro-card">
             <span className="exam-chip">
-              {contentSource === "live" ? "Live Exam" : "Demo Exam"}
+              {contentSource === "live" ? "Live Exams" : "Practice Subjects"}
             </span>
-            <h3>{studentName}, your exam is ready</h3>
+            <h3>{studentName}, choose a subject first</h3>
             <p>
               {contentSource === "live"
-                ? "Your department exam has been loaded. Start when you are ready."
-                : "Live content is not available yet, so a practice set is ready for now."}
+                ? "Your department subjects are ready. Pick the exam you want to take, then start when you are ready."
+                : "Live subject papers are not available yet, so practice subjects are ready for now."}
             </p>
+            <div className="exam-subject-grid">
+              {examSets.map((item) => {
+                const isSelected = item.id === examSet.id;
+
+                return (
+                  <button
+                    key={item.id}
+                    className={[
+                      "exam-subject-card",
+                      isSelected ? "exam-subject-card--selected" : "",
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                    onClick={() => setSelectedExamSetId(item.id)}
+                    type="button"
+                  >
+                    <span className="exam-chip exam-chip--soft">{item.subject}</span>
+                    <strong>{item.title}</strong>
+                    <small>
+                      {item.questions.length} questions • {item.durationMinutes} min
+                    </small>
+                  </button>
+                );
+              })}
+            </div>
             <ul className="exam-rule-list">
               {examSet.instructions.map((rule) => (
                 <li key={rule}>{rule}</li>

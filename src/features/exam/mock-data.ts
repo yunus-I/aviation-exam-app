@@ -1,4 +1,4 @@
-import type { ExamSet } from "@/features/exam/types";
+import type { ExamQuestion, ExamSet } from "@/features/exam/types";
 
 function svgDataUri(svg: string) {
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
@@ -33,19 +33,14 @@ const aircraftAttitudeDiagram = svgDataUri(`
 </svg>
 `);
 
-export const DEMO_EXAM_SET: ExamSet = {
-  id: "pilot-mock-001",
-  title: "Entrance Mock Session",
-  department: "Aviation Entrance",
-  durationMinutes: 18,
-  modeLabel: "Mock Exam",
-  instructions: [
-    "Answer every question before time runs out.",
-    "Use the palette to move quickly between questions.",
-    "Flag uncertain questions and review them before submitting.",
-    "Your progress is autosaved on this device.",
-  ],
-  questions: [
+const sharedInstructions = [
+  "Answer every question before time runs out.",
+  "Use the palette to move quickly between questions.",
+  "Flag uncertain questions and review them before submitting.",
+  "Your progress is autosaved on this device.",
+];
+
+const allQuestions: ExamQuestion[] = [
     {
       id: "q1",
       type: "single_choice",
@@ -82,7 +77,7 @@ export const DEMO_EXAM_SET: ExamSet = {
     {
       id: "q3",
       type: "multiple_choice",
-      topic: "Reasoning",
+      topic: "Aptitude",
       prompt:
         "Select all statements that show strong exam strategy for a timed entrance test.",
       explanation:
@@ -98,7 +93,7 @@ export const DEMO_EXAM_SET: ExamSet = {
     {
       id: "q4",
       type: "single_choice",
-      topic: "Pilot Aptitude",
+      topic: "Aptitude",
       prompt:
         "In the attitude indicator image, which side of the horizon line is slightly higher, showing a left bank correction is needed?",
       explanation:
@@ -126,5 +121,115 @@ export const DEMO_EXAM_SET: ExamSet = {
         { id: "q5b", label: "B", text: "False", isCorrect: false },
       ],
     },
-  ],
-};
+    {
+      id: "q6",
+      type: "single_choice",
+      topic: "Mechanical Reasoning",
+      prompt:
+        "Which simple machine changes the direction of a force when pulling a load upward with a rope over a wheel?",
+      explanation:
+        "A fixed pulley changes the direction of force, making it easier to lift by pulling downward.",
+      points: 1,
+      options: [
+        { id: "q6a", label: "A", text: "Lever", isCorrect: false },
+        { id: "q6b", label: "B", text: "Fixed pulley", isCorrect: true },
+        { id: "q6c", label: "C", text: "Inclined plane", isCorrect: false },
+        { id: "q6d", label: "D", text: "Wedge", isCorrect: false },
+      ],
+    },
+    {
+      id: "q7",
+      type: "single_choice",
+      topic: "English",
+      prompt:
+        "Choose the sentence with correct grammar.",
+      explanation:
+        "The sentence with correct subject-verb agreement is the correct choice.",
+      points: 1,
+      options: [
+        { id: "q7a", label: "A", text: "The students was ready for the exam.", isCorrect: false },
+        { id: "q7b", label: "B", text: "The student were ready for the exam.", isCorrect: false },
+        { id: "q7c", label: "C", text: "The students were ready for the exam.", isCorrect: true },
+        { id: "q7d", label: "D", text: "The students is ready for the exam.", isCorrect: false },
+      ],
+    },
+    {
+      id: "q8",
+      type: "single_choice",
+      topic: "Mathematics",
+      prompt:
+        "If 3x + 5 = 20, what is the value of x?",
+      explanation:
+        "Subtract 5 from both sides to get 15, then divide by 3 to get 5.",
+      points: 1,
+      options: [
+        { id: "q8a", label: "A", text: "3", isCorrect: false },
+        { id: "q8b", label: "B", text: "5", isCorrect: true },
+        { id: "q8c", label: "C", text: "6", isCorrect: false },
+        { id: "q8d", label: "D", text: "8", isCorrect: false },
+      ],
+    },
+    {
+      id: "q9",
+      type: "single_choice",
+      topic: "Aptitude",
+      prompt:
+        "If all aircraft are vehicles and some vehicles are electric, which statement must be true?",
+      explanation:
+        "It is not guaranteed that any aircraft are electric, only that some vehicles are electric.",
+      points: 1,
+      options: [
+        { id: "q9a", label: "A", text: "All vehicles are aircraft", isCorrect: false },
+        { id: "q9b", label: "B", text: "Some aircraft are definitely electric", isCorrect: false },
+        { id: "q9c", label: "C", text: "All aircraft are vehicles", isCorrect: true },
+        { id: "q9d", label: "D", text: "No vehicles are electric", isCorrect: false },
+      ],
+    },
+];
+
+function makeDemoExamSet(
+  id: string,
+  title: string,
+  subject: string,
+  questionIds: string[],
+): ExamSet {
+  return {
+    id,
+    title,
+    subject,
+    department: "Aviation Entrance",
+    durationMinutes: 18,
+    modeLabel: "Practice Exam",
+    instructions: sharedInstructions,
+    questions: allQuestions.filter((question) => questionIds.includes(question.id)),
+  };
+}
+
+export const DEMO_EXAM_SETS: ExamSet[] = [
+  makeDemoExamSet(
+    "demo-mechanical-2026",
+    "AMT Practice Exam 2026",
+    "Mechanical Reasoning",
+    ["q1", "q6"],
+  ),
+  makeDemoExamSet(
+    "demo-english-2026",
+    "English Practice Exam 2026",
+    "English",
+    ["q5", "q7"],
+  ),
+  makeDemoExamSet(
+    "demo-aptitude-2026",
+    "Aptitude Practice Exam 2026",
+    "Aptitude",
+    ["q3", "q9"],
+  ),
+  makeDemoExamSet(
+    "demo-maths-2026",
+    "Maths Practice Exam 2026",
+    "Maths",
+    ["q2", "q8"],
+  ),
+];
+
+export const DEMO_EXAM_SET = DEMO_EXAM_SETS[0];

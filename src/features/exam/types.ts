@@ -21,6 +21,7 @@ export type ExamQuestion = {
 export type ExamSet = {
   id: string;
   title: string;
+  subject: string;
   department: string;
   durationMinutes: number;
   modeLabel: string;

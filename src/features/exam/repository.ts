@@ -11,6 +11,13 @@ type AdminIdentity = {
 
 export class ExamContentRepository {
   private readonly supabase = getSupabaseAdminClient();
+  private readonly coreSubjects = [
+    "mechanical reasoning",
+    "english",
+    "aptitude",
+    "maths",
+    "mathematics",
+  ];
 
   async getAdminByTelegramUserId(telegramUserId: number) {
     const result = await this.supabase
@@ -246,38 +253,11 @@ export class ExamContentRepository {
     };
   }
 
-  async getPublishedExamForCandidate(session: MiniAppCandidateSession) {
-    if (!session.departmentId || session.registrationStatus !== "approved") {
-      return null;
-    }
+  private normalizeSubject(value: string | null | undefined) {
+    return (value ?? "").trim().toLowerCase();
+  }
 
-    const examSetResult = await this.supabase
-      .from("exam_sets")
-      .select(
-        `
-        id,
-        title_en,
-        description_en,
-        duration_minutes,
-        mode,
-        departments:department_id(name_en)
-      `,
-      )
-      .eq("department_id", session.departmentId)
-      .eq("is_published", true)
-      .order("published_at", { ascending: false, nullsFirst: false })
-      .limit(1)
-      .maybeSingle();
-
-    if (examSetResult.error) {
-      throw examSetResult.error;
-    }
-
-    if (!examSetResult.data) {
-      return null;
-    }
-
-    const examSetRow = examSetResult.data as Record<string, any>;
+  private async buildExamSetFromRow(examSetRow: Record<string, any>) {
     const examSetId = examSetRow.id as string;
 
     const questionLinks = await this.supabase
@@ -352,9 +332,14 @@ export class ExamContentRepository {
       });
     }
 
+    const subject =
+      (examSetRow.topics?.name_en as string | null) ??
+      (questions[0]?.topic ?? "General");
+
     return {
       id: examSetId,
       title: examSetRow.title_en as string,
+      subject,
       department: (examSetRow.departments?.name_en as string | null) ?? "Aviation",
       durationMinutes: Number(examSetRow.duration_minutes),
       modeLabel:
@@ -366,6 +351,63 @@ export class ExamContentRepository {
       ],
       questions,
     } satisfies ExamSet;
+  }
+
+  async getPublishedExamsForCandidate(session: MiniAppCandidateSession) {
+    if (!session.departmentId || session.registrationStatus !== "approved") {
+      return [];
+    }
+
+    const examSetResult = await this.supabase
+      .from("exam_sets")
+      .select(
+        `
+        id,
+        title_en,
+        description_en,
+        duration_minutes,
+        mode,
+        departments:department_id(name_en),
+        topics:topic_id(name_en)
+      `,
+      )
+      .eq("department_id", session.departmentId)
+      .eq("is_published", true)
+      .order("published_at", { ascending: false, nullsFirst: false });
+
+    if (examSetResult.error) {
+      throw examSetResult.error;
+    }
+
+    if (!examSetResult.data?.length) {
+      return [];
+    }
+
+    const seenSubjects = new Set<string>();
+    const prioritizedRows: Record<string, any>[] = [];
+
+    for (const row of examSetResult.data as Record<string, any>[]) {
+      const normalizedSubject = this.normalizeSubject(
+        (row.topics?.name_en as string | null) ?? (row.title_en as string | null),
+      );
+      const isCoreSubject = this.coreSubjects.includes(normalizedSubject);
+
+      if (isCoreSubject && !seenSubjects.has(normalizedSubject)) {
+        seenSubjects.add(normalizedSubject);
+        prioritizedRows.push(row);
+      }
+    }
+
+    const fallbackRows =
+      prioritizedRows.length > 0
+        ? prioritizedRows
+        : (examSetResult.data as Record<string, any>[]).slice(0, 4);
+
+    const examSets = await Promise.all(
+      fallbackRows.map((row) => this.buildExamSetFromRow(row)),
+    );
+
+    return examSets.filter((examSet) => examSet.questions.length > 0);
   }
 
   async saveExamAttempt(params: {

@@ -40,16 +40,16 @@ export async function POST(request: NextRequest) {
     if (!session) {
       return NextResponse.json({
         ok: true,
-        examSet: null,
+        examSets: [],
       });
     }
 
     const repository = new ExamContentRepository();
-    const examSet = await repository.getPublishedExamForCandidate(session);
+    const examSets = await repository.getPublishedExamsForCandidate(session);
 
     return NextResponse.json({
       ok: true,
-      examSet,
+      examSets,
     });
   } catch (error) {
     console.error("Exam session-content error", error);
