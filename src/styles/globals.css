@@ -667,6 +667,14 @@ h1 {
   font-size: 0.92rem;
 }
 
+.exam-flag-button {
+  min-height: 34px;
+  padding: 0 10px;
+  border-radius: 12px;
+  font-size: 0.84rem;
+  flex: 0 0 auto;
+}
+
 .primary-button {
   background: linear-gradient(135deg, var(--brand), var(--brand-strong));
   color: #fffaf1;
@@ -824,10 +832,22 @@ h1 {
 
 .exam-navigation-row {
   margin-top: 18px;
+  flex-wrap: nowrap;
 }
 
 .exam-navigation-row > button {
-  flex: 1 1 0;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 14px;
+  font-size: 0.92rem;
+}
+
+.exam-navigation-row > button:first-child {
+  margin-right: auto;
+}
+
+.exam-navigation-row > button:last-child {
+  margin-left: auto;
 }
 
 .exam-submit-row {
@@ -924,11 +944,15 @@ h1 {
     align-items: flex-start;
   }
 
-  .exam-panel__header,
-  .exam-question-card__top,
-  .exam-navigation-row {
+  .exam-panel__header {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .exam-question-card__top,
+  .exam-navigation-row {
+    flex-direction: row;
+    align-items: center;
   }
 
   .mini-tabbar {

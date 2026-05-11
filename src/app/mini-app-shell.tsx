@@ -111,9 +111,9 @@ function StatusCard({
       </div>
       <div className="mini-card__body">
         <h2>{title}</h2>
-        <p>{description}</p>
+        {description ? <p>{description}</p> : null}
       </div>
-      <div className="mini-card__footer">{action}</div>
+      {action ? <div className="mini-card__footer">{action}</div> : null}
     </section>
   );
 }

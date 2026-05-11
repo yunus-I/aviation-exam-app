@@ -12,7 +12,7 @@ export const MINI_APP_COPY = {
     "Launch it from your Telegram bot after registration so we can identify your account securely.",
   loadingTitle: "Checking your access",
   loadingDescription:
-    "We’re verifying your Telegram account and loading your registration status.",
+    "We're verifying your Telegram account and loading your registration status.",
   notFoundTitle: "Registration not found",
   notFoundDescription:
     "We could not find a registration linked to this Telegram account yet.",
@@ -20,10 +20,9 @@ export const MINI_APP_COPY = {
   statusCards: {
     approved: {
       badge: "Approved",
-      title: "You’re ready to enter the prep platform",
-      description:
-        "Your registration is approved. The next step is your full exam dashboard, mock exams, and practice sessions.",
-      action: "Exam dashboard unlocks in the next phase.",
+      title: "Prep platform access is active",
+      description: "",
+      action: "",
     },
     pending_review: {
       badge: "Pending",

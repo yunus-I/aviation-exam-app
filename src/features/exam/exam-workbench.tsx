@@ -349,7 +349,7 @@ export function ExamWorkbench({
             <p>
               {contentSource === "live"
                 ? "Your department exam has been loaded. Start when you are ready."
-                : "Live content is not available yet, so a demo exam is ready for practice."}
+                : "Live content is not available yet, so a practice set is ready for now."}
             </p>
             <ul className="exam-rule-list">
               {examSet.instructions.map((rule) => (
@@ -453,7 +453,7 @@ export function ExamWorkbench({
               </div>
               <button
                 className={[
-                  "secondary-button secondary-button--compact",
+                  "secondary-button secondary-button--compact exam-flag-button",
                   session.flags[currentQuestion.id] ? "secondary-button--active" : "",
                 ]
                   .filter(Boolean)
@@ -536,7 +536,7 @@ export function ExamWorkbench({
         <div className="exam-results-grid">
           <section className="exam-results-card">
             <span className="exam-chip exam-chip--accent">Result</span>
-            <h3>Your mock exam summary</h3>
+            <h3>Your practice exam summary</h3>
             <div
               className="exam-score-ring"
               style={
@@ -574,7 +574,7 @@ export function ExamWorkbench({
             </div>
             <div className="exam-action-row">
               <button className="primary-button" onClick={startExam} type="button">
-                Retake mock exam
+                Retake practice exam
               </button>
               <button className="secondary-button" onClick={resetExam} type="button">
                 Reset session
