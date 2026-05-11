@@ -317,7 +317,7 @@ export function ExamWorkbench({
   return (
     <section className="exam-panel">
       <div className="exam-panel__header">
-        <div>
+        <div className="exam-panel__heading">
           <h2>{examSet.title}</h2>
           <p className="exam-panel__lede">{studentName}</p>
         </div>
@@ -357,7 +357,7 @@ export function ExamWorkbench({
               ))}
             </ul>
             <div className="exam-action-row">
-              <button className="primary-button" onClick={startExam} type="button">
+              <button className="primary-button exam-action-row__button" onClick={startExam} type="button">
                 Start exam
               </button>
             </div>
@@ -573,10 +573,10 @@ export function ExamWorkbench({
               </article>
             </div>
             <div className="exam-action-row">
-              <button className="primary-button" onClick={startExam} type="button">
+              <button className="primary-button exam-action-row__button" onClick={startExam} type="button">
                 Retake practice exam
               </button>
-              <button className="secondary-button" onClick={resetExam} type="button">
+              <button className="secondary-button exam-action-row__button" onClick={resetExam} type="button">
                 Reset session
               </button>
             </div>

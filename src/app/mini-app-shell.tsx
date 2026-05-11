@@ -228,7 +228,7 @@ export function MiniAppShell() {
     <main className="mini-app-shell">
       <section className="mini-app-frame">
         <header className="mini-app-header">
-          <div>
+          <div className="mini-app-header__copy">
             <p className="mini-app-title">EAU Entrance Prep</p>
             <p className="mini-app-subtitle">
               {telegramUser?.first_name ?? "Student"} {isApproved ? "is ready" : "dashboard"}
