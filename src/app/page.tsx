@@ -125,23 +125,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        {/* Registration hint */}
-        <div
-          style={{
-            marginTop: 20,
-            padding: "16px",
-            background: "rgba(0,53,128,0.02)",
-            border: "1px solid rgba(0,53,128,0.1)",
-            borderRadius: 8,
-            textAlign: "center",
-          }}
-        >
-          <div style={{ fontSize: 14, fontWeight: 500, marginBottom: 8, color: "var(--text)" }}>
-            Don't have an account?
-          </div>
-          <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 12, lineHeight: 1.5 }}>
-            New students must register via our official Telegram bot to receive their Student ID.
-          </p>
+        <div style={{ marginTop: 20, textAlign: "center" }}>
           <a
             href={`https://t.me/${process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.replace('@', '') || 'ETaviation_bot'}`}
             target="_blank"
@@ -152,14 +136,14 @@ export default function LoginPage() {
               alignItems: "center",
               justifyContent: "center",
               gap: 8,
-              padding: "8px 16px",
+              padding: "12px 18px",
               fontSize: 14,
-              fontWeight: 500,
+              fontWeight: 600,
               textDecoration: "none",
               color: "var(--brand)",
-              background: "rgba(0,53,128,0.05)",
-              border: "1px solid rgba(0,53,128,0.1)",
-              borderRadius: 6,
+              background: "rgba(0,53,128,0.08)",
+              border: "1px solid rgba(0,53,128,0.15)",
+              borderRadius: 8,
             }}
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -167,25 +151,6 @@ export default function LoginPage() {
             </svg>
             Register via Telegram
           </a>
-        </div>
-
-        {/* Demo hint */}
-        <div
-          style={{
-            marginTop: 20,
-            padding: "12px 14px",
-            background: "rgba(0,53,128,0.05)",
-            borderRadius: 8,
-            fontSize: 12,
-            color: "var(--text-muted)",
-            lineHeight: 1.6,
-          }}
-        >
-          <strong style={{ color: "var(--brand)" }}>Demo access:</strong> Use{" "}
-          <code style={{ background: "var(--bg)", padding: "1px 6px", borderRadius: 4 }}>demo</code>{" "}
-          /{" "}
-          <code style={{ background: "var(--bg)", padding: "1px 6px", borderRadius: 4 }}>demo</code>{" "}
-          to explore the app.
         </div>
 
         <div className="login-footer">
