@@ -33,7 +33,7 @@ async function main() {
   }
 
   // Fallback: run via raw SQL query
-  const { error } = await supabase.from("_sql_migration").insert({ sql } as any).single().maybeSingle();
+  const { error } = await supabase.from("_sql_migration").insert({ sql } as any).maybeSingle();
   if (error && error.code !== "PGRST116") {
     console.log("Direct run approach:", error.message);
   }
