@@ -90,8 +90,6 @@ function SubjectsContent() {
     );
   }
 
-  const difficultyOrder: Record<string, number> = { Easy: 0, Medium: 1, Hard: 2 };
-
   return (
     <div className="app-shell">
       <Navbar session={session} onLogout={handleLogout} />
@@ -180,35 +178,9 @@ function SubjectsContent() {
                       <span>{sub.questionCount} questions</span>
                       <span>·</span>
                       <span>{sub.durationMinutes} min</span>
-                      <span>·</span>
-                      <span
-                        className={`badge badge--${
-                          sub.difficulty === "Easy" ? "easy" :
-                          sub.difficulty === "Medium" ? "medium" : "hard"
-                        }`}
-                      >
-                        {sub.difficulty}
-                      </span>
                     </div>
                   </div>
                   <div className="subject-row__actions">
-                    <div
-                      style={{
-                        width: 48,
-                        height: 48,
-                        borderRadius: "50%",
-                        border: "2px solid var(--border)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: 11,
-                        fontWeight: 700,
-                        color: difficultyOrder[sub.difficulty] === 0 ? "var(--success)" :
-                               difficultyOrder[sub.difficulty] === 1 ? "#B45309" : "var(--error)",
-                      }}
-                    >
-                      {sub.difficulty[0]}
-                    </div>
                     <button
                       id={`start-${sub.id}`}
                       className="btn btn--primary btn--sm"

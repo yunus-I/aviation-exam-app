@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState, useCallback, Suspense } from "react";
-import type { CSSProperties } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { loadSession } from "@/lib/session";
 import { saveHistoryEntry } from "@/lib/session";
@@ -175,12 +174,7 @@ function ExamContent() {
       subject: subjectName,
       department: deptId,
       mode: examMode,
-      score: result.score,
-      maxScore: result.maxScore,
       percentage: result.percentage,
-      correctCount: result.correctCount,
-      incorrectCount: result.incorrectCount,
-      unansweredCount: result.unansweredCount,
       durationSeconds: durationSec,
       completedAt: state.submittedAt,
       examSetId: examSet.id,
@@ -319,9 +313,6 @@ function ExamContent() {
   if (state.stage === "submitted" && result) {
     const pct = result.percentage;
     const passed = pct >= 50;
-    const scoreAngle = Math.round((pct / 100) * 360);
-    const mins = Math.floor(durationSeconds / 60);
-    const secs = durationSeconds % 60;
 
     // Weakest topic
     const topicEntries = Object.entries(topicMap);
@@ -345,25 +336,16 @@ function ExamContent() {
         <div className="results-page">
           {/* Score hero */}
           <div className="results-hero">
-            <div
-              className="results-score-ring"
-              style={{ "--score-angle": `${scoreAngle}deg` } as CSSProperties}
-            >
-              <div className="results-score-ring__pct">{pct}%</div>
-              <div className="results-score-ring__label">{result.score}/{result.maxScore} pts</div>
+            <div className={`results-verdict ${passed ? "results-verdict--pass" : "results-verdict--fail"}`}>
+              {passed ? "✅ Well done!" : "❌ Keep practicing"}
             </div>
-            <div>
-              <div className={`results-verdict ${passed ? "results-verdict--pass" : "results-verdict--fail"}`}>
-                {passed ? "✅ Well done!" : "❌ Keep practicing"}
-              </div>
-              {weakest && (
-                <p className="results-message" style={{ marginTop: 8 }}>
-                  {passed
-                    ? `Great effort! ${weakest[1].correct === weakest[1].total ? "You aced every topic!" : `Focus on ${weakest[0]} to improve further.`}`
-                    : `Keep going! Spend extra time on ${weakest[0]} — you'll get there.`}
-                </p>
-              )}
-            </div>
+            {weakest && (
+              <p className="results-message" style={{ marginTop: 8 }}>
+                {passed
+                  ? `Great effort! ${weakest[1].correct === weakest[1].total ? "You aced every topic!" : `Focus on ${weakest[0]} to improve further.`}`
+                  : `Keep going! Spend extra time on ${weakest[0]} — you'll get there.`}
+              </p>
+            )}
           </div>
 
           {/* Stats row */}
@@ -383,39 +365,7 @@ function ExamContent() {
               <div className="results-stat__val" style={{ color: "var(--neutral)" }}>{result.unansweredCount}</div>
               <div className="results-stat__label">Skipped</div>
             </div>
-            <div className="results-stat">
-              <div className="results-stat__icon">⏱</div>
-              <div className="results-stat__val" style={{ fontSize: 18 }}>{mins}:{String(secs).padStart(2, "0")}</div>
-              <div className="results-stat__label">Time Taken</div>
-            </div>
           </div>
-
-          {/* Topic performance */}
-          {topicEntries.length > 0 && (
-            <div className="topic-bars">
-              <div style={{ fontSize: 15, fontWeight: 600, color: "var(--text)", marginBottom: 16 }}>
-                Performance by Topic
-              </div>
-              {topicEntries.map(([topic, { correct, total }]) => {
-                const topicPct = Math.round((correct / total) * 100);
-                return (
-                  <div className="topic-bar-row" key={topic}>
-                    <div className="topic-bar-row__label">{topic}</div>
-                    <div className="topic-bar-row__track">
-                      <div
-                        className="topic-bar-row__fill"
-                        style={{
-                          width: `${topicPct}%`,
-                          background: topicPct >= 70 ? "var(--success)" : topicPct >= 50 ? "var(--accent)" : "var(--error)",
-                        }}
-                      />
-                    </div>
-                    <div className="topic-bar-row__pct">{topicPct}%</div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
 
           {/* Question Review */}
           <div style={{ marginBottom: 16, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -615,7 +565,7 @@ function ExamContent() {
                 <div className="exam-question-card__meta">
                   <div className="exam-question-card__topic">{currentQ.topic}</div>
                   <div className="exam-question-card__num">
-                    Q{state.currentIndex + 1} · {currentQ.points} pt{currentQ.points !== 1 ? "s" : ""}
+                    Q{state.currentIndex + 1}
                     {isTF && <span style={{ marginLeft: 8 }} className="badge badge--neutral">True / False</span>}
                     {currentQ.type === "multiple_choice" && <span style={{ marginLeft: 8 }} className="badge badge--navy">Multi-select</span>}
                   </div>

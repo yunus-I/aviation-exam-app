@@ -160,11 +160,6 @@ export default function HomePage() {
                     return (
                       <div key={entry.id} className="recent-card">
                         <div className="recent-card__subject">{entry.subject}</div>
-                        <div className="recent-card__score" style={{
-                          color: entry.percentage >= 70 ? "var(--success)" : entry.percentage >= 50 ? "#B45309" : "var(--error)"
-                        }}>
-                          {entry.percentage}%
-                        </div>
                         <div className="recent-card__meta">
                           <span className={`badge badge--${entry.mode === "practice" ? "navy" : "gold"}`}>
                             {entry.mode === "practice" ? "Practice" : "Exam"}

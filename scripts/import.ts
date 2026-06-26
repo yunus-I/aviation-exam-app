@@ -58,7 +58,6 @@ async function main() {
     console.log("✅ Import completed successfully!");
     console.log(`Imported Exam Set ID: ${result.examSetId}`);
     console.log(`Imported Questions: ${result.importedQuestionCount}`);
-    console.log(`Total Points: ${result.totalPoints}`);
     
   } catch (error) {
     console.error("❌ Import failed:", error);

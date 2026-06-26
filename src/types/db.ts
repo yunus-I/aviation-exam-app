@@ -135,8 +135,6 @@ export type QuestionRecord = {
   prompt_am: string | null;
   explanation_en: string | null;
   explanation_am: string | null;
-  difficulty_level: number;
-  points: string;
   is_active: boolean;
   created_by_admin_id: string | null;
   created_at: string;
@@ -155,8 +153,6 @@ export type ExamSetRecord = {
   mode: ExamMode;
   duration_minutes: number;
   total_questions: number;
-  total_points: string;
-  passing_score: string | null;
   allow_question_shuffle: boolean;
   allow_option_shuffle: boolean;
   is_published: boolean;

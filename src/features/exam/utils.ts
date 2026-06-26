@@ -11,7 +11,6 @@ export function calculateExamResult(
   questions: ExamQuestion[],
   answers: Record<string, string[]>,
 ): ExamResult {
-  let score = 0;
   let correctCount = 0;
   let incorrectCount = 0;
   let unansweredCount = 0;
@@ -34,18 +33,15 @@ export function calculateExamResult(
 
     if (isCorrect) {
       correctCount += 1;
-      score += question.points;
     } else {
       incorrectCount += 1;
     }
   }
 
-  const maxScore = questions.reduce((sum, question) => sum + question.points, 0);
-  const percentage = maxScore === 0 ? 0 : Math.round((score / maxScore) * 100);
+  const total = questions.length;
+  const percentage = total === 0 ? 0 : Math.round((correctCount / total) * 100);
 
   return {
-    score,
-    maxScore,
     correctCount,
     incorrectCount,
     unansweredCount,

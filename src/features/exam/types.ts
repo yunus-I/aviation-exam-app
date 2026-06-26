@@ -13,7 +13,6 @@ export type ExamQuestion = {
   topic: string;
   prompt: string;
   explanation: string;
-  points: number;
   imageUrl?: string;
   options: ExamQuestionOption[];
 };
@@ -33,8 +32,6 @@ export type ExamAnswerMap = Record<string, string[]>;
 export type ExamFlagMap = Record<string, boolean>;
 
 export type ExamResult = {
-  score: number;
-  maxScore: number;
   correctCount: number;
   incorrectCount: number;
   unansweredCount: number;

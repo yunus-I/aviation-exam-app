@@ -14,12 +14,7 @@ export type ExamHistoryEntry = {
   subject: string;
   department: string;
   mode: "practice" | "exam";
-  score: number;
-  maxScore: number;
   percentage: number;
-  correctCount: number;
-  incorrectCount: number;
-  unansweredCount: number;
   durationSeconds: number;
   completedAt: number;
   examSetId: string;

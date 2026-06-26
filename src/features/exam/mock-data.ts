@@ -49,7 +49,6 @@ const allQuestions: ExamQuestion[] = [
         "Look at the two connected gears. If Gear A rotates clockwise, which direction will Gear B rotate?",
       explanation:
         "Two directly connected gears rotate in opposite directions.",
-      points: 1,
       imageUrl: mechanicalDiagram,
       options: [
         { id: "q1a", label: "A", text: "Clockwise", isCorrect: false },
@@ -66,7 +65,6 @@ const allQuestions: ExamQuestion[] = [
         "A trainee solves 18 questions in 12 minutes at a steady speed. At the same rate, how many questions can be solved in 30 minutes?",
       explanation:
         "The rate is 1.5 questions per minute, so in 30 minutes the result is 45 questions.",
-      points: 1,
       options: [
         { id: "q2a", label: "A", text: "36", isCorrect: false },
         { id: "q2b", label: "B", text: "40", isCorrect: false },
@@ -82,7 +80,6 @@ const allQuestions: ExamQuestion[] = [
         "Select all statements that show strong exam strategy for a timed entrance test.",
       explanation:
         "Good strategy includes managing time, flagging uncertain questions, and returning later instead of getting stuck.",
-      points: 2,
       options: [
         { id: "q3a", label: "A", text: "Skip one very hard question and come back later", isCorrect: true },
         { id: "q3b", label: "B", text: "Spend half of the total exam time on the first question", isCorrect: false },
@@ -98,7 +95,6 @@ const allQuestions: ExamQuestion[] = [
         "In the attitude indicator image, which side of the horizon line is slightly higher, showing a left bank correction is needed?",
       explanation:
         "The horizon line slopes upward to the right, indicating the aircraft is banked left.",
-      points: 1,
       imageUrl: aircraftAttitudeDiagram,
       options: [
         { id: "q4a", label: "A", text: "The left side is higher", isCorrect: false },
@@ -115,7 +111,6 @@ const allQuestions: ExamQuestion[] = [
         "True or False: Clear communication is essential in both cockpit and cabin operations.",
       explanation:
         "This is true because aviation safety depends on accurate and timely communication.",
-      points: 1,
       options: [
         { id: "q5a", label: "A", text: "True", isCorrect: true },
         { id: "q5b", label: "B", text: "False", isCorrect: false },
@@ -129,7 +124,6 @@ const allQuestions: ExamQuestion[] = [
         "Which simple machine changes the direction of a force when pulling a load upward with a rope over a wheel?",
       explanation:
         "A fixed pulley changes the direction of force, making it easier to lift by pulling downward.",
-      points: 1,
       options: [
         { id: "q6a", label: "A", text: "Lever", isCorrect: false },
         { id: "q6b", label: "B", text: "Fixed pulley", isCorrect: true },
@@ -145,7 +139,6 @@ const allQuestions: ExamQuestion[] = [
         "Choose the sentence with correct grammar.",
       explanation:
         "The sentence with correct subject-verb agreement is the correct choice.",
-      points: 1,
       options: [
         { id: "q7a", label: "A", text: "The students was ready for the exam.", isCorrect: false },
         { id: "q7b", label: "B", text: "The student were ready for the exam.", isCorrect: false },
@@ -161,7 +154,6 @@ const allQuestions: ExamQuestion[] = [
         "If 3x + 5 = 20, what is the value of x?",
       explanation:
         "Subtract 5 from both sides to get 15, then divide by 3 to get 5.",
-      points: 1,
       options: [
         { id: "q8a", label: "A", text: "3", isCorrect: false },
         { id: "q8b", label: "B", text: "5", isCorrect: true },
@@ -177,7 +169,6 @@ const allQuestions: ExamQuestion[] = [
         "If all aircraft are vehicles and some vehicles are electric, which statement must be true?",
       explanation:
         "It is not guaranteed that any aircraft are electric, only that some vehicles are electric.",
-      points: 1,
       options: [
         { id: "q9a", label: "A", text: "All vehicles are aircraft", isCorrect: false },
         { id: "q9b", label: "B", text: "Some aircraft are definitely electric", isCorrect: false },

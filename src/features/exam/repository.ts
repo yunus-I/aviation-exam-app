@@ -116,7 +116,6 @@ export class ExamContentRepository {
           topic_id: examTopic?.id ?? null,
           mode: payload.examSet.mode,
           duration_minutes: payload.examSet.durationMinutes,
-          passing_score: payload.examSet.passingScore ?? null,
           is_published: payload.examSet.published ?? true,
           published_at: payload.examSet.published === false ? null : new Date().toISOString(),
           created_by_admin_id: admin.id,
@@ -141,13 +140,9 @@ export class ExamContentRepository {
       throw deleteMappings.error;
     }
 
-    let totalPoints = 0;
-
     for (let index = 0; index < payload.questions.length; index += 1) {
       const question = payload.questions[index];
       const questionTopic = await this.getTopicBySlug(question.topicSlug);
-      const questionPoints = question.points ?? 1;
-      totalPoints += questionPoints;
 
       const questionUpsert = await this.supabase
         .from("questions")
@@ -162,8 +157,6 @@ export class ExamContentRepository {
             question_type: question.type,
             prompt_en: question.prompt,
             explanation_en: question.explanation ?? null,
-            difficulty_level: question.difficultyLevel ?? 1,
-            points: questionPoints,
             is_active: true,
             created_by_admin_id: admin.id,
           },
@@ -226,7 +219,6 @@ export class ExamContentRepository {
         exam_set_id: examSetId,
         question_id: questionId,
         sort_order: index + 1,
-        points_override: questionPoints,
       });
 
       if (examLinkInsert.error) {
@@ -238,7 +230,6 @@ export class ExamContentRepository {
       .from("exam_sets")
       .update({
         total_questions: payload.questions.length,
-        total_points: totalPoints,
       })
       .eq("id", examSetId);
 
@@ -249,7 +240,6 @@ export class ExamContentRepository {
     return {
       examSetId,
       importedQuestionCount: payload.questions.length,
-      totalPoints,
     };
   }
 
@@ -265,13 +255,11 @@ export class ExamContentRepository {
       .select(
         `
         sort_order,
-        points_override,
         questions:question_id(
           id,
           question_type,
           prompt_en,
           explanation_en,
-          points,
           topics:topic_id(name_en),
           question_media(storage_path, sort_order),
           question_options(id, option_key, option_text_en, is_correct, sort_order)
@@ -319,7 +307,6 @@ export class ExamContentRepository {
         prompt: question.prompt_en as string,
         explanation:
           (question.explanation_en as string | null) ?? "No explanation yet.",
-        points: Number(row.points_override ?? question.points ?? 1),
         imageUrl,
         options: ((question.question_options as Record<string, any>[] | null) ?? [])
           .sort((left, right) => Number(left.sort_order) - Number(right.sort_order))
@@ -434,11 +421,6 @@ export class ExamContentRepository {
         started_at: new Date(session.startedAt ?? Date.now()).toISOString(),
         expires_at: new Date(session.expiresAt ?? Date.now()).toISOString(),
         submitted_at: new Date(session.submittedAt ?? Date.now()).toISOString(),
-        score: session.result.score,
-        max_score: session.result.maxScore,
-        correct_count: session.result.correctCount,
-        incorrect_count: session.result.incorrectCount,
-        unanswered_count: session.result.unansweredCount,
         time_spent_seconds: Math.max(0, Math.floor(timeSpentMs / 1000)),
       })
       .select("id")

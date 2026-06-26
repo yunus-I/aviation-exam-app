@@ -15,7 +15,6 @@
     "departmentCode": "AMT",
     "mode": "practice",
     "durationMinutes": 60,
-    "passingScore": 60,
     "published": true
   },
   "questions": [
@@ -25,8 +24,6 @@
       "topicSlug": "mechanical-reasoning",
       "prompt": "Which of the following describes a first-class lever?",
       "explanation": "In a first-class lever, the fulcrum is located between the effort force and the load.",
-      "points": 1,
-      "difficultyLevel": 2,
       "options": [
         { "key": "A", "text": "The fulcrum is between the effort and the load", "isCorrect": true },
         { "key": "B", "text": "The load is between the fulcrum and the effort", "isCorrect": false },
@@ -40,8 +37,6 @@
       "topicSlug": "mechanical-reasoning",
       "prompt": "According to Bernoulli's principle, what happens to the pressure of a fluid when its speed increases?",
       "explanation": "Bernoulli's principle states that an increase in the speed of a fluid occurs simultaneously with a decrease in static pressure.",
-      "points": 1,
-      "difficultyLevel": 3,
       "options": [
         { "key": "A", "text": "It increases", "isCorrect": false },
         { "key": "B", "text": "It decreases", "isCorrect": true },

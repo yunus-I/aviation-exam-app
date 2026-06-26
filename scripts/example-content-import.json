@@ -16,7 +16,6 @@
     "topicSlug": "aptitude",
     "mode": "mock",
     "durationMinutes": 35,
-    "passingScore": 24,
     "published": true
   },
   "questions": [
@@ -26,8 +25,6 @@
       "type": "single_choice",
       "prompt": "Which number comes next in the sequence 3, 6, 12, 24?",
       "explanation": "Each term doubles, so the next number is 48.",
-      "points": 1,
-      "difficultyLevel": 1,
       "sourceLabel": "Imported mock set",
       "sourceYear": 2026,
       "options": [

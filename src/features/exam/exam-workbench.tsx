@@ -1,6 +1,5 @@
 "use client";
 
-import type { CSSProperties } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { DEMO_EXAM_SET, DEMO_EXAM_SETS } from "@/features/exam/mock-data";
 import type {
@@ -482,9 +481,6 @@ export function ExamWorkbench({
                 <span className="exam-chip">{currentQuestion.topic}</span>
                 <h3>
                   Question {session.currentIndex + 1}
-                  <span className="exam-question-points">
-                    {currentQuestion.points} pt
-                  </span>
                 </h3>
               </div>
               <button
@@ -573,23 +569,6 @@ export function ExamWorkbench({
           <section className="exam-results-card">
             <span className="exam-chip exam-chip--accent">Result</span>
             <h3>Your practice exam summary</h3>
-            <div
-              className="exam-score-ring"
-              style={
-                {
-                  "--exam-score-angle": `${Math.round(
-                    (session.result.percentage / 100) * 360,
-                  )}deg`,
-                } as CSSProperties
-              }
-            >
-              <div>
-                <strong>{session.result.percentage}%</strong>
-                <span>
-                  {session.result.score}/{session.result.maxScore} pts
-                </span>
-              </div>
-            </div>
             <div className="exam-results-metrics">
               <article>
                 <span>Correct</span>

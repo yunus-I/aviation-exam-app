@@ -12,8 +12,6 @@ export type ContentImportQuestion = {
   type: QuestionType;
   prompt: string;
   explanation?: string;
-  points?: number;
-  difficultyLevel?: number;
   sourceLabel?: string;
   sourceYear?: number;
   imageStoragePath?: string;
@@ -38,7 +36,6 @@ export type ContentImportPayload = {
     topicSlug?: string;
     mode: ExamMode;
     durationMinutes: number;
-    passingScore?: number;
     published?: boolean;
   };
   questions: ContentImportQuestion[];

@@ -695,12 +695,6 @@ button { cursor: pointer; border: none; background: none; }
   gap: 8px;
 }
 
-.recent-card__score {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--brand);
-}
-
 /* ================================================================
    SUBJECT PICKER
    ================================================================ */
@@ -1335,46 +1329,6 @@ button { cursor: pointer; border: none; background: none; }
   text-align: center;
 }
 
-.results-score-ring {
-  --score-angle: 0deg;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle, #fff 55%, transparent 56%),
-    conic-gradient(
-      var(--accent) 0deg,
-      var(--accent) var(--score-angle),
-      var(--border) var(--score-angle) 360deg
-    );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 4px;
-  box-shadow: 0 8px 32px rgba(0,53,128,0.12);
-  animation: ringIn 800ms cubic-bezier(0.34,1.56,0.64,1);
-}
-
-@keyframes ringIn {
-  from { transform: scale(0.7); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
-
-.results-score-ring__pct {
-  font-size: 36px;
-  font-weight: 800;
-  color: var(--brand);
-  line-height: 1;
-}
-
-.results-score-ring__label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
-  letter-spacing: 0.5px;
-}
-
 .results-verdict {
   font-size: 22px;
   font-weight: 700;
@@ -1642,34 +1596,6 @@ button { cursor: pointer; border: none; background: none; }
   color: var(--text-muted);
 }
 
-/* Score chart */
-.score-chart {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  margin-bottom: 28px;
-}
-
-.score-chart__title {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 20px;
-}
-
-.chart-area {
-  position: relative;
-  height: 120px;
-  overflow: visible;
-}
-
-.chart-svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
 /* History table */
 .history-table-wrap {
   background: var(--surface);
@@ -1705,14 +1631,6 @@ button { cursor: pointer; border: none; background: none; }
 .history-table tr:last-child td { border-bottom: none; }
 
 .history-table tr:hover td { background: var(--bg); }
-
-.history-score {
-  font-weight: 700;
-}
-
-.history-score--good { color: var(--success); }
-.history-score--ok   { color: #B45309; }
-.history-score--low  { color: var(--error); }
 
 /* ================================================================
    UTILITIES

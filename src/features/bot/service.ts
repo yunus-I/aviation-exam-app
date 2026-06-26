@@ -21,7 +21,8 @@ function getRepository() {
 }
 
 function createMiniAppWebAppButton(label: string) {
-  const webAppUrl = env.NEXT_PUBLIC_MINI_APP_URL ?? "https://aviation-cyan.vercel.app";
+  const baseUrl = env.NEXT_PUBLIC_MINI_APP_URL ?? "https://aviation-cyan.vercel.app";
+  const webAppUrl = baseUrl.endsWith("/") ? `${baseUrl}mini-app` : `${baseUrl}/mini-app`;
 
   return {
     reply_markup: new InlineKeyboard().webApp(label, webAppUrl),

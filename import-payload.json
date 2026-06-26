@@ -1,0 +1,125 @@
+{
+  "questionBank": {
+    "key": "cabin-bank-v1",
+    "slug": "cabin-general-bank-v1",
+    "title": "CABIN Question Bank",
+    "departmentCode": "CABIN"
+  },
+  "examSet": {
+    "key": "cabin-practice-2026",
+    "slug": "cabin-practice-2026",
+    "title": "CABIN Practice",
+    "departmentCode": "CABIN",
+    "mode": "practice",
+    "durationMinutes": 45,
+    "published": true
+  },
+  "questions": [
+    {
+      "key": "q-1",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "In the event of a sudden cabin decompression, what is the immediate first action of a crew member?",
+      "explanation": "Self-preservation is first. You must secure your own oxygen mask before helping passengers.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Assist nearest passenger",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Don your own oxygen mask",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Secure the galley trolley",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Inform the flight deck",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "q-2",
+      "topicSlug": "english",
+      "type": "single_choice",
+      "prompt": "Which sentence represents the most polite way to handle a passenger who refuses to turn off their laptop?",
+      "explanation": "Polite, firm, and safety-oriented phrasing is standard cabin crew training.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Turn that off, please.",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "You must turn off your computer immediately or we cannot take off.",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Could you please power down your laptop for takeoff as it is a safety requirement?",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Laptops are not allowed now.",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "q-3",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "What are the early clinical symptoms of hypoxia?",
+      "explanation": "Euphoria, fatigue, and rapid breathing are classic early signs of oxygen deprivation.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hyperactivity and high energy",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Extreme hunger and thirst",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Euphoria",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "headache",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "q-4",
+      "topicSlug": "english",
+      "type": "true_false",
+      "prompt": "It is acceptable to unlock a lavatory door from the outside during an emergency.",
+      "explanation": "All commercial cabin lavatories have emergency exterior release latches for crew safety access.",
+      "options": [
+        {
+          "key": "A",
+          "text": "TRUE",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "FALSE",
+          "isCorrect": false
+        }
+      ]
+    }
+  ]
+}

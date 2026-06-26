@@ -50,87 +50,6 @@ function Sidebar({ active }: { active: string }) {
   );
 }
 
-// Simple inline SVG line chart
-function ScoreChart({ entries }: { entries: ExamHistoryEntry[] }) {
-  const recent = [...entries].reverse().slice(-10);
-  if (recent.length < 2) {
-    return (
-      <div style={{ textAlign: "center", padding: "32px 0", color: "var(--text-muted)", fontSize: 14 }}>
-        Complete at least 2 sessions to see your trend chart.
-      </div>
-    );
-  }
-
-  const W = 600;
-  const H = 120;
-  const padX = 40;
-  const padY = 16;
-  const chartW = W - padX * 2;
-  const chartH = H - padY * 2;
-
-  const max = 100;
-  const min = 0;
-
-  const pts = recent.map((e, i) => ({
-    x: padX + (i / (recent.length - 1)) * chartW,
-    y: padY + chartH - ((e.percentage - min) / (max - min)) * chartH,
-    pct: e.percentage,
-  }));
-
-  const polyline = pts.map((p) => `${p.x},${p.y}`).join(" ");
-  // Area fill
-  const areaPath = `M ${pts[0].x},${pts[0].y} ` +
-    pts.slice(1).map((p) => `L ${p.x},${p.y}`).join(" ") +
-    ` L ${pts[pts.length - 1].x},${padY + chartH} L ${pts[0].x},${padY + chartH} Z`;
-
-  // Y-axis labels
-  const yLabels = [0, 25, 50, 75, 100];
-
-  return (
-    <svg
-      viewBox={`0 0 ${W} ${H}`}
-      className="chart-svg"
-      aria-label="Score trend chart"
-      style={{ overflow: "visible" }}
-    >
-      {/* Grid lines */}
-      {yLabels.map((v) => {
-        const y = padY + chartH - ((v - min) / (max - min)) * chartH;
-        return (
-          <g key={v}>
-            <line x1={padX} x2={W - padX} y1={y} y2={y} stroke="var(--border)" strokeWidth={1} />
-            <text x={padX - 6} y={y + 4} textAnchor="end" fontSize={9} fill="var(--text-subtle)">{v}%</text>
-          </g>
-        );
-      })}
-
-      {/* Area */}
-      <path d={areaPath} fill="rgba(0,53,128,0.06)" />
-
-      {/* Line */}
-      <polyline
-        points={polyline}
-        fill="none"
-        stroke="var(--brand)"
-        strokeWidth={2.5}
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-
-      {/* Dots */}
-      {pts.map((p, i) => (
-        <g key={i}>
-          <circle cx={p.x} cy={p.y} r={4} fill="var(--brand)" />
-          <circle cx={p.x} cy={p.y} r={2} fill="#fff" />
-          <text x={p.x} y={p.y - 8} textAnchor="middle" fontSize={9} fill="var(--text-muted)" fontWeight="600">
-            {p.pct}%
-          </text>
-        </g>
-      ))}
-    </svg>
-  );
-}
-
 function formatDate(ts: number) {
   return new Date(ts).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
@@ -215,7 +134,7 @@ export default function DashboardPage() {
             <div className="page-header">
               <h1 className="page-greeting">My Progress 📈</h1>
               <p className="page-subtitle">
-                Track your practice sessions, scores, and improvements over time.
+                Track your practice sessions and improvements over time.
               </p>
             </div>
 
@@ -236,13 +155,7 @@ export default function DashboardPage() {
               ))}
             </div>
 
-            {/* Score trend chart */}
-            <div className="score-chart">
-              <div className="score-chart__title">Score Trend (Last {Math.min(history.length, 10)} Sessions)</div>
-              <div className="chart-area">
-                <ScoreChart entries={history} />
-              </div>
-            </div>
+
 
             {/* History table */}
             <div>
@@ -284,18 +197,12 @@ export default function DashboardPage() {
                         <th>#</th>
                         <th>Subject</th>
                         <th>Mode</th>
-                        <th>Score</th>
-                        <th>Correct / Wrong / Skip</th>
                         <th>Duration</th>
                         <th>Date</th>
-                        <th>Review</th>
                       </tr>
                     </thead>
                     <tbody>
                       {history.map((entry, idx) => {
-                        const scoreClass =
-                          entry.percentage >= 70 ? "history-score--good" :
-                          entry.percentage >= 50 ? "history-score--ok" : "history-score--low";
                         return (
                           <tr key={entry.id} id={`history-row-${idx}`}>
                             <td style={{ color: "var(--text-subtle)", fontWeight: 600 }}>{idx + 1}</td>
@@ -310,34 +217,11 @@ export default function DashboardPage() {
                                 {entry.mode === "practice" ? "Practice" : "Exam"}
                               </span>
                             </td>
-                            <td>
-                              <span className={`history-score ${scoreClass}`}>{entry.percentage}%</span>
-                            </td>
-                            <td style={{ fontSize: 13, color: "var(--text-muted)" }}>
-                              <span style={{ color: "var(--success)", fontWeight: 600 }}>{entry.correctCount}✓</span>
-                              {" · "}
-                              <span style={{ color: "var(--error)", fontWeight: 600 }}>{entry.incorrectCount}✗</span>
-                              {" · "}
-                              <span style={{ fontWeight: 600 }}>{entry.unansweredCount}–</span>
-                            </td>
                             <td style={{ fontSize: 13, color: "var(--text-muted)" }}>
                               {formatDuration(entry.durationSeconds)}
                             </td>
                             <td style={{ fontSize: 13, color: "var(--text-muted)" }}>
                               {formatDate(entry.completedAt)}
-                            </td>
-                            <td>
-                              <button
-                                id={`retry-${idx}`}
-                                className="btn btn--ghost btn--sm"
-                                onClick={() =>
-                                  router.push(
-                                    `/exam?set=${encodeURIComponent(entry.examSetId)}&mode=${entry.mode}&dept=${entry.department}&subject=${encodeURIComponent(entry.subject)}`
-                                  )
-                                }
-                              >
-                                Retry
-                              </button>
                             </td>
                           </tr>
                         );
