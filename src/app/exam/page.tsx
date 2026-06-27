@@ -131,20 +131,63 @@ function ExamContent() {
     const session = loadSession();
     if (!session) { router.replace("/"); return; }
 
-    const found = DEMO_EXAM_SETS.find((s) => s.id === examSetId) ?? DEMO_EXAM_SET;
-    setExamSet(found);
-    setState({
-      stage: "active",
-      currentIndex: 0,
-      answers: {},
-      flags: {},
-      startedAt: Date.now(),
-      submittedAt: null,
-      remainingSeconds: found.durationMinutes * 60,
-      feedbackShown: false,
-    });
-    setReady(true);
-  }, [examSetId, router]);
+    setReady(false);
+    
+    // Attempt to load from live Supabase endpoint first
+    fetch("/api/exams/live", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ dept: deptId, subject: subjectName }),
+    })
+      .then(async (res) => {
+        const payload = await res.json();
+        if (payload.ok && payload.examSet && payload.examSet.questions.length > 0) {
+          setExamSet(payload.examSet);
+          setState({
+            stage: "active",
+            currentIndex: 0,
+            answers: {},
+            flags: {},
+            startedAt: Date.now(),
+            submittedAt: null,
+            remainingSeconds: payload.examSet.durationMinutes * 60,
+            feedbackShown: false,
+          });
+        } else {
+          // Fall back to demo data
+          const found = DEMO_EXAM_SETS.find((s) => s.id === examSetId) ?? DEMO_EXAM_SET;
+          setExamSet(found);
+          setState({
+            stage: "active",
+            currentIndex: 0,
+            answers: {},
+            flags: {},
+            startedAt: Date.now(),
+            submittedAt: null,
+            remainingSeconds: found.durationMinutes * 60,
+            feedbackShown: false,
+          });
+        }
+      })
+      .catch(() => {
+        // Fall back on error
+        const found = DEMO_EXAM_SETS.find((s) => s.id === examSetId) ?? DEMO_EXAM_SET;
+        setExamSet(found);
+        setState({
+          stage: "active",
+          currentIndex: 0,
+          answers: {},
+          flags: {},
+          startedAt: Date.now(),
+          submittedAt: null,
+          remainingSeconds: found.durationMinutes * 60,
+          feedbackShown: false,
+        });
+      })
+      .finally(() => {
+        setReady(true);
+      });
+  }, [examSetId, router, deptId, subjectName]);
 
   // Countdown timer
   useEffect(() => {

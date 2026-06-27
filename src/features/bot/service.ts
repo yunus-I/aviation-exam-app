@@ -25,7 +25,7 @@ function createMiniAppWebAppButton(label: string) {
   const webAppUrl = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
 
   return {
-    reply_markup: new InlineKeyboard().webApp(label, webAppUrl),
+    reply_markup: new InlineKeyboard().webApp(label, `${webAppUrl}/mini-app`),
   };
 }
 
