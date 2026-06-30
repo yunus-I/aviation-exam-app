@@ -206,22 +206,16 @@ async function handleTextMessage(ctx: BotContext) {
 
       await repository.updateDraft(candidate.id, {
         phone_number: normalizedPhone,
-        current_step: "password",
+        current_step: "receipt",
+        password_hash: hashPassword("0000"),
         last_user_message_id: ctx.message?.message_id ?? null,
       });
-      await ctx.reply(copy.askPassword);
+      await ctx.reply(copy.paymentInstructions);
       return;
     }
     case "password": {
-      const password = validatePinPassword(text);
-
-      if (!password) {
-        await ctx.reply(copy.invalidPassword);
-        return;
-      }
-
       await repository.updateDraft(candidate.id, {
-        password_hash: hashPassword(password),
+        password_hash: hashPassword("0000"),
         current_step: "receipt",
         last_user_message_id: ctx.message?.message_id ?? null,
       });

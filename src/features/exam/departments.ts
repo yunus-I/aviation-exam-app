@@ -21,8 +21,7 @@ export const DEPARTMENTS: Department[] = [
     id: "amt",
     name: "Aircraft Maintenance Technology",
     icon: "🔧",
-    description:
-      "Aircraft systems, avionics, structural repair, and airworthiness regulations for licensed AMTs.",
+    description: "",
     subjects: [
       { id: "amt-mechanical", name: "Mechanical Reasoning", questionCount: 2, durationMinutes: 18, examSetId: "demo-mechanical-2026" },
       { id: "amt-english",    name: "English Proficiency",  questionCount: 2, durationMinutes: 18, examSetId: "demo-english-2026" },
@@ -54,39 +53,15 @@ export const DEPARTMENTS: Department[] = [
     ],
   },
   {
-    id: "mgmt",
-    name: "Aviation Management",
-    icon: "📊",
+    id: "marketing",
+    name: "Marketing",
+    icon: "📢",
     description:
-      "Airport operations, airline economics, logistics, and aviation industry regulations.",
+      "Business basics, quantitative reasoning, communication, and exam-focused drills.",
     subjects: [
-      { id: "mgmt-maths",    name: "Mathematics", questionCount: 2, durationMinutes: 18, examSetId: "demo-maths-2026" },
-      { id: "mgmt-english",  name: "English",     questionCount: 2, durationMinutes: 18, examSetId: "demo-english-2026" },
-      { id: "mgmt-aptitude", name: "Aptitude",    questionCount: 2, durationMinutes: 18, examSetId: "demo-aptitude-2026" },
-    ],
-  },
-  {
-    id: "aero",
-    name: "Aeronautical Engineering",
-    icon: "🛩️",
-    description:
-      "Aerodynamics, propulsion systems, structures, and aerospace design fundamentals.",
-    subjects: [
-      { id: "aero-maths",    name: "Mathematics",  questionCount: 2, durationMinutes: 18, examSetId: "demo-maths-2026" },
-      { id: "aero-mech",     name: "Mechanical",   questionCount: 2, durationMinutes: 18, examSetId: "demo-mechanical-2026" },
-      { id: "aero-aptitude", name: "Aptitude",     questionCount: 2, durationMinutes: 18, examSetId: "demo-aptitude-2026" },
-    ],
-  },
-  {
-    id: "atc",
-    name: "Air Traffic Control",
-    icon: "📡",
-    description:
-      "Radar operations, communication procedures, separation standards, and ATC regulations.",
-    subjects: [
-      { id: "atc-aptitude", name: "Aptitude",  questionCount: 2, durationMinutes: 18, examSetId: "demo-aptitude-2026" },
-      { id: "atc-maths",    name: "Mathematics", questionCount: 2, durationMinutes: 18, examSetId: "demo-maths-2026" },
-      { id: "atc-english",  name: "English",     questionCount: 2, durationMinutes: 18, examSetId: "demo-english-2026" },
+      { id: "marketing-maths",    name: "Mathematics",          questionCount: 2, durationMinutes: 18, examSetId: "demo-maths-2026" },
+      { id: "marketing-english",  name: "English Proficiency",  questionCount: 2, durationMinutes: 18, examSetId: "demo-english-2026" },
+      { id: "marketing-aptitude", name: "Aptitude Test",        questionCount: 2, durationMinutes: 18, examSetId: "demo-aptitude-2026" },
     ],
   },
 ];

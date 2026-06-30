@@ -1,14 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { loadSession, clearSession, loadHistory } from "@/lib/session";
 import type { StudentSession, ExamHistoryEntry } from "@/lib/session";
 import { DEPARTMENTS } from "@/features/exam/departments";
 
 function Navbar({ session, onLogout }: { session: StudentSession; onLogout: () => void }) {
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <header className="navbar">
+    <header className="navbar" style={{ position: "relative" }}>
       <div className="navbar__brand">
         <div className="navbar__logo">EAU</div>
         <div className="navbar__appname">
@@ -16,12 +29,129 @@ function Navbar({ session, onLogout }: { session: StudentSession; onLogout: () =
         </div>
       </div>
       <div style={{ flex: 1 }} />
-      <div className="navbar__right">
-        <div className="navbar__student">
-          <span style={{ color: "var(--text-muted)", fontSize: 13 }}>{session.name}</span>
-          <div className="navbar__avatar">{session.avatarInitials}</div>
-        </div>
-        <button className="btn btn--ghost btn--sm" onClick={onLogout}>Sign Out</button>
+      <div className="navbar__right" ref={dropdownRef}>
+        <button
+          id="profile-avatar-btn"
+          className="navbar__avatar"
+          onClick={() => setOpen(!open)}
+          style={{
+            width: 38,
+            height: 38,
+            borderRadius: "50%",
+            background: "var(--brand)",
+            color: "#fff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 15,
+            fontWeight: 700,
+            border: "2px solid var(--border)",
+            cursor: "pointer",
+            transition: "transform 0.15s ease",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+          onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+        >
+          {session.avatarInitials}
+        </button>
+
+        {open && (
+          <div
+            className="profile-dropdown"
+            style={{
+              position: "absolute",
+              top: "100%",
+              right: 0,
+              marginTop: 8,
+              width: 280,
+              background: "var(--surface)",
+              borderRadius: "var(--radius-lg)",
+              border: "1px solid var(--border)",
+              boxShadow: "var(--shadow-lg)",
+              padding: "20px",
+              zIndex: 1000,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 16,
+            }}
+          >
+            <div
+              style={{
+                width: 60,
+                height: 60,
+                borderRadius: "50%",
+                background: "var(--brand)",
+                color: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 24,
+                fontWeight: 700,
+                border: "3px solid var(--border)",
+              }}
+            >
+              {session.avatarInitials}
+            </div>
+
+            <div style={{ textAlign: "center", width: "100%" }}>
+              <div style={{ fontWeight: 700, fontSize: 16, color: "var(--text)" }}>{session.name}</div>
+              <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                🔑 {session.studentId}
+              </div>
+              <div
+                style={{
+                  fontSize: 13,
+                  color: "var(--brand)",
+                  background: "var(--brand-light)",
+                  padding: "4px 10px",
+                  borderRadius: "var(--radius-sm)",
+                  display: "inline-block",
+                  marginTop: 8,
+                  fontWeight: 600,
+                }}
+              >
+                {session.department || "General Candidate"}
+              </div>
+            </div>
+
+            <hr style={{ width: "100%", border: 0, borderTop: "1px solid var(--border)", margin: "4px 0" }} />
+
+            <div style={{ display: "flex", flexDirection: "column", width: "100%", gap: 8 }}>
+              <a
+                href={`https://t.me/${process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.replace('@', '') || 'ETaviation_bot'}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn--secondary btn--full btn--sm"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 8,
+                  fontSize: 13,
+                  fontWeight: 600,
+                }}
+                onClick={() => setOpen(false)}
+              >
+                💬 Get Help / Support
+              </a>
+
+              <button
+                id="logout-btn"
+                className="btn btn--primary btn--full btn--sm"
+                onClick={onLogout}
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  background: "var(--error)",
+                  borderColor: "var(--error)",
+                }}
+              >
+                Sign Out
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
