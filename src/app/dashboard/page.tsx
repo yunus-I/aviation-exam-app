@@ -118,10 +118,7 @@ function Navbar({ session, onLogout }: { session: StudentSession; onLogout: () =
             <hr style={{ width: "100%", border: 0, borderTop: "1px solid var(--border)", margin: "4px 0" }} />
 
             <div style={{ display: "flex", flexDirection: "column", width: "100%", gap: 8 }}>
-              <a
-                href={`https://t.me/${process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.replace('@', '') || 'ETaviation_bot'}`}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
                 className="btn btn--secondary btn--full btn--sm"
                 style={{
                   display: "inline-flex",
@@ -131,10 +128,18 @@ function Navbar({ session, onLogout }: { session: StudentSession; onLogout: () =
                   fontSize: 13,
                   fontWeight: 600,
                 }}
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  setOpen(false);
+                  const url = `https://t.me/${process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.replace('@', '') || 'ETaviation_bot'}`;
+                  if (typeof window !== "undefined" && (window as any).Telegram?.WebApp?.openLink) {
+                    (window as any).Telegram.WebApp.openLink(url);
+                  } else {
+                    window.open(url, "_blank", "noopener,noreferrer");
+                  }
+                }}
               >
                 💬 Get Help / Support
-              </a>
+              </button>
 
               <button
                 id="logout-btn"
