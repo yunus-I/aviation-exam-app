@@ -118,47 +118,87 @@ function StatusCard({
   );
 }
 
+function getInitDataFromLocation() {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  return params.get("initData")?.trim() ?? params.get("tgWebAppData")?.trim() ?? null;
+}
+
 export function MiniAppShell() {
   const [state, setState] = useState<ViewState>({ kind: "loading" });
   const [activeTab, setActiveTab] = useState<TabId>("dashboard");
 
   useEffect(() => {
-    const webApp = window.Telegram?.WebApp;
-    const initDataRaw = webApp?.initData?.trim();
+    let cancelled = false;
+    let attempts = 0;
+    const maxAttempts = 8;
 
-    if (!webApp || !initDataRaw) {
-      setState({ kind: "outside_telegram" });
-      return;
-    }
+    const attemptInitialization = () => {
+      if (cancelled) {
+        return;
+      }
 
-    webApp.ready();
-    webApp.expand();
+      const webApp = window.Telegram?.WebApp;
+      const initDataRaw = webApp?.initData?.trim() ?? getInitDataFromLocation();
 
-    void fetch("/api/mini-app/session", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ initDataRaw }),
-    })
-      .then(async (response) => {
-        const payload = (await response.json()) as SessionResponse;
+      if (webApp && initDataRaw) {
+        webApp.ready();
+        webApp.expand();
 
-        if (!response.ok || !payload.ok || !payload.telegramUser) {
-          throw new Error(payload.error ?? "Unable to load session.");
-        }
+        void fetch("/api/mini-app/session", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ initDataRaw }),
+        })
+          .then(async (response) => {
+            if (cancelled) {
+              return;
+            }
 
-        setState({
-          kind: "ready",
-          telegramUser: payload.telegramUser,
-          session: payload.session ?? null,
-        });
-      })
-      .catch((error: unknown) => {
-        const message =
-          error instanceof Error ? error.message : "Unable to load session.";
-        setState({ kind: "error", message });
-      });
+            const payload = (await response.json()) as SessionResponse;
+
+            if (!response.ok || !payload.ok || !payload.telegramUser) {
+              throw new Error(payload.error ?? "Unable to load session.");
+            }
+
+            setState({
+              kind: "ready",
+              telegramUser: payload.telegramUser,
+              session: payload.session ?? null,
+            });
+          })
+          .catch((error: unknown) => {
+            if (cancelled) {
+              return;
+            }
+
+            const message =
+              error instanceof Error ? error.message : "Unable to load session.";
+            setState({ kind: "error", message });
+          });
+        return;
+      }
+
+      attempts += 1;
+
+      if (attempts >= maxAttempts) {
+        setState({ kind: "outside_telegram" });
+        return;
+      }
+
+      window.setTimeout(attemptInitialization, 250);
+    };
+
+    attemptInitialization();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const session = state.kind === "ready" ? state.session : null;

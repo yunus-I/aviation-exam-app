@@ -21,11 +21,17 @@ function getRepository() {
 }
 
 function createMiniAppWebAppButton(label: string) {
-  const baseUrl = env.NEXT_PUBLIC_MINI_APP_URL ?? "https://aviation-cyan.vercel.app";
-  const webAppUrl = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+  const configuredBaseUrl = env.NEXT_PUBLIC_MINI_APP_URL?.trim();
+  const baseUrl = configuredBaseUrl ?? process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "https://aviation-cyan.vercel.app";
+  const normalizedBaseUrl = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+  const webAppUrl = normalizedBaseUrl.endsWith("/mini-app")
+    ? normalizedBaseUrl
+    : `${normalizedBaseUrl}/mini-app`;
 
   return {
-    reply_markup: new InlineKeyboard().webApp(label, `${webAppUrl}/mini-app`),
+    reply_markup: new InlineKeyboard().webApp(label, webAppUrl),
   };
 }
 
