@@ -114,6 +114,7 @@ function ExamContent() {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [showSubmitConfirm, setShowSubmitConfirm] = useState(false);
   const [openReviewIdx, setOpenReviewIdx] = useState<number | null>(null);
+  const [showExplanation, setShowExplanation] = useState(false);
 
   const [state, setState] = useState<ExamState>(() => ({
     stage: "active",
@@ -125,6 +126,8 @@ function ExamContent() {
     remainingSeconds: DEMO_EXAM_SET.durationMinutes * 60,
     feedbackShown: false,
   }));
+
+
 
   // Load exam set & session
   useEffect(() => {
@@ -191,7 +194,7 @@ function ExamContent() {
 
   // Countdown timer
   useEffect(() => {
-    if (!ready || state.stage !== "active") return;
+    if (!ready || state.stage !== "active" || examMode === "practice") return;
     const interval = setInterval(() => {
       setState((prev) => {
         if (prev.stage !== "active") return prev;
@@ -203,7 +206,7 @@ function ExamContent() {
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, [ready, state.stage]);
+  }, [ready, state.stage, examMode]);
 
   // Save history when submitted
   useEffect(() => {
@@ -236,7 +239,7 @@ function ExamContent() {
     [state.answers],
   );
   const progress = questions.length > 0 ? (answered / questions.length) * 100 : 0;
-  const isTimed = examSet.durationMinutes > 0;
+  const isTimed = examMode !== "practice" && examSet.durationMinutes > 0;
   const timerWarning = isTimed && state.remainingSeconds < 120;
 
   // Compute result for submitted state
@@ -276,9 +279,13 @@ function ExamContent() {
       } else {
         next = [optId];
       }
-      return { ...prev, answers: { ...prev.answers, [q.id]: next }, feedbackShown: false };
+      return {
+        ...prev,
+        answers: { ...prev.answers, [q.id]: next },
+        feedbackShown: examMode === "practice" ? true : false,
+      };
     });
-  }, [showFeedback, state.stage]);
+  }, [showFeedback, state.stage, examMode]);
 
   const confirmAnswer = useCallback(() => {
     // Practice mode: show feedback
@@ -286,24 +293,27 @@ function ExamContent() {
   }, []);
 
   const nextQuestion = useCallback(() => {
+    setShowExplanation(false);
     setState((prev) => ({
       ...prev,
       currentIndex: Math.min(questions.length - 1, prev.currentIndex + 1),
       feedbackShown: false,
     }));
-  }, [questions.length]);
+  }, [questions.length, setShowExplanation]);
 
   const prevQuestion = useCallback(() => {
+    setShowExplanation(false);
     setState((prev) => ({
       ...prev,
       currentIndex: Math.max(0, prev.currentIndex - 1),
       feedbackShown: false,
     }));
-  }, []);
+  }, [setShowExplanation]);
 
   const jumpToQuestion = useCallback((idx: number) => {
+    setShowExplanation(false);
     setState((prev) => ({ ...prev, currentIndex: idx, feedbackShown: false }));
-  }, []);
+  }, [setShowExplanation]);
 
   const toggleFlag = useCallback((qId: string) => {
     setState((prev) => ({
@@ -665,37 +675,27 @@ function ExamContent() {
                 })}
               </div>
 
-              {/* Practice Mode: Confirm / Feedback */}
-              {examMode === "practice" && hasSelected && !showFeedback && (
-                <div style={{ marginTop: 16, display: "flex", justifyContent: "flex-end" }}>
-                  <button
-                    id="confirm-answer-btn"
-                    className="btn btn--primary"
-                    onClick={confirmAnswer}
-                  >
-                    Check Answer ✓
-                  </button>
-                </div>
-              )}
-
               {/* Feedback card */}
               {showFeedback && verdict && (
-                <div className={`exam-feedback exam-feedback--${verdict}`}>
+                <div className={`exam-feedback exam-feedback--${verdict}`} style={{ marginTop: 16 }}>
                   <div className="exam-feedback__title">
                     {verdict === "correct" ? "✅ Correct!" : verdict === "wrong" ? "❌ Incorrect" : "⏭ Skipped"}
                   </div>
-                  <div className="exam-feedback__text">
-                    {currentQ.explanation}
-                  </div>
-                </div>
-              )}
-
-              {/* Exam Mode: Next after selection */}
-              {examMode === "exam" && hasSelected && state.currentIndex < questions.length - 1 && (
-                <div style={{ marginTop: 16, display: "flex", justifyContent: "flex-end" }}>
-                  <button className="btn btn--primary" onClick={nextQuestion}>
-                    Next Question →
-                  </button>
+                  {!showExplanation ? (
+                    <div style={{ marginTop: 8 }}>
+                      <button
+                        className="btn btn--secondary btn--sm"
+                        onClick={() => setShowExplanation(true)}
+                        type="button"
+                      >
+                        Show Explanation
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="exam-feedback__text" style={{ marginTop: 8 }}>
+                      {currentQ.explanation}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -753,13 +753,7 @@ function ExamContent() {
             id="next-question-btn"
             className="btn btn--primary btn--sm exam-bottombar__next"
             disabled={state.currentIndex === questions.length - 1}
-            onClick={() => {
-              if (examMode === "practice" && hasSelected && !showFeedback) {
-                confirmAnswer();
-              } else {
-                nextQuestion();
-              }
-            }}
+            onClick={nextQuestion}
           >
             Next →
           </button>
