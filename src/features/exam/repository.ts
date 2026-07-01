@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
+import { QUESTION_IMAGES_BUCKET } from "@/lib/supabase/storage";
 import type { MiniAppCandidateSession } from "@/features/auth/repository";
 import type { ContentImportPayload } from "@/features/exam/content-types";
 import type { ExamQuestion, ExamSet } from "@/features/exam/types";
@@ -290,13 +291,11 @@ export class ExamContentRepository {
         if (String(mediaRow.storage_path).startsWith("http")) {
           imageUrl = mediaRow.storage_path as string;
         } else {
-          const signed = await this.supabase.storage
-            .from("question-media")
-            .createSignedUrl(String(mediaRow.storage_path), 60 * 60);
+          const { data } = this.supabase.storage
+            .from(QUESTION_IMAGES_BUCKET)
+            .getPublicUrl(String(mediaRow.storage_path));
 
-          if (!signed.error) {
-            imageUrl = signed.data.signedUrl;
-          }
+          imageUrl = data.publicUrl;
         }
       }
 

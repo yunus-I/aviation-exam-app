@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
+import { QUESTION_IMAGES_BUCKET } from "@/lib/supabase/storage";
 import type { ExamQuestion, ExamSet } from "@/features/exam/types";
 
 export const runtime = "nodejs";
@@ -90,13 +91,11 @@ export async function POST(request: NextRequest) {
         if (String(mediaRow.storage_path).startsWith("http")) {
           imageUrl = mediaRow.storage_path;
         } else {
-          const signed = await supabase.storage
-            .from("question-media")
-            .createSignedUrl(String(mediaRow.storage_path), 60 * 60);
+          const { data } = supabase.storage
+            .from(QUESTION_IMAGES_BUCKET)
+            .getPublicUrl(String(mediaRow.storage_path));
 
-          if (!signed.error) {
-            imageUrl = signed.data.signedUrl;
-          }
+          imageUrl = data.publicUrl;
         }
       }
 
