@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextRequest } from "next/server";
+import { getSupabaseAdminClient } from "./admin";
 
 export async function getAdminUser(request: NextRequest) {
   const supabase = createServerClient(
@@ -21,11 +22,11 @@ export async function getAdminUser(request: NextRequest) {
 
   if (!user?.email) return null;
 
-  const { data: admin } = await supabase
+  const { data: admin } = await getSupabaseAdminClient()
     .from("admin_accounts")
     .select("id, is_super_admin")
     .eq("email", user.email)
     .maybeSingle();
 
-  return admin;
+  return admin as { id: string; is_super_admin: boolean } | null;
 }
