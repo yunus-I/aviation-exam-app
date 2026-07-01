@@ -8,6 +8,7 @@ const DEPT_MAP: Record<string, string> = {
   amt: "AMT",
   pilot: "PILOT",
   cabin: "CABIN",
+  marketing: "MKT",
   mgmt: "MKT",
   aero: "AMT",
   atc: "PILOT",
