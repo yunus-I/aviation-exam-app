@@ -33,8 +33,7 @@ export const DEPARTMENTS: Department[] = [
     id: "pilot",
     name: "Pilot Training",
     icon: "✈️",
-    description:
-      "Aerodynamics, navigation, meteorology, air law, and flight instruments for aspiring pilots.",
+    description: "",
     subjects: [
       { id: "pilot-maths",    name: "Mathematics",     questionCount: 2, durationMinutes: 18, examSetId: "demo-maths-2026" },
       { id: "pilot-english",  name: "English",         questionCount: 2, durationMinutes: 18, examSetId: "demo-english-2026" },
@@ -45,8 +44,7 @@ export const DEPARTMENTS: Department[] = [
     id: "cabin",
     name: "Cabin Crew",
     icon: "🛎️",
-    description:
-      "Passenger safety, first aid, service excellence, and emergency procedures for future cabin crew.",
+    description: "",
     subjects: [
       { id: "cabin-english",  name: "English Proficiency", questionCount: 2, durationMinutes: 18, examSetId: "demo-english-2026" },
       { id: "cabin-aptitude", name: "Aptitude",            questionCount: 2, durationMinutes: 18, examSetId: "demo-aptitude-2026" },
@@ -56,8 +54,7 @@ export const DEPARTMENTS: Department[] = [
     id: "marketing",
     name: "Marketing",
     icon: "📢",
-    description:
-      "Business basics, quantitative reasoning, communication, and exam-focused drills.",
+    description: "",
     subjects: [
       { id: "marketing-maths",    name: "Mathematics",          questionCount: 2, durationMinutes: 18, examSetId: "demo-maths-2026" },
       { id: "marketing-english",  name: "English Proficiency",  questionCount: 2, durationMinutes: 18, examSetId: "demo-english-2026" },
