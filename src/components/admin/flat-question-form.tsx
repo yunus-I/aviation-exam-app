@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { DEPTS, type DeptSlug } from "@/lib/admin/constants";
 
@@ -51,11 +51,22 @@ export function FlatQuestionForm({ dept, topics, initialData }: Props) {
 
   const [form, setForm] = useState<FlatFormData>(initialData ?? defaultForm);
   const [images, setImages] = useState<ImageItem[]>(initialData?.images ?? []);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
+  const createdId = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (isEdit && initialData) {
+      fetch(`/api/admin/questions/${initialData.id}/images`)
+        .then((r) => r.json())
+        .then((d) => { if (d.ok) setImages(d.images); })
+        .catch(() => {});
+    }
+  }, [isEdit, initialData]);
 
   function upd<K extends keyof FlatFormData>(k: K, v: FlatFormData[K]) {
     setForm((p) => ({ ...p, [k]: v }));
@@ -105,6 +116,11 @@ export function FlatQuestionForm({ dept, topics, initialData }: Props) {
       setSaving(false);
 
       if (!isEdit && data.id) {
+        createdId.current = data.id;
+        if (pendingFile) {
+          await handleUpload(pendingFile);
+          setPendingFile(null);
+        }
         setTimeout(() => router.push(`/admin/${dept}/${data.id}/edit`), 600);
       }
     } catch { setError("Network error."); setSaving(false); }
@@ -121,19 +137,28 @@ export function FlatQuestionForm({ dept, topics, initialData }: Props) {
   }
 
   async function handleUpload(file: File) {
-    if (!initialData) return;
+    const qid = initialData?.id ?? createdId.current;
+    if (!qid) { setPendingFile(file); return; }
     setUploading(true);
     const fd = new FormData();
     fd.append("file", file);
-    fd.append("question_id", initialData.id);
+    fd.append("question_id", qid);
     try {
       const res = await fetch("/api/admin/questions/upload", { method: "POST", body: fd });
       if (!res.ok) { const d = await res.json(); setError(d.error || "Upload failed."); setUploading(false); return; }
-      const r2 = await fetch(`/api/admin/questions/${initialData.id}/images`);
+      const r2 = await fetch(`/api/admin/questions/${qid}/images`);
       const d2 = await r2.json();
       if (d2.ok) setImages(d2.images);
     } catch { setError("Upload failed."); }
     setUploading(false);
+  }
+
+  function handleFileSelected(file: File) {
+    if (isEdit || createdId.current) {
+      handleUpload(file);
+    } else {
+      setPendingFile(file);
+    }
   }
 
   async function handleDeleteImage(imgId: string) {
@@ -233,26 +258,33 @@ export function FlatQuestionForm({ dept, topics, initialData }: Props) {
           </div>
         </div>
 
-        {isEdit && (
-          <div>
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-semibold text-[#1A202C]">Question Image</span>
-              <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading} className="text-xs font-semibold text-[#003580] hover:text-[#00276B] disabled:opacity-50 transition">
-                {uploading ? "Uploading…" : images.length > 0 ? "Change Image" : "Upload Image"}
-              </button>
-              <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f); e.target.value = ""; }} />
-            </div>
-
-            {images.length > 0 ? (
-              <div className="relative group inline-block rounded-lg overflow-hidden border border-[#E4E8F0]">
-                <img src={images[0].public_url} alt="" className="max-h-48 object-contain" />
-                <button type="button" onClick={() => handleDeleteImage(images[0].id)} className="absolute top-1 right-1 w-6 h-6 rounded-full bg-red-600 text-white text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-md">×</button>
-              </div>
-            ) : (
-              <p className="text-xs text-[#94A3B8]">No image uploaded.</p>
-            )}
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-semibold text-[#1A202C]">Question Image</span>
+            <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading} className="text-xs font-semibold text-[#003580] hover:text-[#00276B] disabled:opacity-50 transition">
+              {uploading ? "Uploading…" : pendingFile ? "File selected" : images.length > 0 ? "Change Image" : "Upload Image"}
+            </button>
+            <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileSelected(f); e.target.value = ""; }} />
           </div>
-        )}
+
+          {pendingFile && !isEdit && (
+            <div className="flex items-center gap-3 p-3 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-700">
+              <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Image will be uploaded after the question is created.
+            </div>
+          )}
+
+          {!pendingFile && images.length === 0 && (
+            <p className="text-xs text-[#94A3B8]">No image uploaded.</p>
+          )}
+
+          {images.length > 0 && (
+            <div className="relative group inline-block rounded-lg overflow-hidden border border-[#E4E8F0]">
+              <img src={images[0].public_url} alt="" className="max-h-48 object-contain" />
+              <button type="button" onClick={() => handleDeleteImage(images[0].id)} className="absolute top-1 right-1 w-6 h-6 rounded-full bg-red-600 text-white text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-md">×</button>
+            </div>
+          )}
+        </div>
       </div>
 
       {error && (
