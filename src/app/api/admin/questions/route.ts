@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminUser } from "@/lib/supabase/api-admin";
-import { createServerClient } from "@supabase/ssr";
+import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 
 export async function POST(request: NextRequest) {
   const admin = await getAdminUser(request);
@@ -10,41 +10,45 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { options, ...questionData } = body;
+    const { options, topicSlug, department_id, ...rest } = body;
+    const prompt = (rest.prompt || "").trim();
+    const explanation = (rest.explanation || "").trim();
 
-    if (!questionData.prompt_en?.trim()) {
+    if (!prompt) {
       return NextResponse.json({ error: "Prompt is required" }, { status: 400 });
     }
 
-    if (!questionData.question_bank_id) {
-      return NextResponse.json({ error: "Question bank is required" }, { status: 400 });
+    if (!department_id) {
+      return NextResponse.json({ error: "Department is required" }, { status: 400 });
     }
 
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() { return request.cookies.getAll(); },
-          setAll() {},
-        },
-      },
-    );
+    const supabase = getSupabaseAdminClient() as any;
+
+    // Resolve topicSlug to topic_id
+    let topic_id: string | null = null;
+    if (topicSlug) {
+      const { data: topic } = await (
+        supabase as any
+      )
+        .from("topics")
+        .select("id")
+        .eq("slug", topicSlug)
+        .eq("department_id", department_id)
+        .maybeSingle();
+      if (topic) topic_id = (topic as any).id;
+    }
 
     const { data: question, error: questionError } = await supabase
       .from("questions")
       .insert({
-        question_bank_id: questionData.question_bank_id,
-        department_id: questionData.department_id || null,
-        topic_id: questionData.topic_id || null,
-        source_label: questionData.source_label || null,
-        source_year: questionData.source_year ? parseInt(questionData.source_year, 10) : null,
-        question_type: questionData.question_type || "single_choice",
-        prompt_en: questionData.prompt_en.trim(),
-        prompt_am: questionData.prompt_am?.trim() || null,
-        explanation_en: questionData.explanation_en?.trim() || null,
-        explanation_am: questionData.explanation_am?.trim() || null,
-        is_active: questionData.is_active !== false,
+        department_id,
+        topic_id,
+        question_type: rest.type || "single_choice",
+        prompt_en: prompt,
+        explanation_en: explanation || null,
+        question_num: rest.question_num ? parseInt(rest.question_num, 10) : null,
+        duration_minutes: rest.duration_minutes ? parseInt(rest.duration_minutes, 10) : 2,
+        is_active: true,
         created_by_admin_id: admin.id,
       })
       .select("id")
@@ -62,7 +66,6 @@ export async function POST(request: NextRequest) {
             question_id: question.id,
             option_key: opt.option_key || String.fromCharCode(65 + i),
             option_text_en: opt.option_text_en.trim(),
-            option_text_am: opt.option_text_am?.trim() || null,
             is_correct: !!opt.is_correct,
             sort_order: i + 1,
           })),

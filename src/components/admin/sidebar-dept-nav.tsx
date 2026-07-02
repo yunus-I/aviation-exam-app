@@ -2,27 +2,29 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { DEPTS, DEPT_SLUGS } from "@/lib/admin/constants";
 
-const navItems = [
-  { label: "Dashboard", href: "/admin", icon: "📊" },
-  { label: "Questions", href: "/admin/questions", icon: "📝" },
-];
+const icons: Record<string, string> = {
+  amt: "⚙️",
+  pilot: "✈️",
+  cabin: "👋",
+  mkt: "📈",
+};
 
-export function SidebarNav() {
+export function SidebarDeptNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex-1 overflow-y-auto p-3 flex flex-col gap-0.5">
-      {navItems.map((item) => {
-        const isActive =
-          item.href === "/admin"
-            ? pathname === "/admin"
-            : pathname.startsWith(item.href);
+    <>
+      {DEPT_SLUGS.map((slug) => {
+        const dept = DEPTS[slug];
+        const href = `/admin/${slug}`;
+        const isActive = pathname === href || pathname.startsWith(href + "/");
 
         return (
           <Link
-            key={item.href}
-            href={item.href}
+            key={slug}
+            href={href}
             className={`flex items-center gap-2.5 px-3.5 py-2 rounded-lg text-sm font-medium transition ${
               isActive
                 ? "bg-[#003580]/5 text-[#003580] font-semibold"
@@ -30,12 +32,12 @@ export function SidebarNav() {
             }`}
           >
             <span className="text-base w-5 text-center flex-shrink-0">
-              {item.icon}
+              {icons[slug]}
             </span>
-            {item.label}
+            <span className="font-semibold tracking-wide">{dept.label}</span>
           </Link>
         );
       })}
-    </nav>
+    </>
   );
 }

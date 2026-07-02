@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     const fileName = `${crypto.randomUUID()}.${ext}`;
     const buffer = Buffer.from(await file.arrayBuffer());
 
-    const supabase = getSupabaseAdminClient();
+    const supabase = getSupabaseAdminClient() as any;
     const { error: uploadError } = await supabase.storage
       .from(QUESTION_IMAGES_BUCKET)
       .upload(fileName, buffer, {
