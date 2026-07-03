@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
-import { getDept, isValidDept, DEPTS, type DeptSlug } from "@/lib/admin/constants";
+import { isValidDept, DEPTS, type DeptSlug } from "@/lib/admin/constants";
 import { FlatQuestionForm } from "@/components/admin/flat-question-form";
 
-interface Props {
-  params: Promise<{ dept: string; id: string }>;
-}
+export const dynamic = "force-dynamic";
+
+interface Props { params: Promise<{ dept: string; id: string }> }
 
 const QUESTION_IMAGES_BUCKET = "question-images";
 
@@ -44,14 +44,11 @@ export default async function EditDeptQuestionPage({ params }: Props) {
     : "";
 
   return (
-    <div>
-      <div className="mb-6">
-        <h1 className="text-xl font-bold text-[#003580] flex items-center gap-2">
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-          Edit Question — {deptInfo.nameEn}
-        </h1>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-[#1A202C] tracking-tight">Edit Question</h1>
+        <p className="text-sm text-[#64748B] mt-1">{deptInfo.nameEn} · #{question.question_num ?? "—"}</p>
       </div>
-
       <FlatQuestionForm
         dept={dept}
         topics={topics}

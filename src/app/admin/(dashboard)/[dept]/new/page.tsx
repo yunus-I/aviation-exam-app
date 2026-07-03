@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
-import { getDept, isValidDept, DEPTS, type DeptSlug } from "@/lib/admin/constants";
+import { isValidDept, DEPTS, type DeptSlug } from "@/lib/admin/constants";
 import { FlatQuestionForm } from "@/components/admin/flat-question-form";
 
-interface Props {
-  params: Promise<{ dept: string }>;
-}
+export const dynamic = "force-dynamic";
+
+interface Props { params: Promise<{ dept: string }> }
 
 export default async function NewDeptQuestionPage({ params }: Props) {
   const { dept: raw } = await params;
@@ -21,12 +21,10 @@ export default async function NewDeptQuestionPage({ params }: Props) {
   const topics = (_topics as { id: string; slug: string; name_en: string }[]) ?? [];
 
   return (
-    <div>
-      <div className="mb-6">
-        <h1 className="text-xl font-bold text-[#003580] flex items-center gap-2">
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/></svg>
-          New Question — {deptInfo.nameEn}
-        </h1>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-[#1A202C] tracking-tight">New Question</h1>
+        <p className="text-sm text-[#64748B] mt-1">{deptInfo.nameEn}</p>
       </div>
       <FlatQuestionForm dept={dept} topics={topics} />
     </div>
