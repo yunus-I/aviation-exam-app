@@ -312,7 +312,7 @@ export function FlatQuestionForm({ dept, topics, initialData }: Props) {
         </div>
         <div className="flex items-center gap-3">
           <button type="button" onClick={() => router.back()} className="px-4 py-2 rounded-lg text-sm font-semibold text-[#64748B] hover:text-[#1A202C] border border-[#E4E8F0] hover:bg-[#F7F8FC] transition">Cancel</button>
-          <button type="submit" disabled={saving} className="inline-flex items-center gap-1.5 px-6 py-2.5 rounded-lg text-sm font-semibold text-white bg-[#003580] hover:bg-[#00276B] active:bg-[#001F52] disabled:opacity-50 transition shadow-sm">
+          <button type="submit" disabled={saving} className="inline-flex items-center gap-1.5 px-6 py-2.5 rounded-lg text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-50 transition shadow-sm">
             {saving ? (
               <>
                 <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>

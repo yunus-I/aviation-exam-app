@@ -29,10 +29,9 @@ export async function PUT(
     if (topicSlug) {
       const { data: topic } = await supabase
         .from("topics")
-        .select("id")
-        .eq("slug", topicSlug)
-        .eq("department_id", department_id || "")
-        .maybeSingle() as any;
+          .select("id")
+          .eq("slug", topicSlug)
+          .maybeSingle() as any;
       if (topic) topic_id = (topic as any).id;
     }
 

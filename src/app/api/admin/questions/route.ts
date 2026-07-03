@@ -31,10 +31,9 @@ export async function POST(request: NextRequest) {
         supabase as any
       )
         .from("topics")
-        .select("id")
-        .eq("slug", topicSlug)
-        .eq("department_id", department_id)
-        .maybeSingle();
+          .select("id")
+          .eq("slug", topicSlug)
+          .maybeSingle();
       if (topic) topic_id = (topic as any).id;
     }
 

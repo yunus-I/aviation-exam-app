@@ -17,7 +17,6 @@ export default async function NewDeptQuestionPage({ params }: Props) {
   const { data: _topics } = await supabase
     .from("topics")
     .select("id, slug, name_en")
-    .eq("department_id", deptInfo.dbDeptId)
     .order("name_en");
   const topics = (_topics as { id: string; slug: string; name_en: string }[]) ?? [];
 

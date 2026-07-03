@@ -30,7 +30,7 @@ export default async function DeptQuestionsPage({ params, searchParams }: Props)
   const offset = (page - 1) * PAGE_SIZE;
 
   const [topicsRes] = await Promise.all([
-    supabase.from("topics").select("id, slug, name_en").eq("department_id", deptInfo.dbDeptId).order("name_en"),
+    supabase    .from("topics").select("id, slug, name_en").order("name_en"),
   ]);
 
   let qb = supabase
@@ -60,23 +60,22 @@ export default async function DeptQuestionsPage({ params, searchParams }: Props)
         </div>
         <Link
           href={`/admin/${dept}/new`}
-          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-sm font-semibold text-white bg-[#003580] hover:bg-[#00276B] active:bg-[#001F52] transition shadow-sm"
+          className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 transition shadow-sm"
         >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/></svg>
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/></svg>
           New Question
         </Link>
       </div>
 
-      <form className="bg-white border border-[#E4E8F0] rounded-xl p-4 mb-6 flex flex-wrap gap-3 shadow-sm">
-        <div className="flex-1 min-w-[200px] relative">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/></svg>
-          <input name="search" defaultValue={search} placeholder="Search prompt…" className="w-full pl-9 pr-3.5 py-2.5 border border-[#E4E8F0] rounded-lg text-sm focus:border-[#003580] focus:ring-3 focus:ring-[#003580]/10 outline-none transition" />
+      <form className="bg-white border border-[#E4E8F0] rounded-xl p-4 mb-6 flex items-center gap-3 shadow-sm">
+        <div className="flex items-center flex-1 min-w-0 gap-2 px-3 py-2.5 border border-[#E4E8F0] rounded-lg focus-within:border-[#003580] focus-within:ring-3 focus-within:ring-[#003580]/10 transition">
+          <svg className="w-4 h-4 text-[#94A3B8] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/></svg>
+          <input name="search" defaultValue={search} placeholder="Search prompt…" className="flex-1 min-w-0 bg-transparent text-sm outline-none" />
         </div>
-        <button type="submit" className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-sm font-semibold text-white bg-[#003580] hover:bg-[#00276B] active:bg-[#001F52] transition">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/></svg>
+        <button type="submit" className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-[#003580] hover:bg-[#00276B] transition flex-shrink-0">
           Search
         </button>
-        <Link href={`/admin/${dept}`} className="inline-flex items-center px-4 py-2.5 rounded-lg text-sm font-semibold text-[#64748B] hover:text-[#1A202C] border border-[#E4E8F0] hover:bg-[#F7F8FC] transition">Clear</Link>
+        <Link href={`/admin/${dept}`} className="inline-flex items-center px-4 py-2.5 rounded-lg text-sm font-semibold text-[#64748B] hover:text-[#1A202C] border border-[#E4E8F0] hover:bg-[#F7F8FC] transition flex-shrink-0">Clear</Link>
       </form>
 
       <div className="bg-white border border-[#E4E8F0] rounded-xl overflow-hidden shadow-sm">

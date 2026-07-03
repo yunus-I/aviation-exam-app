@@ -59,7 +59,9 @@ export default async function AdminLayout({
         </div>
       </aside>
 
-      <main className="flex-1 min-w-0 p-6 lg:p-8">{children}</main>
+      <main className="flex-1 min-w-0 p-6 lg:p-8">
+        <div className="mx-auto" style={{ maxWidth: "1100px" }}>{children}</div>
+      </main>
     </div>
   );
 }

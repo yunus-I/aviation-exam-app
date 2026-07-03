@@ -19,7 +19,7 @@ export default async function EditDeptQuestionPage({ params }: Props) {
   const [qResult, optsResult, topicsResult, mediaResult] = await Promise.all([
     supabase.from("questions").select("*").eq("id", id).eq("department_id", deptInfo.dbDeptId).maybeSingle(),
     supabase.from("question_options").select("option_key, option_text_en, is_correct").eq("question_id", id).order("sort_order"),
-    supabase.from("topics").select("id, slug, name_en").eq("department_id", deptInfo.dbDeptId).order("name_en"),
+    supabase.from("topics").select("id, slug, name_en").order("name_en"),
     supabase.from("question_media").select("id, storage_path").eq("question_id", id).order("sort_order"),
   ]);
 
