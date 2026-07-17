@@ -235,7 +235,7 @@ export default function HomePage() {
             <div className="page-header">
               <h1 className="page-greeting">Welcome back, {session.name.split(" ")[0]} ✈️</h1>
               <p className="page-subtitle">
-                Select your department to start practicing. Choose from {DEPARTMENTS.length} departments and hundreds of practice questions.
+                Select your department to start preparing. Choose from {DEPARTMENTS.length} departments with practice sets and full exam simulations.
               </p>
             </div>
 
@@ -243,7 +243,6 @@ export default function HomePage() {
             <div className="dept-grid">
               {DEPARTMENTS.map((dept) => {
                 const isActive = selectedDeptId === dept.id;
-                const totalQ = dept.subjects.reduce((s, sub) => s + sub.questionCount, 0);
                 return (
                   <div
                     key={dept.id}
@@ -260,14 +259,14 @@ export default function HomePage() {
                     <div className="dept-card__desc">{dept.description}</div>
                     <div className="dept-card__footer">
                       <span className="dept-card__count">
-                        {dept.subjects.length} subjects · {totalQ} questions
+                        4 practice · 3 exams
                       </span>
                       <button
                         id={`practice-btn-${dept.id}`}
                         className="btn btn--primary btn--sm"
                         onClick={(e) => { e.stopPropagation(); handlePractice(dept.id); }}
                       >
-                        Practice Now
+                        Start Preparing
                       </button>
                     </div>
                   </div>

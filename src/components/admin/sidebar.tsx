@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Wrench, Plane, Users, Megaphone, Image, Settings, LogOut, ChevronLeft, PanelLeftClose, PanelLeft } from "lucide-react";
+import { LayoutDashboard, Wrench, Plane, Users, Megaphone, Image, Settings, LogOut, ChevronLeft, PanelLeftClose, PanelLeft, BookOpen } from "lucide-react";
 import { useState } from "react";
 import { DEPTS, DEPT_SLUGS, type DeptSlug } from "@/lib/admin/constants";
 import { createClient } from "@/lib/supabase/client";
@@ -118,7 +118,27 @@ export function Sidebar() {
           {/* Divider */}
           {!collapsed && <div className="h-px bg-[#E4E8F0] my-3" />}
 
-          {/* Extra nav items */}
+          {/* Notes link */}
+          {(() => {
+            const href = "/admin/notes";
+            const active = isActive(href);
+            return (
+              <Link
+                href={href}
+                title={collapsed ? "Notes" : undefined}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${
+                  active
+                    ? "bg-[#003580]/5 text-[#003580] font-semibold shadow-sm"
+                    : "text-[#64748B] hover:bg-[#F7F8FC] hover:text-[#1A202C]"
+                } ${collapsed ? "justify-center px-0" : ""}`}
+              >
+                <BookOpen className={`w-5 h-5 flex-shrink-0 ${active ? "text-[#003580]" : ""}`} />
+                {!collapsed && <span>Notes</span>}
+              </Link>
+            );
+          })()}
+
+          {/* Divider */}
           {!collapsed && (
             <div className="text-[10px] font-semibold tracking-wider uppercase text-[#94A3B8] px-3 pt-1 pb-1.5">
               System

@@ -113,6 +113,7 @@ function ExamContent() {
   const [examSet, setExamSet] = useState<ExamSet>(DEMO_EXAM_SET);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [showSubmitConfirm, setShowSubmitConfirm] = useState(false);
+  const [showBackConfirm, setShowBackConfirm] = useState(false);
   const [openReviewIdx, setOpenReviewIdx] = useState<number | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
 
@@ -383,7 +384,13 @@ function ExamContent() {
           <div className="exam-navbar__title">
             {subjectName} — Results
           </div>
-          <div style={{ width: 80 }} />
+          <button
+            className="btn btn--ghost btn--sm"
+            onClick={() => router.push(`/subjects?dept=${deptId}`)}
+            style={{ fontSize: 13, padding: "6px 14px" }}
+          >
+            ← Back
+          </button>
         </header>
 
         <div className="results-page">
@@ -541,6 +548,42 @@ function ExamContent() {
     <>
       {lightboxSrc && <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
 
+      {/* Back confirm overlay */}
+      {showBackConfirm && (
+        <div className="lightbox" style={{ flexDirection: "column", gap: 24 }} onClick={() => setShowBackConfirm(false)}>
+          <div
+            style={{
+              background: "var(--surface)",
+              borderRadius: "var(--radius-xl)",
+              padding: "32px",
+              maxWidth: 400,
+              width: "100%",
+              boxShadow: "var(--shadow-xl)",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ fontSize: 32, textAlign: "center", marginBottom: 12 }}>⚠️</div>
+            <div style={{ fontSize: 18, fontWeight: 700, textAlign: "center", color: "var(--brand)", marginBottom: 8 }}>
+              Leave Exam?
+            </div>
+            <p style={{ fontSize: 14, color: "var(--text-muted)", textAlign: "center", lineHeight: 1.65, marginBottom: 24 }}>
+              Your current exam progress will be <strong>lost</strong> if you leave now. Are you sure?
+            </p>
+            <div style={{ display: "flex", gap: 10 }}>
+              <button className="btn btn--ghost btn--full" onClick={() => setShowBackConfirm(false)}>Stay in Exam</button>
+              <button
+                id="confirm-back-btn"
+                className="btn btn--primary btn--full"
+                style={{ background: "var(--error)", borderColor: "var(--error)" }}
+                onClick={() => router.push(`/subjects?dept=${deptId}`)}
+              >
+                Leave
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Submit confirm overlay */}
       {showSubmitConfirm && (
         <div className="lightbox" style={{ flexDirection: "column", gap: 24 }} onClick={() => setShowSubmitConfirm(false)}>
@@ -584,13 +627,21 @@ function ExamContent() {
           <div className="exam-navbar__title">
             {examSet.department} — {subjectName}
           </div>
-          {isTimed ? (
-            <div className={`exam-navbar__timer ${timerWarning ? "exam-navbar__timer--warning" : ""}`}>
-              ⏱ {formatExamTime(state.remainingSeconds)}
-            </div>
-          ) : (
-            <div style={{ width: 80 }} />
-          )}
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            {isTimed ? (
+              <div className={`exam-navbar__timer ${timerWarning ? "exam-navbar__timer--warning" : ""}`}>
+                ⏱ {formatExamTime(state.remainingSeconds)}
+              </div>
+            ) : null}
+            <button
+              id="back-exam-btn"
+              className="btn btn--ghost btn--sm"
+              onClick={() => setShowBackConfirm(true)}
+              style={{ fontSize: 13, padding: "6px 14px", flexShrink: 0 }}
+            >
+              ← Back
+            </button>
+          </div>
         </header>
 
         {/* Gold progress bar */}

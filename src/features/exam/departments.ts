@@ -1,8 +1,16 @@
-// ─── Departments & Subjects ───────────────────────────────────────────────────
+// ─── Departments ───────────────────────────────────────────────────────────────
 
-export type Subject = {
+export type PracticeSet = {
   id: string;
-  name: string;
+  label: string;     // "Practice 1", "Practice 2", …
+  questionCount: number;
+  durationMinutes: number; // 0 = untimed (practice)
+  examSetId: string;
+};
+
+export type ExamSet = {
+  id: string;
+  label: string;     // "Exam 1", "Exam 2", …
   questionCount: number;
   durationMinutes: number;
   examSetId: string;
@@ -13,53 +21,70 @@ export type Department = {
   name: string;
   icon: string;
   description: string;
-  subjects: Subject[];
+  practiceSets: PracticeSet[];
+  examSets: ExamSet[];
 };
+
+function makePracticeSets(deptId: string): PracticeSet[] {
+  return [1, 2, 3, 4].map((n) => ({
+    id: `${deptId}-practice-${n}`,
+    label: `Practice ${n}`,
+    questionCount: 25,
+    durationMinutes: 0,
+    examSetId: `${deptId}-practice-set-${n}`,
+  }));
+}
+
+function makeExamSets(deptId: string): ExamSet[] {
+  return [1, 2, 3].map((n) => ({
+    id: `${deptId}-exam-${n}`,
+    label: `Exam ${n}`,
+    questionCount: 60,
+    durationMinutes: 60,
+    examSetId: `${deptId}-exam-set-${n}`,
+  }));
+}
 
 export const DEPARTMENTS: Department[] = [
   {
     id: "amt",
     name: "Aircraft Maintenance Technology",
     icon: "🔧",
-    description: "",
-    subjects: [
-      { id: "amt-mechanical", name: "Mechanical Reasoning", questionCount: 2, durationMinutes: 18, examSetId: "demo-mechanical-2026" },
-      { id: "amt-english",    name: "English Proficiency",  questionCount: 2, durationMinutes: 18, examSetId: "demo-english-2026" },
-      { id: "amt-aptitude",   name: "Aptitude Test",        questionCount: 2, durationMinutes: 18, examSetId: "demo-aptitude-2026" },
-      { id: "amt-maths",      name: "Mathematics",          questionCount: 2, durationMinutes: 18, examSetId: "demo-maths-2026" },
-    ],
+    description: "Aircraft Maintenance Technology entrance exam preparation.",
+    practiceSets: makePracticeSets("amt"),
+    examSets: makeExamSets("amt"),
   },
   {
     id: "pilot",
     name: "Pilot Training",
     icon: "✈️",
-    description: "",
-    subjects: [
-      { id: "pilot-maths",    name: "Mathematics",     questionCount: 2, durationMinutes: 18, examSetId: "demo-maths-2026" },
-      { id: "pilot-english",  name: "English",         questionCount: 2, durationMinutes: 18, examSetId: "demo-english-2026" },
-      { id: "pilot-aptitude", name: "Aptitude",        questionCount: 2, durationMinutes: 18, examSetId: "demo-aptitude-2026" },
-    ],
+    description: "Pilot Training program entrance exam preparation.",
+    practiceSets: makePracticeSets("pilot"),
+    examSets: makeExamSets("pilot"),
   },
   {
     id: "cabin",
     name: "Cabin Crew",
     icon: "🛎️",
-    description: "",
-    subjects: [
-      { id: "cabin-english",  name: "English Proficiency", questionCount: 2, durationMinutes: 18, examSetId: "demo-english-2026" },
-      { id: "cabin-aptitude", name: "Aptitude",            questionCount: 2, durationMinutes: 18, examSetId: "demo-aptitude-2026" },
-    ],
+    description: "Cabin Crew program entrance exam preparation.",
+    practiceSets: makePracticeSets("cabin"),
+    examSets: makeExamSets("cabin"),
   },
   {
     id: "marketing",
     name: "Marketing",
     icon: "📢",
-    description: "",
-    subjects: [
-      { id: "marketing-maths",    name: "Mathematics",          questionCount: 2, durationMinutes: 18, examSetId: "demo-maths-2026" },
-      { id: "marketing-english",  name: "English Proficiency",  questionCount: 2, durationMinutes: 18, examSetId: "demo-english-2026" },
-      { id: "marketing-aptitude", name: "Aptitude Test",        questionCount: 2, durationMinutes: 18, examSetId: "demo-aptitude-2026" },
-    ],
+    description: "Marketing department entrance exam preparation.",
+    practiceSets: makePracticeSets("marketing"),
+    examSets: makeExamSets("marketing"),
+  },
+  {
+    id: "others",
+    name: "Others",
+    icon: "🎓",
+    description: "Other departments and programmes — general entrance exam preparation.",
+    practiceSets: makePracticeSets("others"),
+    examSets: makeExamSets("others"),
   },
 ];
 
