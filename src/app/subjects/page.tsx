@@ -206,16 +206,16 @@ function SubjectsContent() {
 
   useEffect(() => {
     const s = loadSession();
-    function handleStartNotes(title: string) {
-      if (!dept) return;
-      router.push(`/notes?dept=${dept.id}&title=${encodeURIComponent(title)}`);
-    }
-
     if (!s) { router.replace("/"); return; }
     setSession(s);
     const d = getDepartment(deptId) ?? DEPARTMENTS[0];
     setDept(d ?? null);
   }, [router, deptId]);
+
+  function handleStartNotes(title: string) {
+    if (!dept) return;
+    router.push(`/notes?dept=${dept.id}&title=${encodeURIComponent(title)}`);
+  }
 
   function handleLogout() {
     clearSession();
