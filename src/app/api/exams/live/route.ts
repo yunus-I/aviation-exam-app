@@ -16,14 +16,7 @@ const DEPT_MAP: Record<string, string> = {
 };
 
 function getTopicSlug(subjectName: string): string {
-  const norm = subjectName.toLowerCase();
-  if (norm.includes("mechanical")) return "mechanical-reasoning";
-  if (norm.includes("english")) return "english";
-  if (norm.includes("aptitude")) return "aptitude";
-  if (norm.includes("math")) return "mathematics";
-  if (norm.includes("business") || norm.includes("money")) return "money-and-business";
-  if (norm.includes("reasoning")) return "reasoning";
-  return norm;
+  return subjectName.toLowerCase();
 }
 
 export async function POST(request: NextRequest) {
