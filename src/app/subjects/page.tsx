@@ -131,7 +131,7 @@ function SetCard({
   label: string;
   questionCount: number;
   durationMinutes: number;
-  mode: "practice" | "exam";
+  mode: "practice" | "exam" | "notes";
   onStart: () => void;
 }) {
   const isPractice = mode === "practice";
@@ -160,20 +160,26 @@ function SetCard({
     >
       <div>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
-          <span style={{ fontSize: 20 }}>{isPractice ? "💡" : "📝"}</span>
+          <span style={{ fontSize: 20 }}>{mode === "notes" ? "📓" : isPractice ? "💡" : "📝"}</span>
           <span style={{ fontWeight: 700, fontSize: 15, color: "var(--text)" }}>{label}</span>
         </div>
-        <div style={{ fontSize: 13, color: "var(--text-muted)", display: "flex", gap: 12 }}>
-          <span>{questionCount} questions</span>
-          <span>·</span>
-          <span>{isPractice ? "No time limit" : `${durationMinutes} min`}</span>
-          {isPractice && (
-            <>
-              <span>·</span>
-              <span style={{ color: "var(--success, #16a34a)", fontWeight: 600 }}>Instant feedback</span>
-            </>
-          )}
-        </div>
+        {mode === "notes" ? (
+          <div style={{ fontSize: 13, color: "var(--text-muted)" }}>
+            Read study materials
+          </div>
+        ) : (
+          <div style={{ fontSize: 13, color: "var(--text-muted)", display: "flex", gap: 12 }}>
+            <span>{questionCount} questions</span>
+            <span>·</span>
+            <span>{isPractice ? "No time limit" : `${durationMinutes} min`}</span>
+            {isPractice && (
+              <>
+                <span>·</span>
+                <span style={{ color: "var(--success, #16a34a)", fontWeight: 600 }}>Instant feedback</span>
+              </>
+            )}
+          </div>
+        )}
       </div>
       <button
         id={`start-${id}`}
@@ -181,7 +187,7 @@ function SetCard({
         onClick={onStart}
         style={{ flexShrink: 0 }}
       >
-        Start ›
+        {mode === "notes" ? "Read ›" : "Start ›"}
       </button>
     </div>
   );
