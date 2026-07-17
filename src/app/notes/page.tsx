@@ -90,6 +90,7 @@ function NotesContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const deptId = searchParams.get("dept") ?? "amt";
+  const noteTitle = searchParams.get("title");
 
   const [session, setSession] = useState<StudentSession | null>(null);
   const [notes, setNotes] = useState<Note[]>([]);
@@ -111,13 +112,17 @@ function NotesContent() {
       .then(async (res) => {
         const payload = await res.json();
         if (!res.ok || !payload.ok) throw new Error(payload.error ?? "Failed to load notes.");
-        setNotes(payload.notes ?? []);
+        let fetchedNotes = payload.notes ?? [];
+        if (noteTitle) {
+          fetchedNotes = fetchedNotes.filter((n: Note) => n.title.toLowerCase() === noteTitle.toLowerCase());
+        }
+        setNotes(fetchedNotes);
       })
       .catch((e: unknown) => {
         setError(e instanceof Error ? e.message : "Failed to load notes.");
       })
       .finally(() => setLoading(false));
-  }, [deptId]);
+  }, [deptId, noteTitle]);
 
   function handleLogout() {
     clearSession();

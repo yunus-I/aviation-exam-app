@@ -16,6 +16,12 @@ export type ExamSet = {
   examSetId: string;
 };
 
+export type NoteSet = {
+  id: string;
+  label: string;     // "Note 1", "Note 2", …
+  noteId: string;
+};
+
 export type Department = {
   id: string;
   name: string;
@@ -23,6 +29,7 @@ export type Department = {
   description: string;
   practiceSets: PracticeSet[];
   examSets: ExamSet[];
+  noteSets: NoteSet[];
 };
 
 function makePracticeSets(deptId: string): PracticeSet[] {
@@ -45,6 +52,14 @@ function makeExamSets(deptId: string): ExamSet[] {
   }));
 }
 
+function makeNoteSets(deptId: string): NoteSet[] {
+  return [1, 2, 3, 4].map((n) => ({
+    id: `${deptId}-note-${n}`,
+    label: `Note ${n}`,
+    noteId: `${deptId}-note-${n}`,
+  }));
+}
+
 export const DEPARTMENTS: Department[] = [
   {
     id: "amt",
@@ -53,6 +68,7 @@ export const DEPARTMENTS: Department[] = [
     description: "Aircraft Maintenance Technology entrance exam preparation.",
     practiceSets: makePracticeSets("amt"),
     examSets: makeExamSets("amt"),
+    noteSets: makeNoteSets("amt"),
   },
   {
     id: "pilot",
@@ -61,6 +77,7 @@ export const DEPARTMENTS: Department[] = [
     description: "Pilot Training program entrance exam preparation.",
     practiceSets: makePracticeSets("pilot"),
     examSets: makeExamSets("pilot"),
+    noteSets: makeNoteSets("pilot"),
   },
   {
     id: "cabin",
@@ -69,6 +86,7 @@ export const DEPARTMENTS: Department[] = [
     description: "Cabin Crew program entrance exam preparation.",
     practiceSets: makePracticeSets("cabin"),
     examSets: makeExamSets("cabin"),
+    noteSets: makeNoteSets("cabin"),
   },
   {
     id: "marketing",
@@ -77,6 +95,7 @@ export const DEPARTMENTS: Department[] = [
     description: "Marketing department entrance exam preparation.",
     practiceSets: makePracticeSets("marketing"),
     examSets: makeExamSets("marketing"),
+    noteSets: makeNoteSets("marketing"),
   },
   {
     id: "others",
@@ -85,6 +104,7 @@ export const DEPARTMENTS: Department[] = [
     description: "Other departments and programmes — general entrance exam preparation.",
     practiceSets: makePracticeSets("others"),
     examSets: makeExamSets("others"),
+    noteSets: makeNoteSets("others"),
   },
 ];
 

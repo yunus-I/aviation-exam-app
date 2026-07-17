@@ -196,10 +196,15 @@ function SubjectsContent() {
 
   const [session, setSession] = useState<StudentSession | null>(null);
   const [dept, setDept] = useState<Department | null>(null);
-  const [activeMode, setActiveMode] = useState<"practice" | "exam">("practice");
+  const [activeMode, setActiveMode] = useState<"practice" | "exam" | "notes">("practice");
 
   useEffect(() => {
     const s = loadSession();
+    function handleStartNotes(title: string) {
+      if (!dept) return;
+      router.push(`/notes?dept=${dept.id}&title=${encodeURIComponent(title)}`);
+    }
+
     if (!s) { router.replace("/"); return; }
     setSession(s);
     const d = getDepartment(deptId) ?? DEPARTMENTS[0];
@@ -293,13 +298,14 @@ function SubjectsContent() {
                   transition: "all 0.15s ease",
                   transform: activeMode === "practice" ? "translateY(-2px)" : "none",
                   boxShadow: activeMode === "practice" ? "0 4px 12px rgba(0, 53, 128, 0.2)" : "var(--shadow-sm)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
                 <div style={{ fontSize: 28, marginBottom: 8 }}>💡</div>
-                <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4 }}>Practice Mode</div>
-                <div style={{ fontSize: 12, opacity: activeMode === "practice" ? 0.9 : 0.6, lineHeight: 1.5 }}>
-                  4 sets · 25 questions each<br />Instant answer feedback
-                </div>
+                <div style={{ fontWeight: 700, fontSize: 15 }}>Practice Mode</div>
               </div>
 
               {/* Exam Mode */}
@@ -316,49 +322,38 @@ function SubjectsContent() {
                   transition: "all 0.15s ease",
                   transform: activeMode === "exam" ? "translateY(-2px)" : "none",
                   boxShadow: activeMode === "exam" ? "0 4px 12px rgba(180, 83, 9, 0.2)" : "var(--shadow-sm)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
                 <div style={{ fontSize: 28, marginBottom: 8 }}>📝</div>
-                <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4 }}>Exam Mode</div>
-                <div style={{ fontSize: 12, opacity: activeMode === "exam" ? 0.9 : 0.6, lineHeight: 1.5 }}>
-                  3 exams · 60 questions each<br />Timed · No instant feedback
-                </div>
+                <div style={{ fontWeight: 700, fontSize: 15 }}>Exam Mode</div>
               </div>
 
               {/* Notes */}
               <div
                 id="mode-card-notes"
-                onClick={handleNotes}
+                onClick={() => setActiveMode("notes")}
                 style={{
                   borderRadius: "var(--radius-lg)",
-                  background: "var(--surface)",
-                  color: "var(--text)",
-                  border: "1px solid var(--border)",
+                  background: activeMode === "notes" ? "linear-gradient(135deg, #059669 0%, #10b981 100%)" : "var(--surface)",
+                  color: activeMode === "notes" ? "#fff" : "var(--text)",
+                  border: activeMode === "notes" ? "none" : "1px solid var(--border)",
                   padding: "20px 18px",
                   cursor: "pointer",
                   transition: "all 0.15s ease",
-                  boxShadow: "var(--shadow-sm)",
+                  transform: activeMode === "notes" ? "translateY(-2px)" : "none",
+                  boxShadow: activeMode === "notes" ? "0 4px 12px rgba(5, 150, 105, 0.2)" : "var(--shadow-sm)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor = "#059669";
-                  (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)";
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = "0 4px 12px rgba(5, 150, 105, 0.1)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor = "var(--border)";
-                  (e.currentTarget as HTMLDivElement).style.transform = "none";
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = "var(--shadow-sm)";
-                }}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && handleNotes()}
-                aria-label="View department notes"
               >
                 <div style={{ fontSize: 28, marginBottom: 8 }}>📓</div>
-                <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4 }}>Notes</div>
-                <div style={{ fontSize: 12, opacity: 0.6, lineHeight: 1.5 }}>
-                  Study materials &amp;<br />key concept notes
-                </div>
+                <div style={{ fontWeight: 700, fontSize: 15 }}>Notes</div>
               </div>
             </div>
 
@@ -404,6 +399,30 @@ function SubjectsContent() {
                       durationMinutes={set.durationMinutes}
                       mode="exam"
                       onStart={() => handleStartExam(set.examSetId, set.label)}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+
+            {/* Note Sets */}
+            {activeMode === "notes" && (
+              <>
+                <div
+                  style={{ marginBottom: 8, fontSize: 13, fontWeight: 700, color: "#059669", textTransform: "uppercase", letterSpacing: "0.6px", display: "flex", alignItems: "center", gap: 8 }}
+                >
+                  <span>📓</span> Notes
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {dept.noteSets.map((set) => (
+                    <SetCard
+                      key={set.id}
+                      id={set.id}
+                      label={set.label}
+                      questionCount={0}
+                      durationMinutes={0}
+                      mode="notes"
+                      onStart={() => handleStartNotes(set.label)}
                     />
                   ))}
                 </div>
