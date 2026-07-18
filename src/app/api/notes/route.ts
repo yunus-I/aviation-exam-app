@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
 
     const { data, error } = await supabase
       .from("notes")
-      .select("id, dept, title, content, created_at")
+      .select("id, dept, title, content, created_at, set_name")
       .eq("dept", dept)
       .order("created_at", { ascending: false });
 
@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { dept, title, content } = body as { dept?: string; title?: string; content?: string };
+    const { dept, title, content, set_name } = body as { dept?: string; title?: string; content?: string; set_name?: string };
 
     if (!dept || !title || !content) {
       return NextResponse.json({ ok: false, error: "dept, title and content are required." }, { status: 400 });
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
 
     const { data, error } = await supabase
       .from("notes")
-      .insert({ dept: dept.trim(), title: title.trim(), content: content.trim() })
+      .insert({ dept: dept.trim(), title: title.trim(), content: content.trim(), set_name: set_name?.trim() || "Note 1" })
       .select()
       .single();
 
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   try {
     const body = await req.json();
-    const { id, title, content } = body as { id?: string; title?: string; content?: string };
+    const { id, title, content, set_name } = body as { id?: string; title?: string; content?: string; set_name?: string };
 
     if (!id || !title || !content) {
       return NextResponse.json({ ok: false, error: "id, title and content are required." }, { status: 400 });
@@ -83,7 +83,7 @@ export async function PUT(req: NextRequest) {
 
     const { data, error } = await supabase
       .from("notes")
-      .update({ title: title.trim(), content: content.trim() })
+      .update({ title: title.trim(), content: content.trim(), set_name: set_name?.trim() || "Note 1" })
       .eq("id", id)
       .select()
       .single();

@@ -11,12 +11,14 @@ type Note = {
   title: string;
   content: string;
   created_at: string;
+  set_name: string;
 };
 
 type FormState = {
   dept: string;
   title: string;
   content: string;
+  set_name: string;
 };
 
 const DEPT_OPTIONS = [
@@ -43,6 +45,7 @@ function NoteFormModal({
     dept: initial?.dept ?? defaultDept,
     title: initial?.title ?? "",
     content: initial?.content ?? "",
+    set_name: initial?.set_name ?? "Note 1",
   });
   const [error, setError] = useState<string | null>(null);
 
@@ -85,27 +88,46 @@ function NoteFormModal({
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-5">
-          {/* Department */}
-          <div>
-            <label className="block text-xs font-bold text-[#1A202C] uppercase tracking-wider mb-1.5">
-              Department
-            </label>
-            <select
-              value={form.dept}
-              onChange={(e) => setForm((f) => ({ ...f, dept: e.target.value }))}
-              className="w-full px-3.5 py-2.5 border border-[#E4E8F0] rounded-xl text-sm text-[#1A202C] focus:outline-none focus:border-[#003580] focus:ring-2 focus:ring-[#003580]/10 transition bg-white"
-              disabled={!!initial}
-            >
-              {DEPT_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-            {!!initial && (
-              <p className="text-xs text-[#94A3B8] mt-1">Department cannot be changed after creation.</p>
-            )}
+          <div className="grid grid-cols-2 gap-4">
+            {/* Department */}
+            <div>
+              <label className="block text-xs font-bold text-[#1A202C] uppercase tracking-wider mb-1.5">
+                Department
+              </label>
+              <select
+                value={form.dept}
+                onChange={(e) => setForm((f) => ({ ...f, dept: e.target.value }))}
+                className="w-full px-3.5 py-2.5 border border-[#E4E8F0] rounded-xl text-sm text-[#1A202C] focus:outline-none focus:border-[#003580] focus:ring-2 focus:ring-[#003580]/10 transition bg-white"
+                disabled={!!initial}
+              >
+                {DEPT_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Set Name */}
+            <div>
+              <label className="block text-xs font-bold text-[#1A202C] uppercase tracking-wider mb-1.5">
+                Note Set
+              </label>
+              <select
+                value={form.set_name}
+                onChange={(e) => setForm((f) => ({ ...f, set_name: e.target.value }))}
+                className="w-full px-3.5 py-2.5 border border-[#E4E8F0] rounded-xl text-sm text-[#1A202C] focus:outline-none focus:border-[#003580] focus:ring-2 focus:ring-[#003580]/10 transition bg-white"
+              >
+                <option value="Note 1">Note 1</option>
+                <option value="Note 2">Note 2</option>
+                <option value="Note 3">Note 3</option>
+                <option value="Note 4">Note 4</option>
+              </select>
+            </div>
           </div>
+          {!!initial && (
+            <p className="text-xs text-[#94A3B8] -mt-3">Department cannot be changed after creation.</p>
+          )}
 
           {/* Title */}
           <div>
@@ -448,6 +470,9 @@ export function AdminNotesClient() {
                         <div className="flex items-center gap-2 mb-1.5">
                           <span className="px-2.5 py-0.5 rounded-lg bg-[#003580]/8 text-[#003580] text-xs font-bold uppercase tracking-wide">
                             {deptLabelMap[note.dept] ?? note.dept}
+                          </span>
+                          <span className="px-2 py-0.5 rounded-lg bg-orange-50 border border-orange-100 text-orange-700 text-[10px] font-bold uppercase tracking-wide">
+                            {note.set_name || "Note 1"}
                           </span>
                           <span className="text-xs text-[#94A3B8]">
                             {new Date(note.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
