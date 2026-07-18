@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { options, topicSlug, department_id, ...rest } = body;
+    const { options, topicSlug, department_id, passage_text, ...rest } = body;
     const prompt = (rest.prompt || "").trim();
     const explanation = (rest.explanation || "").trim();
 
@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
         department_id,
         topic_id,
         question_type: rest.type || "single_choice",
+        passage_text: passage_text || null,
         prompt_en: prompt,
         explanation_en: explanation || null,
         question_num: rest.question_num ? parseInt(rest.question_num, 10) : null,

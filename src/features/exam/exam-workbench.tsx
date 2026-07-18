@@ -497,6 +497,22 @@ export function ExamWorkbench({
               </button>
             </div>
 
+            {currentQuestion.passage && (
+              <div style={{
+                background: "var(--surface, #fff)",
+                border: "1px solid var(--border, #e2e8f0)",
+                borderRadius: "var(--radius-lg, 12px)",
+                padding: "20px",
+                marginBottom: "24px",
+                boxShadow: "0 2px 4px rgba(0,0,0,0.02)"
+              }}>
+                <h4 style={{ margin: "0 0 12px", fontSize: "13px", textTransform: "uppercase", letterSpacing: "0.5px", color: "var(--brand, #003580)", fontWeight: 700 }}>Reading Passage</h4>
+                <p style={{ margin: 0, fontSize: "14px", lineHeight: "1.7", color: "var(--text, #1e293b)", whiteSpace: "pre-wrap" }}>
+                  {currentQuestion.passage}
+                </p>
+              </div>
+            )}
+
             <p className="exam-question-prompt">{currentQuestion.prompt}</p>
 
             {currentQuestion.imageUrl && (

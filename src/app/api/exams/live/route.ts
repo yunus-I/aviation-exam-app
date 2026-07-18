@@ -61,6 +61,7 @@ export async function POST(request: NextRequest) {
       .select(`
         id,
         question_type,
+        passage_text,
         prompt_en,
         explanation_en,
         question_media(storage_path, sort_order),
@@ -96,6 +97,7 @@ export async function POST(request: NextRequest) {
         id: q.id,
         type: q.question_type as any,
         topic: topicResult.data.name_en,
+        passage: q.passage_text || undefined,
         prompt: q.prompt_en,
         explanation: q.explanation_en ?? "No explanation yet.",
         imageUrl,

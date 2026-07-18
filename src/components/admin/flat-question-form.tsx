@@ -16,12 +16,14 @@ interface FlatFormData {
   question_num: number;
   topicSlug: string;
   type: string;
+  passage_text: string;
   prompt: string;
   explanation: string;
   optA: string;
   optB: string;
   optC: string;
   optD: string;
+  optE: string;
   correct: string;
   duration_minutes: number;
 }
@@ -35,8 +37,8 @@ interface Props {
 }
 
 const defaultForm: FlatFormData = {
-  question_num: 0, topicSlug: "", type: "single_choice", prompt: "", explanation: "",
-  optA: "", optB: "", optC: "", optD: "", correct: "", duration_minutes: 2,
+  question_num: 0, topicSlug: "", type: "single_choice", passage_text: "", prompt: "", explanation: "",
+  optA: "", optB: "", optC: "", optD: "", optE: "", correct: "", duration_minutes: 2,
 };
 
 /* ------------------------------------------------------------------ */
@@ -102,7 +104,8 @@ export function FlatQuestionForm({ dept, topics, initialData }: Props) {
       { option_key: "B", option_text_en: form.optB, is_correct: form.correct === "B" },
       { option_key: "C", option_text_en: form.optC || "—", is_correct: form.correct === "C" },
       { option_key: "D", option_text_en: form.optD || "—", is_correct: form.correct === "D" },
-    ].filter((o) => o.option_text_en !== "—");
+      { option_key: "E", option_text_en: form.optE || "—", is_correct: form.correct === "E" },
+    ].filter((o) => o.option_text_en !== "—" && o.option_text_en.trim() !== "");
 
     const body = { ...form, department_id: deptInfo.dbDeptId, options };
     const url = isEdit ? `/api/admin/questions/${initialData!.id}` : "/api/admin/questions";
@@ -171,10 +174,13 @@ export function FlatQuestionForm({ dept, topics, initialData }: Props) {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl">
-        {/* ── General Information ── */}
-        <Card className="p-6 space-y-5">
-          <SectionHeader
+      <form onSubmit={handleSubmit} className="space-y-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* ── Left Column: General & Timing ── */}
+          <div className="lg:col-span-7 space-y-8">
+            {/* ── General Information ── */}
+            <Card className="p-6 space-y-5">
+              <SectionHeader
             title="General Information"
             description="Basic question details"
             icon={<HelpCircle className="w-4 h-4" />}
@@ -195,116 +201,149 @@ export function FlatQuestionForm({ dept, topics, initialData }: Props) {
           {errors.topicSlug && <p className="text-xs text-red-500 -mt-3">{errors.topicSlug}</p>}
 
           <div>
-            <Input label="Prompt *" value={form.prompt} onChange={(e) => upd("prompt", e.target.value)} rows={4} required />
-            {errors.prompt && <p className="text-xs text-red-500 mt-1">{errors.prompt}</p>}
+            <Input label="Passage (Optional)" value={form.passage_text} onChange={(e) => upd("passage_text", e.target.value)} rows={3} placeholder="Read the passage and answer the questions..." />
+            <p className="text-xs text-[#94A3B8] mt-1">If this question belongs to a passage, enter the text here.</p>
           </div>
 
-          <Input label="Explanation" value={form.explanation} onChange={(e) => upd("explanation", e.target.value)} rows={2} />
-        </Card>
+                title="General Information"
+                description="Basic question details"
+                icon={<HelpCircle className="w-4 h-4" />}
+              />
 
-        {/* ── Answer Options ── */}
-        <Card className="p-6 space-y-5">
-          <SectionHeader
-            title="Answer Options"
-            description="Define the options and mark the correct one"
-            icon={<CheckCircle className="w-4 h-4" />}
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {(["A", "B", "C", "D"] as const).map((key) => (
-              <div key={key} className="flex items-start gap-3 p-4 rounded-xl border border-[#E4E8F0] bg-[#F7F8FC]/30">
-                <div className="flex flex-col items-center gap-2 pt-0.5">
-                  <input
-                    type="radio" name="correct" checked={form.correct === key}
-                    onChange={() => upd("correct", key)}
-                    className="w-4 h-4 accent-[#003580]"
-                  />
-                  <span className={`text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center ${form.correct === key ? "bg-[#003580] text-white" : "bg-[#E4E8F0] text-[#64748B]"}`}>{key}</span>
-                </div>
-                <div className="flex-1">
-                  <Input value={form[`opt${key}` as keyof FlatFormData] as string} onChange={(e) => upd(`opt${key}` as keyof FlatFormData, e.target.value) as any} placeholder={`Option ${key} text…`} />
-                  {errors[`opt${key}` as keyof FlatFormData] && <p className="text-xs text-red-500 mt-1">{errors[`opt${key}` as keyof FlatFormData]}</p>}
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Input label="Question #" type="number" value={form.question_num} onChange={(e) => upd("question_num", parseInt(e.target.value) || 0)} min={1} />
+                <Select label="Topic *" value={form.topicSlug} onChange={(e) => upd("topicSlug", e.target.value)} required>
+                  <option value="">Select topic…</option>
+                  {topics.map((t) => <option key={t.slug} value={t.slug}>{t.name_en}</option>)}
+                </Select>
+                <Select label="Type" value={form.type} onChange={(e) => upd("type", e.target.value)}>
+                  <option value="single_choice">Single Choice</option>
+                  <option value="multiple_choice">Multiple Choice</option>
+                  <option value="true_false">True / False</option>
+                </Select>
               </div>
-            ))}
-          </div>
-          {errors.correct && <p className="text-xs text-red-500">{errors.correct}</p>}
-          <p className="text-xs text-[#94A3B8]">Select the radio button next to the correct answer.</p>
-        </Card>
+              {errors.topicSlug && <p className="text-xs text-red-500 -mt-3">{errors.topicSlug}</p>}
 
-        {/* ── Timing & Media ── */}
-        <Card className="p-6 space-y-5">
-          <SectionHeader
-            title="Timing & Media"
-            description="Duration and question image"
-            icon={<Clock className="w-4 h-4" />}
-          />
-
-          <div className="max-w-xs">
-            <Input label="Duration (minutes)" type="number" value={form.duration_minutes} onChange={(e) => upd("duration_minutes", parseInt(e.target.value) || 1)} min={1} max={60} />
-          </div>
-
-          {/* Image upload */}
-          <div>
-            <p className="text-xs font-semibold text-[#1A202C] mb-2">Question Image</p>
-
-            {images.length === 0 && !pendingFile && (
-              <div
-                ref={dropRef}
-                onDragOver={onDragOver}
-                onDrop={onDrop}
-                onClick={() => fileRef.current?.click()}
-                className="border-2 border-dashed border-[#E4E8F0] rounded-xl p-8 flex flex-col items-center gap-3 cursor-pointer hover:border-[#003580] hover:bg-[#003580]/5 transition-all duration-200 group"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-[#F7F8FC] flex items-center justify-center text-[#94A3B8] group-hover:text-[#003580] group-hover:bg-[#003580]/5 transition">
-                  <Upload className="w-5 h-5" />
-                </div>
-                <div className="text-center">
-                  <p className="text-sm font-semibold text-[#1A202C] group-hover:text-[#003580] transition">Upload an image</p>
-                  <p className="text-xs text-[#94A3B8] mt-0.5">Drag & drop or click to browse (max 5MB)</p>
-                </div>
+              <div>
+                <Input label="Passage (Optional)" value={form.passage_text} onChange={(e) => upd("passage_text", e.target.value)} rows={3} placeholder="Read the passage and answer the questions..." />
+                <p className="text-xs text-[#94A3B8] mt-1">If this question belongs to a passage, enter the text here.</p>
               </div>
-            )}
 
-            {(pendingFile || images.length > 0) && (
-              <div className="relative inline-block rounded-xl overflow-hidden border border-[#E4E8F0] bg-[#F7F8FC] p-2">
-                {/* Preview */}
-                {pendingFile && (
-                  <div className="flex flex-col items-center gap-2 p-4">
-                    <ImageIcon className="w-8 h-8 text-[#94A3B8]" />
-                    <div className="text-center">
-                      <p className="text-xs font-medium text-[#1A202C]">{pendingFile.name}</p>
-                      <p className="text-[10px] text-[#94A3B8]">{fileSizeStr}</p>
+              <div>
+                <Input label="Prompt *" value={form.prompt} onChange={(e) => upd("prompt", e.target.value)} rows={3} required />
+                {errors.prompt && <p className="text-xs text-red-500 mt-1">{errors.prompt}</p>}
+              </div>
+
+              <Input label="Explanation" value={form.explanation} onChange={(e) => upd("explanation", e.target.value)} rows={2} />
+            </Card>
+
+            {/* ── Timing & Media ── */}
+            <Card className="p-6 space-y-5">
+              <SectionHeader
+                title="Timing & Media"
+                description="Duration and question image"
+                icon={<Clock className="w-4 h-4" />}
+              />
+
+              <div className="max-w-xs">
+                <Input label="Duration (minutes)" type="number" value={form.duration_minutes} onChange={(e) => upd("duration_minutes", parseInt(e.target.value) || 1)} min={1} max={60} />
+              </div>
+
+              {/* Image upload */}
+              <div>
+                <p className="text-xs font-semibold text-[#1A202C] mb-2">Question Image</p>
+
+                {images.length === 0 && !pendingFile && (
+                  <div
+                    ref={dropRef}
+                    onDragOver={onDragOver}
+                    onDrop={onDrop}
+                    onClick={() => fileRef.current?.click()}
+                    className="border-2 border-dashed border-[#E4E8F0] rounded-xl p-8 flex flex-col items-center gap-3 cursor-pointer hover:border-[#003580] hover:bg-[#003580]/5 transition-all duration-200 group"
+                  >
+                    <div className="w-12 h-12 rounded-2xl bg-[#F7F8FC] flex items-center justify-center text-[#94A3B8] group-hover:text-[#003580] group-hover:bg-[#003580]/5 transition">
+                      <Upload className="w-5 h-5" />
                     </div>
-                    {!isEdit && (
-                      <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-200 rounded-lg text-[10px] text-blue-700 font-medium">
-                        Will upload after creation
+                    <div className="text-center">
+                      <p className="text-sm font-semibold text-[#1A202C] group-hover:text-[#003580] transition">Upload an image</p>
+                      <p className="text-xs text-[#94A3B8] mt-0.5">Drag & drop or click to browse (max 5MB)</p>
+                    </div>
+                  </div>
+                )}
+
+                {(pendingFile || images.length > 0) && (
+                  <div className="relative inline-block rounded-xl overflow-hidden border border-[#E4E8F0] bg-[#F7F8FC] p-2">
+                    {/* Preview */}
+                    {pendingFile && (
+                      <div className="flex flex-col items-center gap-2 p-4">
+                        <ImageIcon className="w-8 h-8 text-[#94A3B8]" />
+                        <div className="text-center">
+                          <p className="text-xs font-medium text-[#1A202C]">{pendingFile.name}</p>
+                          <p className="text-[10px] text-[#94A3B8]">{fileSizeStr}</p>
+                        </div>
+                        {!isEdit && (
+                          <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-200 rounded-lg text-[10px] text-blue-700 font-medium">
+                            Will upload after creation
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    {images.length > 0 && (
+                      <div className="relative group">
+                        <img src={images[0].public_url} alt="" className="max-h-48 object-contain rounded-lg" />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition rounded-lg flex items-center justify-center gap-2">
+                          <button type="button" onClick={() => fileRef.current?.click()} className="w-8 h-8 rounded-lg bg-white/90 flex items-center justify-center text-[#64748B] hover:text-[#003580] opacity-0 group-hover:opacity-100 transition shadow-sm">
+                            <Upload className="w-4 h-4" />
+                          </button>
+                          <button type="button" onClick={() => handleDeleteImage(images[0].id)} className="w-8 h-8 rounded-lg bg-white/90 flex items-center justify-center text-red-500 hover:text-red-600 opacity-0 group-hover:opacity-100 transition shadow-sm">
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>
                 )}
-                {images.length > 0 && (
-                  <div className="relative group">
-                    <img src={images[0].public_url} alt="" className="max-h-48 object-contain rounded-lg" />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition rounded-lg flex items-center justify-center gap-2">
-                      <button type="button" onClick={() => fileRef.current?.click()} className="w-8 h-8 rounded-lg bg-white/90 flex items-center justify-center text-[#64748B] hover:text-[#003580] opacity-0 group-hover:opacity-100 transition shadow-sm">
-                        <Upload className="w-4 h-4" />
-                      </button>
-                      <button type="button" onClick={() => handleDeleteImage(images[0].id)} className="w-8 h-8 rounded-lg bg-white/90 flex items-center justify-center text-red-500 hover:text-red-600 opacity-0 group-hover:opacity-100 transition shadow-sm">
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+
+                <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileSelected(f); e.target.value = ""; }} />
+              </div>
+            </Card>
+          </div>
+
+          {/* ── Right Column: Options ── */}
+          <div className="lg:col-span-5">
+            <Card className="p-6 space-y-5 sticky top-6">
+              <SectionHeader
+                title="Answer Options"
+                description="Define the options and mark the correct one"
+                icon={<CheckCircle className="w-4 h-4" />}
+              />
+
+              <div className="grid grid-cols-1 gap-4">
+                {(["A", "B", "C", "D", "E"] as const).map((key) => (
+                  <div key={key} className="flex items-start gap-3 p-4 rounded-xl border border-[#E4E8F0] bg-[#F7F8FC]/30">
+                    <div className="flex flex-col items-center gap-2 pt-0.5">
+                      <input
+                        type="radio" name="correct" checked={form.correct === key}
+                        onChange={() => upd("correct", key)}
+                        className="w-4 h-4 accent-[#003580]"
+                      />
+                      <span className={`text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center ${form.correct === key ? "bg-[#003580] text-white" : "bg-[#E4E8F0] text-[#64748B]"}`}>{key}</span>
+                    </div>
+                    <div className="flex-1">
+                      <Input value={form[`opt${key}` as keyof FlatFormData] as string} onChange={(e) => upd(`opt${key}` as keyof FlatFormData, e.target.value) as any} placeholder={key === "E" ? `Option E text (Optional)…` : `Option ${key} text…`} />
+                      {errors[`opt${key}` as keyof FlatFormData] && <p className="text-xs text-red-500 mt-1">{errors[`opt${key}` as keyof FlatFormData]}</p>}
                     </div>
                   </div>
-                )}
+                ))}
               </div>
-            )}
-
-            <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileSelected(f); e.target.value = ""; }} />
+              {errors.correct && <p className="text-xs text-red-500">{errors.correct}</p>}
+              <p className="text-xs text-[#94A3B8]">Select the radio button next to the correct answer.</p>
+            </Card>
           </div>
-        </Card>
+        </div>
 
         {/* ── Actions ── */}
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 mt-8 pt-6 border-t border-gray-200">
           <div>
             {isEdit && (
               <Button variant="danger" size="md" onClick={() => setDeleteOpen(true)} disabled={saving}>

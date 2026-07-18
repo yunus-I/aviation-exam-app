@@ -170,8 +170,12 @@ function SetCard({
         ) : (
           <div style={{ fontSize: 13, color: "var(--text-muted)", display: "flex", gap: 12 }}>
             <span>{questionCount} questions</span>
-            <span>·</span>
-            <span>{isPractice ? "No time limit" : `${durationMinutes} min`}</span>
+            {!isPractice && (
+              <>
+                <span>·</span>
+                <span>{durationMinutes} min</span>
+              </>
+            )}
             {isPractice && (
               <>
                 <span>·</span>
