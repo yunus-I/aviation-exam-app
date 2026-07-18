@@ -1,10 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 
+// Map student-facing dept IDs → admin panel slugs stored in Supabase
+// Keeps everything working regardless of which value is passed in
+const DEPT_ALIAS: Record<string, string> = {
+  marketing: "mkt",       // student uses "marketing", admin saved as "mkt"
+  "amt-maintenance": "amt",
+  "cabin-crew": "cabin",
+};
+
+function normaliseDept(dept: string): string {
+  return DEPT_ALIAS[dept.toLowerCase()] ?? dept.toLowerCase();
+}
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const dept = searchParams.get("dept")?.trim();
+    const rawDept = searchParams.get("dept")?.trim();
+    const dept = rawDept ? normaliseDept(rawDept) : null;
 
     if (!dept) {
       return NextResponse.json({ ok: false, error: "dept parameter is required" }, { status: 400 });
