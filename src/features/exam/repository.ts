@@ -339,6 +339,28 @@ export class ExamContentRepository {
     } satisfies ExamSet;
   }
 
+  async getExamSetByImportKey(importKey: string) {
+    const examSetResult = await this.supabase
+      .from("exam_sets")
+      .select(`
+        id,
+        title_en,
+        description_en,
+        duration_minutes,
+        mode,
+        departments:department_id(name_en),
+        topics:topic_id(name_en)
+      `)
+      .eq("import_key", importKey)
+      .single();
+
+    if (examSetResult.error) {
+      throw examSetResult.error;
+    }
+
+    return this.buildExamSetFromRow(examSetResult.data);
+  }
+
   async getPublishedExamsForCandidate(session: MiniAppCandidateSession) {
     if (!session.departmentId || session.registrationStatus !== "approved") {
       return [];

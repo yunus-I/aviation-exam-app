@@ -3,6 +3,8 @@ import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { QUESTION_IMAGES_BUCKET } from "@/lib/supabase/storage";
 import type { ExamQuestion, ExamSet } from "@/features/exam/types";
 
+import { ExamContentRepository } from "@/features/exam/repository";
+
 export const runtime = "nodejs";
 
 const DEPT_MAP: Record<string, string> = {
@@ -21,12 +23,23 @@ function getTopicSlug(subjectName: string): string {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = (await request.json()) as { dept?: string; subject?: string };
+    const body = (await request.json()) as { dept?: string; subject?: string; examSetId?: string };
     const deptId = body.dept?.toLowerCase();
     const subjectName = body.subject;
+    const examSetId = body.examSetId;
 
     if (!deptId || !subjectName) {
       return NextResponse.json({ ok: false, error: "missing_parameters" }, { status: 400 });
+    }
+
+    if (examSetId) {
+      try {
+        const repo = new ExamContentRepository();
+        const examSet = await repo.getExamSetByImportKey(examSetId);
+        return NextResponse.json({ ok: true, examSet });
+      } catch (error) {
+        console.error("Failed to load via importKey, falling back to legacy fetch:", error);
+      }
     }
 
     const supabase = getSupabaseAdminClient();

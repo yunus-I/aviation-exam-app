@@ -141,7 +141,7 @@ function ExamContent() {
     fetch("/api/exams/live", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ dept: deptId, subject: subjectName }),
+      body: JSON.stringify({ dept: deptId, subject: subjectName, examSetId }),
     })
       .then(async (res) => {
         const payload = await res.json();
