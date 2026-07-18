@@ -181,30 +181,6 @@ export function FlatQuestionForm({ dept, topics, initialData }: Props) {
             {/* ── General Information ── */}
             <Card className="p-6 space-y-5">
               <SectionHeader
-            title="General Information"
-            description="Basic question details"
-            icon={<HelpCircle className="w-4 h-4" />}
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Input label="Question #" type="number" value={form.question_num} onChange={(e) => upd("question_num", parseInt(e.target.value) || 0)} min={1} />
-            <Select label="Topic *" value={form.topicSlug} onChange={(e) => upd("topicSlug", e.target.value)} required>
-              <option value="">Select topic…</option>
-              {topics.map((t) => <option key={t.slug} value={t.slug}>{t.name_en}</option>)}
-            </Select>
-            <Select label="Type" value={form.type} onChange={(e) => upd("type", e.target.value)}>
-              <option value="single_choice">Single Choice</option>
-              <option value="multiple_choice">Multiple Choice</option>
-              <option value="true_false">True / False</option>
-            </Select>
-          </div>
-          {errors.topicSlug && <p className="text-xs text-red-500 -mt-3">{errors.topicSlug}</p>}
-
-          <div>
-            <Input label="Passage (Optional)" value={form.passage_text} onChange={(e) => upd("passage_text", e.target.value)} rows={3} placeholder="Read the passage and answer the questions..." />
-            <p className="text-xs text-[#94A3B8] mt-1">If this question belongs to a passage, enter the text here.</p>
-          </div>
-
                 title="General Information"
                 description="Basic question details"
                 icon={<HelpCircle className="w-4 h-4" />}
