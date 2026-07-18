@@ -777,14 +777,14 @@ function ExamContent() {
           </button>
 
           {/* Dot grid */}
-          <div className="exam-dot-grid">
+          <div className="exam-dot-grid" style={{ flex: 1, justifyContent: "center" }}>
             {questions.map((q, idx) => {
-              const isAnswered = (state.answers[q.id] ?? []).length > 0;
               const isFlagged = Boolean(state.flags[q.id]);
+              if (!isFlagged) return null;
+              
+              const isAnswered = (state.answers[q.id] ?? []).length > 0;
               const isCurrent = idx === state.currentIndex;
-              let cls = "exam-dot";
-              if (isFlagged) cls += " exam-dot--flagged";
-              else if (isAnswered) cls += " exam-dot--answered";
+              let cls = "exam-dot exam-dot--flagged";
               if (isCurrent) cls += " exam-dot--current";
               return (
                 <button
@@ -792,12 +792,17 @@ function ExamContent() {
                   id={`dot-${idx}`}
                   className={cls}
                   onClick={() => jumpToQuestion(idx)}
-                  title={`Q${idx + 1}${isAnswered ? " (answered)" : ""}${isFlagged ? " (flagged)" : ""}`}
+                  title={`Q${idx + 1}${isAnswered ? " (answered)" : ""} (flagged)`}
                 >
                   {idx + 1}
                 </button>
               );
             })}
+            {!Object.values(state.flags).some(Boolean) && (
+              <span style={{ fontSize: 13, color: "var(--text-muted)", opacity: 0.7 }}>
+                {state.currentIndex + 1} / {questions.length}
+              </span>
+            )}
           </div>
 
           <button
