@@ -5,12 +5,12 @@ import { AdminShell } from "./admin-shell";
 import "@/styles/admin.css";
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
+ const supabase = await createServerSupabaseClient();
+ const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/admin/login");
-  }
+ if (!user) {
+ redirect("/admin/login");
+ }
 
-  return <AdminShell>{children}</AdminShell>;
+ return <AdminShell>{children}</AdminShell>;
 }

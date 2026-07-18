@@ -5,3 +5,80 @@
   --color-brand-strong: #00276B;
   --color-accent: #F5A623;
 }
+
+/* ── Admin utility helpers that Tailwind v4 arbitrary values can miss ── */
+
+/* Primary button */
+.admin-btn-primary {
+  background-color: #003580;
+  color: #ffffff;
+  border: 1px solid #003580;
+}
+.admin-btn-primary:hover {
+  background-color: #00276B;
+  border-color: #00276B;
+}
+
+/* Filter pill – inactive */
+.admin-pill {
+  background-color: #ffffff;
+  color: #64748B;
+  border: 1px solid #E4E8F0;
+}
+.admin-pill:hover {
+  background-color: #F7F8FC;
+  color: #1A202C;
+}
+
+/* Filter pill – active */
+.admin-pill-active {
+  background-color: #003580;
+  color: #ffffff;
+  border: 1px solid #003580;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+/* Dept badge on note cards */
+.admin-dept-badge {
+  background-color: rgba(0, 53, 128, 0.08);
+  color: #003580;
+}
+
+/* Icon containers with brand tint */
+.admin-icon-wrap {
+  background-color: rgba(0, 53, 128, 0.06);
+  color: #003580;
+}
+
+/* Sidebar active item */
+.admin-sidebar-active {
+  background-color: rgba(0, 53, 128, 0.06);
+  color: #003580;
+  font-weight: 600;
+}
+
+/* Logo / avatar squares */
+.admin-logo-sq {
+  background-color: #003580;
+  color: #ffffff;
+}
+
+/* Answer option – correct */
+.admin-answer-correct {
+  background-color: #003580;
+  color: #ffffff;
+}
+
+/* Answer option – default */
+.admin-answer-default {
+  background-color: #E4E8F0;
+  color: #64748B;
+}
+
+/* Link / text brand */
+.admin-link {
+  color: #003580;
+}
+.admin-link:hover {
+  color: #00276B;
+}
