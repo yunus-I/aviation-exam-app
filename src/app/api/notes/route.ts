@@ -20,6 +20,17 @@ export async function GET(req: NextRequest) {
 
     if (error) {
       console.error("[notes GET]", error);
+      // Detect table-missing error (Supabase returns code 42P01)
+      const isTableMissing =
+        error.code === "42P01" ||
+        error.message?.toLowerCase().includes("does not exist") ||
+        error.message?.toLowerCase().includes("relation");
+      if (isTableMissing) {
+        return NextResponse.json(
+          { ok: false, error: "notes table does not exist", table_missing: true },
+          { status: 503 }
+        );
+      }
       return NextResponse.json({ ok: false, error: "Failed to fetch notes." }, { status: 500 });
     }
 
