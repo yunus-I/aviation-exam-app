@@ -216,9 +216,9 @@ function SubjectsContent() {
     setDept(d ?? null);
   }, [router, deptId]);
 
-  function handleStartNotes(title: string) {
+  function handleStartNotes(setLabel: string) {
     if (!dept) return;
-    router.push(`/notes?dept=${dept.id}&title=${encodeURIComponent(title)}`);
+    router.push(`/notes?dept=${dept.id}&set=${encodeURIComponent(setLabel)}`);
   }
 
   function handleLogout() {

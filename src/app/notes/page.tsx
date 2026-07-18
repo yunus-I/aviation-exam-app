@@ -90,6 +90,9 @@ function NotesContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const deptId = searchParams.get("dept") ?? "amt";
+  // "set" = note set name (e.g. "Note 1") — passed from subjects page
+  // "title" = legacy exact-title filter
+  const noteSet = searchParams.get("set");
   const noteTitle = searchParams.get("title");
 
   const [session, setSession] = useState<StudentSession | null>(null);
@@ -112,9 +115,17 @@ function NotesContent() {
       .then(async (res) => {
         const payload = await res.json();
         if (!res.ok || !payload.ok) throw new Error(payload.error ?? "Failed to load notes.");
-        let fetchedNotes = payload.notes ?? [];
-        if (noteTitle) {
-          fetchedNotes = fetchedNotes.filter((n: Note) => n.title.toLowerCase() === noteTitle.toLowerCase());
+        let fetchedNotes: (Note & { set_name?: string })[] = payload.notes ?? [];
+        if (noteSet) {
+          // Filter by set_name (e.g. "Note 1", "Note 2")
+          fetchedNotes = fetchedNotes.filter((n) =>
+            (n.set_name ?? "Note 1").toLowerCase() === noteSet.toLowerCase()
+          );
+        } else if (noteTitle) {
+          // Legacy: exact title match
+          fetchedNotes = fetchedNotes.filter((n) =>
+            n.title.toLowerCase() === noteTitle.toLowerCase()
+          );
         }
         setNotes(fetchedNotes);
       })
@@ -122,7 +133,7 @@ function NotesContent() {
         setError(e instanceof Error ? e.message : "Failed to load notes.");
       })
       .finally(() => setLoading(false));
-  }, [deptId, noteTitle]);
+  }, [deptId, noteSet, noteTitle]);
 
   function handleLogout() {
     clearSession();
