@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { loadSession, clearSession } from "@/lib/session";
 import type { StudentSession } from "@/lib/session";
 import { getDepartment, DEPARTMENTS } from "@/features/exam/departments";
@@ -12,6 +12,7 @@ import type { Department } from "@/features/exam/departments";
 function Navbar({ session, onLogout }: { session: StudentSession; onLogout: () => void }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -76,17 +77,25 @@ function Navbar({ session, onLogout }: { session: StudentSession; onLogout: () =
             </div>
             <hr style={{ width: "100%", border: 0, borderTop: "1px solid var(--border)", margin: "4px 0" }} />
             <div style={{ display: "flex", flexDirection: "column", width: "100%", gap: 8 }}>
-              <button
-                id="my-progress-btn"
-                className="btn btn--neutral btn--full btn--sm"
-                onClick={() => {
-                  setOpen(false);
-                  if (typeof window !== "undefined") window.location.href = "/dashboard";
-                }}
-                style={{ fontSize: 13, fontWeight: 600 }}
-              >
-                📈 My Progress
-              </button>
+              {(() => {
+                const isOnDashboard = pathname?.startsWith("/dashboard");
+                const isOnDepartments = pathname?.startsWith("/home") || pathname?.startsWith("/subjects");
+                const label = isOnDashboard ? "🏠 Departments" : "📈 My Progress";
+                const target = isOnDashboard ? "/home" : "/dashboard";
+                return (
+                  <button
+                    id="my-progress-btn"
+                    className="btn btn--neutral btn--full btn--sm"
+                    onClick={() => {
+                      setOpen(false);
+                      if (typeof window !== "undefined") window.location.href = target;
+                    }}
+                    style={{ fontSize: 13, fontWeight: 600 }}
+                  >
+                    {label}
+                  </button>
+                );
+              })()}
 
               <button
                 id="logout-btn"

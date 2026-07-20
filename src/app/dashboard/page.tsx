@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { loadSession, clearSession, loadHistory } from "@/lib/session";
 import type { StudentSession, ExamHistoryEntry } from "@/lib/session";
 import { DEPARTMENTS } from "@/features/exam/departments";
@@ -9,6 +9,7 @@ import { DEPARTMENTS } from "@/features/exam/departments";
 function Navbar({ session, onLogout }: { session: StudentSession; onLogout: () => void }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -141,20 +142,29 @@ function Navbar({ session, onLogout }: { session: StudentSession; onLogout: () =
                 💬 Get Help / Support
               </button>
 
-              <button
-                id="my-progress-btn"
-                className="btn btn--neutral btn--full btn--sm"
-                onClick={() => {
-                  setOpen(false);
-                  if (typeof window !== "undefined") window.location.href = "/dashboard";
-                }}
-                style={{
-                  fontSize: 13,
-                  fontWeight: 600,
-                }}
-              >
-                📈 My Progress
-              </button>
+              {(() => {
+                const isOnDashboard = pathname?.startsWith("/dashboard");
+                const isOnDepartments = pathname?.startsWith("/home") || pathname?.startsWith("/subjects");
+                const label = isOnDashboard ? "🏠 Departments" : "📈 My Progress";
+                const target = isOnDashboard ? "/home" : "/dashboard";
+                // If we're on neither, default to My Progress
+                return (
+                  <button
+                    id="my-progress-btn"
+                    className="btn btn--neutral btn--full btn--sm"
+                    onClick={() => {
+                      setOpen(false);
+                      if (typeof window !== "undefined") window.location.href = target;
+                    }}
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {label}
+                  </button>
+                );
+              })()}
 
               <button
                 id="logout-btn"
