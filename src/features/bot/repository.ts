@@ -438,11 +438,6 @@ export class BotRepository {
     }
 
     const submission = await this.getSubmissionForReview(params.submissionId);
-
-    if (submission.status === "approved" || submission.status === "rejected") {
-      return submission;
-    }
-
     const now = new Date().toISOString();
     const nextStatus = params.action === "approve" ? "approved" : "rejected";
 

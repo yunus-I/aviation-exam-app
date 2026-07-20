@@ -168,7 +168,7 @@ export function MiniAppShell() {
     session?.fullName ??
     telegramUser?.first_name ??
     (state.kind === "outside_telegram" ? "Demo Student" : "Student");
-  const candidateId = isApproved && session ? session.candidateId : "demo";
+  const candidateId = session?.candidateId ?? "demo";
 
   let statusDetails: StatusDetails;
 

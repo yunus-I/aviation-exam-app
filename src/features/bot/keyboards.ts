@@ -26,7 +26,21 @@ export function createDepartmentKeyboard(
 ) {
   const keyboard = new InlineKeyboard();
 
-  departments.forEach((department, index) => {
+  const normalizedDepartments = [...departments];
+  const hasOthers = normalizedDepartments.some(
+    (department) => department.id === "others" || department.slug === "others",
+  );
+
+  if (!hasOthers) {
+    normalizedDepartments.push({
+      id: "others",
+      slug: "others",
+      label: "Others",
+      secondaryLabel: "ሌሎች",
+    });
+  }
+
+  normalizedDepartments.forEach((department, index) => {
     const label =
       language === "am" && department.secondaryLabel
         ? department.secondaryLabel
