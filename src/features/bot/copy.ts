@@ -72,7 +72,7 @@ export const BOT_COPY: Record<AppLanguage, CopyTree> = {
       "ቢያንስ 4 አሃዝ ያለው የይለፍ ቃል ያዘጋጁ። ለመግቢያ አሃዞች ብቻ መጠቀም ይመከራል።",
     invalidPassword: "የይለፍ ቃሉ ቢያንስ 4 አሃዝ መሆን እና አሃዞች ብቻ መያዝ አለበት።",
     paymentInstructions:
-      "💸 ክፍያ ያስፈልጋል: 200 ብር\n\n🏦 ንግድ ባንክ: 1000718365361 (yeabsra niguse and ermias Abera)\n📱 አቢሲኒያ: 236844412 (yeabsra niguse and ermias abera)\n\n📸 የከፈሉበትን ደረሰኝ ስክሪንሾት ይላኩ።",
+      "💸 ክፍያ ያስፈልጋል: 499 ብር\n\n🏦 ንግድ ባንክ: 1000718365361 (yeabsra niguse and ermias Abera)\n📱 አቢሲኒያ: 236844412 (yeabsra niguse and ermias abera)\n\n📸 የከፈሉበትን ደረሰኝ ስክሪንሾት ይላኩ።",
     receiptOnly: "እባክዎ ደረሰኙን እንደ ምስል ይላኩ።",
     pendingReview: "ምዝገባዎ በምርመራ ላይ ነው። እባክዎ ለፍቃድ 30 ደቂቃ እስከ 1 ሰዓት ይጠብቁ።",
     alreadyApproved: "ምዝገባዎ ተፈቅዷል። የፈተናውን Mini App መጠቀም ይችላሉ።",

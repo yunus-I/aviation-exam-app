@@ -726,7 +726,7 @@ function ExamContent() {
                 })}
               </div>
 
-              {/* Feedback card */}
+              {/* Feedback card — practice mode only */}
               {showFeedback && verdict && (
                 <div className={`exam-feedback exam-feedback--${verdict}`} style={{ marginTop: 16 }}>
                   <div className="exam-feedback__title">
@@ -744,6 +744,49 @@ function ExamContent() {
                     </div>
                   ) : (
                     <div className="exam-feedback__text" style={{ marginTop: 8 }}>
+                      {currentQ.explanation}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Explanation toggle — exam mode only (no feedback card in exam mode) */}
+              {examMode === "exam" && (
+                <div style={{ marginTop: 16 }}>
+                  <button
+                    className="btn btn--secondary btn--sm"
+                    onClick={() => setShowExplanation((v) => !v)}
+                    type="button"
+                    style={{ width: "100%" }}
+                  >
+                    {showExplanation ? "👁️ Hide Explanation" : "💡 Show Explanation"}
+                  </button>
+                  {showExplanation && currentQ.explanation && (
+                    <div
+                      style={{
+                        marginTop: 10,
+                        padding: "12px 16px",
+                        background: "#f0f9ff",
+                        border: "1px solid #bae6fd",
+                        borderLeft: "4px solid #0ea5e9",
+                        borderRadius: 10,
+                        fontSize: 14,
+                        lineHeight: 1.65,
+                        color: "#0c4a6e",
+                      }}
+                    >
+                      <strong
+                        style={{
+                          display: "block",
+                          marginBottom: 6,
+                          fontSize: 12,
+                          textTransform: "uppercase",
+                          letterSpacing: "0.5px",
+                          color: "#0ea5e9",
+                        }}
+                      >
+                        Explanation
+                      </strong>
                       {currentQ.explanation}
                     </div>
                   )}

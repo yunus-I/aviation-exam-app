@@ -20,12 +20,6 @@ export default function EntryPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const session = loadSession();
-    if (session) {
-      router.replace("/home");
-      return;
-    }
-
     const webApp = window.Telegram?.WebApp;
     const initDataRaw = webApp?.initData?.trim();
 
@@ -57,10 +51,23 @@ export default function EntryPage() {
             loginAsDemo();
           }
         })
-        .catch(() => loginAsDemo());
+        .catch(() => {
+          // API failed but we're inside Telegram — always fall back to demo
+          // to avoid loading a stale cached session from a different user
+          loginAsDemo();
+        });
     } else {
-      // Outside Telegram -> Demo access
-      loginAsDemo();
+      // Outside Telegram (browser preview, etc.) — allow loading a local session
+      fallbackToLocalOrDemo();
+    }
+
+    function fallbackToLocalOrDemo() {
+      const existing = loadSession();
+      if (existing) {
+        router.replace("/home");
+      } else {
+        loginAsDemo();
+      }
     }
 
     function loginAsDemo() {
