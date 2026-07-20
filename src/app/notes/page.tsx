@@ -69,14 +69,26 @@ function Navbar({ session, onLogout }: { session: StudentSession; onLogout: () =
             }}
           >
             <div style={{ fontWeight: 700, fontSize: 14, color: "var(--text)" }}>{session.name}</div>
-            <button
-              id="logout-btn"
-              className="btn btn--primary btn--full btn--sm"
-              onClick={onLogout}
-              style={{ fontSize: 13, fontWeight: 600, background: "var(--error)", borderColor: "var(--error)" }}
-            >
-              Sign Out
-            </button>
+               <button
+                 id="my-progress-btn"
+                 className="btn btn--neutral btn--full btn--sm"
+                 onClick={() => {
+                   setOpen(false);
+                   if (typeof window !== "undefined") window.location.href = "/dashboard";
+                 }}
+                 style={{ fontSize: 13, fontWeight: 600 }}
+               >
+                 📈 My Progress
+               </button>
+ 
+               <button
+                 id="logout-btn"
+                 className="btn btn--primary btn--full btn--sm"
+                 onClick={onLogout}
+                 style={{ fontSize: 13, fontWeight: 600, background: "var(--error)", borderColor: "var(--error)" }}
+               >
+                 Sign Out
+               </button>
           </div>
         )}
       </div>

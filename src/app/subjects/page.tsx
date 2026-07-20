@@ -77,6 +77,18 @@ function Navbar({ session, onLogout }: { session: StudentSession; onLogout: () =
             <hr style={{ width: "100%", border: 0, borderTop: "1px solid var(--border)", margin: "4px 0" }} />
             <div style={{ display: "flex", flexDirection: "column", width: "100%", gap: 8 }}>
               <button
+                id="my-progress-btn"
+                className="btn btn--neutral btn--full btn--sm"
+                onClick={() => {
+                  setOpen(false);
+                  if (typeof window !== "undefined") window.location.href = "/dashboard";
+                }}
+                style={{ fontSize: 13, fontWeight: 600 }}
+              >
+                📈 My Progress
+              </button>
+
+              <button
                 id="logout-btn"
                 className="btn btn--primary btn--full btn--sm"
                 onClick={onLogout}
