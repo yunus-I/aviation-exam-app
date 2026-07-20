@@ -291,6 +291,16 @@ export function MiniAppShell() {
                     </div>
                   ))}
                 </dl>
+                <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
+                  <button
+                    className="btn btn--neutral"
+                    onClick={() => setActiveTab('dashboard')}
+                    type="button"
+                    style={{ padding: '8px 12px', borderRadius: 8 }}
+                  >
+                    📈 My Progress
+                  </button>
+                </div>
               </section>
             </div>
           )}
