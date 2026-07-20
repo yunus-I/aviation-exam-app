@@ -1,0 +1,1717 @@
+{
+  "questionBank": {
+    "key": "cabin-exam-bank-2",
+    "slug": "cabin-exam-2",
+    "title": "Cabin Crew Exam 2 Bank",
+    "description": "Grammar, Reading, Sentence Completion",
+    "departmentCode": "CABIN"
+  },
+  "examSet": {
+    "key": "cabin-exam-set-2",
+    "slug": "cabin-exam-2",
+    "title": "Exam 2",
+    "description": "Cabin Crew Exam 2",
+    "departmentCode": "CABIN",
+    "topicSlug": "exam 2",
+    "mode": "mock",
+    "durationMinutes": 90,
+    "published": true
+  },
+  "questions": [
+    {
+      "key": "cabin-exam-2-q1",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Which one of the following should not be avoided?",
+      "explanation": "The text actively encourages travelers to wash their hands, meaning this is a positive behavior \nthat should be performed, not avoided.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Eating unpeeled fruits and vegetables.",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Travelling at night.",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Eating undercooked meat.",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Washing hands with soap and water.",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q2",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Unpasteurized dairy products are dangerous.",
+      "explanation": "The text explicitly tells travelers to \"Never eat ... unpasteurized dairy products,\" indicating they \npose a health danger.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Not possible to say if the statement is true or false on the basis of the passage",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q3",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Wearing a seatbelt will help prevent motor accidents.",
+      "explanation": "The text says seatbelts help with the \"leading cause of injury\" from crashes. Seatbelts protect \npassengers from injury during a crash; they do not actually prevent the physical traffic accidents \nfrom occurring.\nDirections: Choose the word that is most nearly similar in meaning to the word in capital.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q4",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "IMPASSE",
+      "explanation": "An \"impasse\" is a situation in which no progress is possible, especially because of a \ndisagreement; a \"standoff\" is a direct synonym.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Imposter",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Post",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Done",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "standoff",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q5",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "AROUSE",
+      "explanation": "To \"arouse\" means to evoke, awaken, or excite a feeling or response, which is best represented \nby the synonym \"stimulate.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "Round",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Rise",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Stimulate",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Fear",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q6",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "PROBE",
+      "explanation": "To \"probe\" is to physically explore or conduct a thorough investigation, which is synonymous \nwith \"search.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "Search",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Probable",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Robe",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Right",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q7",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "SPURN",
+      "explanation": "To \"spurn\" is to reject with disdain or contempt.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Acceptance",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Large",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "sounded",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "rejected",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q8",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "PONDER",
+      "explanation": "To \"ponder\" is to think about something carefully, especially before making a decision, which \nmeans to \"consider\" it.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Consider",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Peace",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Fine",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Paint",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q9",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "ENVISAGE",
+      "explanation": "To \"envisage\" means to contemplate or conceive of a future possibility; it is synonymous with \n\"visualize.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "Envy",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Visualize",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Savage",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Visual",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q10",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "TREAT",
+      "explanation": "In certain contexts (such as treating/handling materials, negotiating, or medical care), to \"treat\" \nmeans to keep, behave toward, or \"maintain\" a certain state or standard.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Maintain",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Team",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Tear",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Extravagance",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q11",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "FOUL",
+      "explanation": "\"Foul\" means offensive to the senses, dirty, or clogged, which is synonymous with \"soiled.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "Soiled",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Clarity",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Fear",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Dear",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q12",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "PRUNE",
+      "explanation": "To \"prune\" a plant or tree means to cut away dead or overgrown branches, which is synonymous \nwith \"trim.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "Prudent",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Pour",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Gain",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Trim",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q13",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "POMP",
+      "explanation": "\"Pomp\" refers to splendid, showy display or ceremony, making \"spectacle\" the closest synonym.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Spectacle",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Possess",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Rise",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Fain",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q14",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "DREAD",
+      "explanation": "\"Dread\" is a state of great apprehension, anxiety, or fear of something that may happen.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fear",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Greed",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Bear",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "More",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q15",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "RESOLUTE",
+      "explanation": "\"Resolute\" describes someone who is admirably purposeful, determined, and unwavering, which \ntranslates directly to \"firm.\"\nPART-III: Vocabulary - Synonyms",
+      "options": [
+        {
+          "key": "A",
+          "text": "Feeble",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Firm",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Resort",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Tout",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q16",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "NEGLECT means the same as",
+      "explanation": "To \"neglect\" something is to fail to care for it properly or pay attention to it, which is the \ndefinition of \"disregard.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "Disregard",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Slack",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Through",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Abandon",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "Digest",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q17",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "ECCENTRIC means the same as...",
+      "explanation": "\"Eccentric\" describes behavior or a person that is unconventional, strange, or \"odd.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "EGOISTIC",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "BALANCED",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "ODD",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "DELUDED",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "FORGOTTEN",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q18",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "RULER means the same as",
+      "explanation": "A \"ruler\" is a tool used to measure length; a \"yardstick\" is also a measuring standard or physical \nmeasuring rod, making it the closest synonym.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Heavy",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Metre\n[7/17/2026 5:10 PM] Yeabsra Niguse: C. Yardstick\nD. Metal\nE. Survey",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Yardstick",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Metal",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "Survey",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q19",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "ENORMOUS means the same as",
+      "explanation": "\"Enormous\" means very large in size, quantity, or extent.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Grandeur",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Large",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Size",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Titan",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "Height",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q20",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "POSTPONE means the same as",
+      "explanation": "To \"postpone\" an event is to arrange for it to take place at a time later than that first scheduled, \nwhich means to \"delay\" it.\n[7/17/2026 5:10 PM] Yeabsra Niguse: Directions: Find the correct combination in each case that \nresult in a sentence both grammatically correct and makes best sense.",
+      "options": [
+        {
+          "key": "A",
+          "text": "After",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Submerge",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Neglect",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Late",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "Delay",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q21",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Wal-Mart is expected to make a decision on its Indian retail plans _______ this month \nand Bharti will ___ decide if those plans match its overall retail ambitions.",
+      "explanation": "\"Later this month\" is a standard future timeline phrase, and \"accordingly\" is the logical adverb \nmeaning \"in a way that is appropriate to the circumstances.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "earlier, unsuitably",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "later, accordingly",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "earlier, accordingly",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "easily, accordance",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "later, inappropriately",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q22",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "When a page is edited, ___ are only committed when that page is saved.",
+      "explanation": "The plural verb \"are\" requires a plural subject (\"revisions\"). While \"alterations\" is also plural, \n\"revisions\" is the standard industry and grammatical term for saved changes made to an edited \ndocument or webpage.",
+      "options": [
+        {
+          "key": "A",
+          "text": "alterations",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "descriptions",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "modification",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "transactions",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "revisions",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q23",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Organisational resources must be ___ in order to collect, store, and analyse measures.",
+      "explanation": "To collect and analyze data, organizational resources must be actively \"engaged\" (put to work or \nmobilized). \"Expended\" (spent) is grammatically possible but less logical as an ongoing strategy.",
+      "options": [
+        {
+          "key": "A",
+          "text": "engaged",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "finished",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "preoccupied",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "expended",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "wasted",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q24",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "C. eathe current system, children are first ___ at the age of seven.",
+      "explanation": "The preposition \"Under\" is used to mean \"governed or managed by a system,\" and the passive \nverb \"assessed\" (meaning evaluated) fits the context of evaluating children. Note that \"Under\" \nshould be capitalized because it starts the sentence.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Under, assessed",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "under, processed",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Unders, assessing",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Underneath, assessment",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q25",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Creating a program andly\nAnswan existing program are fairly similar.",
+      "explanation": "In software and program development, \"creating\" (making from scratch) is logically compared to \n\"modifying\" (changing an existing codebase).",
+      "options": [
+        {
+          "key": "A",
+          "text": "modifying",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "planning",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "disarranging",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "closing",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "integrating",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q26",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Business transactions as well as information ___ between enterprise locations or with \nexternal trading partners can be trusted.",
+      "explanation": "\"Information exchanges\" is the correct plural noun phrase that fits alongside \"business \ntransactions\" to describe the sharing of data between locations.",
+      "options": [
+        {
+          "key": "A",
+          "text": "trading",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "exchanges",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "substitutes",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "stagnation",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "derision",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q27",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Effective management of the safety program is essential to the effective and ___ \nreduction of system risk",
+      "explanation": "The sentence uses parallel structure, pairing the adjective \"effective\" with another positive, \nmatching adjective: \"efficient.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "activity",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "worthless",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "efficient",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "masterly",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "adaptive",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q28",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "All of the goals must beall retaito reach the vision.",
+      "explanation": "Goals are conceptually \"achieved\" or attained in order to realize a larger vision.",
+      "options": [
+        {
+          "key": "A",
+          "text": "concluded",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "produced",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "unsettled",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "achieved",
+          "isCorrect": true
+        },
+        {
+          "key": "E",
+          "text": "yielded",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q29",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Approved websites must be removed from any programmed inspection lists for the retail aof \nparticipation.",
+      "explanation": "\"For the duration of...\" is a standard English idiom meaning for the entire period of time that \nsomething lasts.",
+      "options": [
+        {
+          "key": "A",
+          "text": "persistence",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "stoppage",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "continuity",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "duration",
+          "isCorrect": true
+        },
+        {
+          "key": "E",
+          "text": "periodical",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q30",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "New car sales in Britainns match to their ___ level in more than five years last month, lifted \nby a ___ outlook for the economy, attractive financing deals and demand for new fuel-efficient \nmodels.",
+      "explanation": "The positive phrases \"lifted by,\" \"attractive financing,\" and \"demand for new models\" indicate a \nmajor growth spike. Therefore, sales must have \"soared\" to their \"highest\" level due to a \n\"brighter\" economic outlook.\n[7/17/2026 5:11 PM] Yeabsra Niguse: Read the Passage and answer questions that follow from it\nPassage: Renewable energy sources play a crucial role in the transition to a more sustainable and \nenvironmentally friendly energy system. Solar energy, for instance, is harnessed through the use \nof photovoltaic cells that convert sunlight directly into electricity. Wind energy is generated by \nharnessing the kinetic energy of moving air through wind turbines. These sources of energy are \nconsidered cleaner alternatives to fossil fuels, as they produce little to no greenhouse gas \nemissions during operation.\nOne challenge to utilizing renewable energy is its intermittency. Solar power generation is \ndependent on sunlight availability, which varies with weather conditions and the time of day. \nWind power generation relies on consistent wind patterns, which may not always be present. To \naddress this issue, energy storage systems like batteries are used to store excess energy generated \nduring peak production periods for use during low production periods.\nRenewable energy technologies have seen significant advancements in recent years, leading to \nincreased efficiency and cost-effectiveness. As a result, many countries have set renewable \nenergy targets to reduce their reliance on non-renewable sources such as coal, oil, and natural \ngas. Governments and industries worldwide are investing in research and infrastructure to further \ndevelop and integrate renewable energy into their energy portfolios.",
+      "options": [
+        {
+          "key": "A",
+          "text": "soared, highest, brighter",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "soured, high, bright",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "soared, lowest, brighter",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "fell, highest, gloomy",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "fell, lowest, gloomy",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q31",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Passage: Renewable energy sources play a crucial role in the transition to a more sustainable and \nenvironmentally friendly energy system. Solar energy, for instance, is harnessed through the use \nof photovoltaic cells that convert sunlight directly into electricity. Wind energy is generated by \nharnessing the kinetic energy of moving air through wind turbines. These sources of energy are \nconsidered cleaner alternatives to fossil fuels, as they produce little to no greenhouse gas \nemissions during operation.\nOne challenge to utilizing renewable energy is its intermittency. Solar power generation is \ndependent on sunlight availability, which varies with weather conditions and the time of day. \nWind power generation relies on consistent wind patterns, which may not always be present. To \naddress this issue, energy storage systems like batteries are used to store excess energy generated \nduring peak production periods for use during low production periods.\nRenewable energy technologies have seen significant advancements in recent years, leading to \nincreased efficiency and cost-effectiveness. As a result, many countries have set renewable \nenergy targets to reduce their reliance on non-renewable sources such as coal, oil, and natural \ngas. Governments and industries worldwide are investing in research and infrastructure to further \ndevelop and integrate renewable energy into their energy portfolios.\n\nSolar energy is primarily generated by converting wind energy into electricity.",
+      "explanation": "The passage states that solar energy is generated by converting sunlight (using photovoltaic \ncells) directly into electricity, not wind energy.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q32",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Wind energy is considered a cleaner alternative to fossil fuels because it produces no \ngreenhouse gas emissions.",
+      "explanation": "The text confirms that these sources (including wind energy) are considered cleaner because \n\"they produce little to no greenhouse gas emissions during operation.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q33",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Energy storage systems are used to address the intermittency of renewable energy sources.",
+      "explanation": "The passage explicitly notes: \"To address this issue [intermittency], energy storage systems like \nbatteries are used to store excess energy...\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q34",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Solar power generation is not affected by weather conditions or the time of day.",
+      "explanation": "The passage notes that solar power generation is dependent on sunlight, which explicitly \"varies \nwith weather conditions and the time of day.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q35",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Recent advancements in renewable energy technologies have led to decreased efficiency and \ncost-effectiveness.",
+      "explanation": "The text states that these advancements have led to increased efficiency and cost-effectiveness, \nnot decreased.\nSpelling – Questions",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q36",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Select the word that is spelled incorrectly.",
+      "explanation": "The correct spelling is permanent (ending in \"-nent\").",
+      "options": [
+        {
+          "key": "A",
+          "text": "Judgment",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "permenant",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "dialogue",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "adjacent",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q37",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Select the word that is spelled incorrectly.",
+      "explanation": "The correct spelling is ignorance (ending in \"-ance\").",
+      "options": [
+        {
+          "key": "A",
+          "text": "Proficient",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "apprehend",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "achieve",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "ignorence",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q38",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Select the word that is spelled incorrectly.",
+      "explanation": "The correct spelling is equipment (no \"t\" after the \"p\").",
+      "options": [
+        {
+          "key": "A",
+          "text": "poised",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "equiptment",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "accumulate",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "porous",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q39",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Select the word that is spelled incorrectly.",
+      "explanation": "The correct spelling is committed (with a double \"m\" and a double \"t\").",
+      "options": [
+        {
+          "key": "A",
+          "text": "argument",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "conscious",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "flabbergast",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "comitted",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q40",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Select the word that is spelled incorrectly.",
+      "explanation": "The correct spelling is retrieve (following the standard rule of \"i before e, except after c\").\nVocabulary - Synonyms & Antonyms",
+      "options": [
+        {
+          "key": "A",
+          "text": "apprehensive",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "deduction",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "retreive",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "misspell",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q41",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "PERTINENT is the opposite of...",
+      "explanation": "[7/17/2026 5:12 PM] Yeabsra Niguse: \"Pertinent\" means highly relevant or applicable to a \nparticular matter; its direct antonym is \"irrelevant.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "URGENT",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "STRESSFUL",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "IRRELEVANT",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "BANK",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q42",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "REDUCE means the same as...",
+      "explanation": "To \"reduce\" is to make smaller or less in amount, which matches the action of \"subtracting\" to \ndiminish a quantity.",
+      "options": [
+        {
+          "key": "A",
+          "text": "CONCLUDE",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "SUBTRACT",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "CALORIE",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "ALTER",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q43",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "VERIFY is the opposite of...",
+      "explanation": "To \"verify\" is to demonstrate or confirm that something is true. To \"disprove\" is to prove that \nsomething is false, making them direct opposites.",
+      "options": [
+        {
+          "key": "A",
+          "text": "DISPROVE",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "AUTHENTICATE",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "AGREE",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "STARVE",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q44",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "MANIFEST is the opposite of...",
+      "explanation": "To \"manifest\" means to display, reveal, or make clearly visible. Its antonym is to \"conceal\" (to \nhide).",
+      "options": [
+        {
+          "key": "A",
+          "text": "Display",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Emotive",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Plumb",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Conceal",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q45",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "PIERCE means the same as...",
+      "explanation": "To \"pierce\" means to puncture or penetrate with a sharp instrument, which is synonymous with \n\"stab.\"\nGrammar Application - Sentence Completion\nDirections: Find the correct combination in each case that result in a sentence both \ngrammatically correct and makes best sense.",
+      "options": [
+        {
+          "key": "A",
+          "text": "ROCKY",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "IMMENSE",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "ABSTRACT",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "STAB",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q46",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Site Executive will use pop-up windows ___ to display additional options for selected \nfunctions or to prompt alerts on functionality.",
+      "explanation": "In software layout terminology, using pop-up windows \"extensively\" (frequently or over a large \narea of functions) is the most standard and logical descriptor.",
+      "options": [
+        {
+          "key": "A",
+          "text": "largely",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "generously",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "perfectly",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "extensively",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q47",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Operators use advanced keypads toOVE\nB. AUinformation into the system.",
+      "explanation": "\"To\" requires a base verb to complete the infinitive. \"Input\" acts as the correct verb representing \nthe transmission of data into a computer system via a keypad.",
+      "options": [
+        {
+          "key": "A",
+          "text": "output",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "suggestions",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "input",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "warnings",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q48",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "The equipment must be serviced by ___ personnel who are licensed by the board.",
+      "explanation": "\"Qualified\" is the standard professional adjective used alongside licensing requirements to verify \nthat personnel have the correct skills for technical service.",
+      "options": [
+        {
+          "key": "A",
+          "text": "qualified",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "adequate",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "disciplined",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "veteran",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q49",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Retailers typically ___ seasonal employees in the weeks ___ the holiday shopping season to \nwork in stores and help in ___ and fulfilling online orders.",
+      "explanation": "Retailers \"hire\" extra workers \"before\" the busy holiday season begins to manage the \n\"distribution\" (sorting, packaging, and shipping) of online orders.",
+      "options": [
+        {
+          "key": "A",
+          "text": "dismiss, leading, retribution",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "hire, before, partition",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "dismiss, after, maintenance",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "hire, before, distribution",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q50",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "___ women will not develop any problems with their blood pressure during pregnancy; \nhowever, among ___ women, high blood pressure can develop.",
+      "explanation": "Because high blood pressure (gestational hypertension) is a complication that only affects a \nminority of pregnancies, it is logical to state that \"Most\" women will not develop it, while \n\"some\" women will.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Some, scarce",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Some, those",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Most, some",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Most, many",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q51",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "British house prices posted theirOVE\nB. AUannual ___ in more than three years last month, mortgage lender Halifax said on \nThursday.",
+      "explanation": "\"Annual\" acts as an adjective modifying a noun, so we need the noun \"gain.\" \"Largest gain\" is a \nstandard financial reporting phrase.",
+      "options": [
+        {
+          "key": "A",
+          "text": "largest, lesser",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "smallest, gained",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "smallest, gaining",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "largest, gain",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q52",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Do not ___ a memory card or turn off your product while the access light is flashing or you \nmay lose data.",
+      "explanation": "\"Remove\" is the standard verb used in electronics manuals for taking out a storage unit or card.",
+      "options": [
+        {
+          "key": "A",
+          "text": "abolish",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "dismiss",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "remove",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "evacuate",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q53",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Video conferencing has a culture-changing ___.",
+      "explanation": "[7/17/2026 5:12 PM] Yeabsra Niguse: A technology is commonly described as having a certain \n\"capability\" (power or ability to do something).",
+      "options": [
+        {
+          "key": "A",
+          "text": "capability",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "faculty",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "intelligence",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "triumph",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q54",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "New York's overall graduation rate has ___, but nearly a quarter of the students still don't \ngraduate after four years. Moreover, too many of those students who do graduate ___ ready for \ncollege and careers.",
+      "explanation": "The conjunction \"but\" signals a contrast: the rate has \"improved,\" but a quarter still fail to finish \non time. The word \"Moreover\" adds further negative information: even among those who do \ngraduate, they \"aren't\" fully prepared for college and work.",
+      "options": [
+        {
+          "key": "A",
+          "text": "enlarged, are",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "improvement, continually",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "decreased, aren't",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "improved, aren't",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q55",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Their methodroved, arnatural radiation to see through kilometres of rock, in the ___ way \nmedical X-rays are used to see inside a patient's body.",
+      "explanation": "\"Exploits\" functions as the active verb meaning \"makes use of\". The phrase \"in the same way\" \ndraws a direct, logical comparison to how X-rays function.\nRead the Passage and answer questions\nPassage: The human digestive system is a complex process that involves breaking down food \ninto nutrients that can be absorbed by the body. It starts in the mouth, where enzymes begin to \nbreak down carbohydrates. The food then travels through the esophagus to the stomach, where \nacids and enzymes further break down proteins and other components. The small intestine is \nresponsible for nutrient absorption, while the large intestine absorbs water and forms waste into \nfeces for elimination.",
+      "options": [
+        {
+          "key": "A",
+          "text": "exploits, same",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "exploitation, dissimilar",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "misuses, same",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "exploits, inconsistent",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q56",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Passage: The human digestive system is a complex process that involves breaking down food \ninto nutrients that can be absorbed by the body. It starts in the mouth, where enzymes begin to \nbreak down carbohydrates. The food then travels through the esophagus to the stomach, where \nacids and enzymes further break down proteins and other components. The small intestine is \nresponsible for nutrient absorption, while the large intestine absorbs water and forms waste into \nfeces for elimination.\n\nNutrient absorption occurs primarily in the stomach.",
+      "explanation": "According to the text, the small intestine is responsible for nutrient absorption, while the \nstomach is where acids and enzymes further break down proteins.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q57",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Enzymes in the mouth break down proteins.",
+      "explanation": "The text states that the enzymes in the mouth begin to break down carbohydrates. Proteins are \nbroken down later in the stomach.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q58",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "The large intestine is responsible for absorbing nutrients.",
+      "explanation": "The text states that the small intestine absorbs nutrients, while the large intestine absorbs water\nand forms waste.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q59",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "The esophagus is the first part of the digestive system where enzymes break down food.",
+      "explanation": "The process starts in the mouth, where enzymes first begin to break down carbohydrates before \nthe food travels through the esophagus.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-2-q60",
+      "topicSlug": "exam 2",
+      "type": "multiple_choice",
+      "prompt": "Feces are formed in the small intestine.",
+      "explanation": "The passage states that the large intestine is responsible for absorbing water and forming waste \ninto feces.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ]
+    }
+  ]
+}

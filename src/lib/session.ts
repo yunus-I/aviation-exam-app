@@ -63,6 +63,19 @@ export function loadHistory(): ExamHistoryEntry[] {
   }
 }
 
+export function getAllowedDepartmentId(department: string | null | undefined): string | null {
+  const value = (department ?? "").trim().toLowerCase();
+
+  if (!value) return null;
+  if (value.includes("amt") || value.includes("maintenance")) return "amt";
+  if (value.includes("pilot")) return "pilot";
+  if (value.includes("cabin")) return "cabin";
+  if (value.includes("marketing") || value.includes("aviation management")) return "marketing";
+  if (value.includes("other")) return "others";
+
+  return null;
+}
+
 // ─── Mock login ───────────────────────────────────────────────────────────────
 
 type MockStudent = {

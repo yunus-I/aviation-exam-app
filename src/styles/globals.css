@@ -800,6 +800,67 @@ button { cursor: pointer; border: none; background: none; }
    EXAM SCREEN
    ================================================================ */
 
+.exam-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.exam-panel__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.exam-panel__heading {
+  flex: 1 1 min-content;
+  min-width: 0;
+}
+
+.exam-panel__heading h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.2;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.exam-panel__heading p {
+  color: var(--text-muted);
+  margin: 4px 0 0 0;
+}
+
+.exam-status-strip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  flex-wrap: wrap;
+}
+
+.exam-status-strip div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.exam-status-strip span {
+  color: var(--text-muted);
+}
+
+.exam-status-strip strong {
+  color: var(--text);
+}
+
 .exam-shell {
   min-height: 100vh;
   display: flex;

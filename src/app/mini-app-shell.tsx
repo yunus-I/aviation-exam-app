@@ -120,7 +120,7 @@ function StatusCard({
 
 export function MiniAppShell() {
   const [state, setState] = useState<ViewState>({ kind: "loading" });
-  const [activeTab, setActiveTab] = useState<TabId>("dashboard");
+  const [activeTab, setActiveTab] = useState<TabId>("exam");
 
   useEffect(() => {
     const webApp = window.Telegram?.WebApp;
@@ -164,6 +164,11 @@ export function MiniAppShell() {
   const session = state.kind === "ready" ? state.session : null;
   const telegramUser = state.kind === "ready" ? state.telegramUser : null;
   const isApproved = session?.registrationStatus === "approved";
+  const studentName =
+    session?.fullName ??
+    telegramUser?.first_name ??
+    (state.kind === "outside_telegram" ? "Demo Student" : "Student");
+  const candidateId = isApproved && session ? session.candidateId : "demo";
 
   let statusDetails: StatusDetails;
 
@@ -268,23 +273,7 @@ export function MiniAppShell() {
 
           {activeTab === "exam" && (
             <div className="mini-tab-panel">
-              {isApproved && session ? (
-                <ExamWorkbench
-                  candidateId={session.candidateId}
-                  studentName={session.fullName ?? "Student"}
-                />
-              ) : (
-                <section className="mini-card mini-card--exam-lock">
-                  <div className="mini-card__topline">
-                    <span className="mini-section-label">Exam Access</span>
-                  </div>
-                  <div className="mini-card__body">
-                    <h2>{statusDetails.title}</h2>
-                    <p>{statusDetails.description}</p>
-                  </div>
-                  <div className="mini-card__footer">{statusDetails.action}</div>
-                </section>
-              )}
+              <ExamWorkbench candidateId={candidateId} studentName={studentName} />
             </div>
           )}
 

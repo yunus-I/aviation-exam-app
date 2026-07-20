@@ -34,4 +34,11 @@ export const DEPARTMENTS = [
     description:
       "Aptitude, spatial reasoning, math, and aviation-oriented entrance exam preparation.",
   },
+  {
+    slug: "others",
+    shortLabel: "Others",
+    label: "Others",
+    description:
+      "General entrance preparation for other aviation university departments.",
+  },
 ] as const;

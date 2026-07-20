@@ -1,0 +1,1792 @@
+{
+  "questionBank": {
+    "key": "cabin-exam-bank-1",
+    "slug": "cabin-exam-1",
+    "title": "Cabin Crew Exam 1 Bank",
+    "description": "Grammar, Reading, Sentence Completion",
+    "departmentCode": "CABIN"
+  },
+  "examSet": {
+    "key": "cabin-exam-set-1",
+    "slug": "cabin-exam-1",
+    "title": "Exam 1",
+    "description": "Cabin Crew Exam 1",
+    "departmentCode": "CABIN",
+    "topicSlug": "exam 1",
+    "mode": "mock",
+    "durationMinutes": 90,
+    "published": true
+  },
+  "questions": [
+    {
+      "key": "cabin-exam-1-q1",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Walking down any high street, it's impossible not to be tempted by the discounts the major \nretailers are offering us. 'Half-price sale', 'Extra 20% off' or how about a 'BOGOF' (Buy One, Get \nOne Free)? The discounts offered are huge and one wonders how shops continue to make a \nprofit!\nHowever, whilst they sound great in principle, it's worth digging a little deeper. These sorts of \noffers are displayed in the shop front purely as a means of enticing you in. The logic behind this \nis that whilst we might pop in and pick up a bargain, many of us are also likely to buy something \nat full price too.\nThink about it. You've picked up an item of clothing at half price, so surely that means you can \njustify buying something else at full price as it's still less than paying full price for everything? \nBut... did you plan on buying anything? We often find ourselves purchasing goods we didn't \nactually intend to buy nor did we need. Think again before you wander in to pick up that \namazing bargain!\n\nWhich of the following best describes what the passage is trying to advise the reader?",
+      "explanation": "The passage warns that discounts entice us into shops where we often end up buying \nunnecessary things or full-priced items we didn't intend to purchase.",
+      "options": [
+        {
+          "key": "A",
+          "text": "We should not buy goods at full price; we should wait for the sale",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Shop discounts can lead to us buying items we could live without",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "High street shops provide discounting options that really benefit shoppers",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Sales are a great way of saving money in the shops",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q2",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Which of the following do we know to be true based on the passage?",
+      "explanation": "The first paragraph explicitly states that the discounts offered by major high-street \nretailers are \"huge.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "Retailers tend to make less profit when their sales are on",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "High-street shops offer big discounts when their sales are on",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Online discounts can't match high-street sales",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Most people buy goods from the high-street sales",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q3",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "According to the information in the passage, most people find they save a lot of money in the \nhigh-street sales.",
+      "explanation": "The text points out that shoppers usually justify buying other full-price items they don't \nneed, meaning they actually end up spending money rather than saving it.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Definitely True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Probably False",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Probably True",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Definitely false",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q4",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Which word would best replace 'enticing' in the second paragraph?",
+      "explanation": "\"Enticing\" means attracting someone by offering something appealing, which is a direct \nsynonym of \"tempting.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tempting",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "promising",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "engaging",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "inspiring",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q5",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Based on the information in the passage, which factor probably matters most to high street \nshops when they plan their sales?",
+      "explanation": "Retailers use these eye-catching sales front-and-center \"purely as a means of enticing you \nin,\" meaning customer perception of the deal is their primary goal.\nPART-II: Grammar Application-Sentence Completion\nDirections: Find the correct combination in each case that result in a sentence both \ngrammatically correct and makes best sense.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Which products have been most popular that season",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "What the local competitors are doing",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Which offer sound like the best deal to customers",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Which products they need to sell off quickly",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q6",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Despite the inclement weather, we preceded _______ our hike.",
+      "explanation": "\"Proceed with\" is the correct phrasal verb meaning to start or continue an action.",
+      "options": [
+        {
+          "key": "A",
+          "text": "With",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "by",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "through",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "over",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q7",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Had she applied herself more diligently, she _______ a higher band score on the reading \nsection.",
+      "explanation": "This is an inverted third conditional sentence (hypothetical past). The results clause must \nuse the form would have + past participle.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Would have achieved",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "achieved",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "will achieve",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "was achieving",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q8",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Identify the synonymous of \"ubiquitous\" from the \noptions presented.",
+      "explanation": "Both words mean existing or being present everywhere at the same time.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Unique",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Scarce",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "rare",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Omnipresent",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q9",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "In the context of linguistic morphology, choose the option that identifies the correct meaning \nof the root 'therm'",
+      "explanation": "The Greek root \"therm\" translates directly to \"heat\" (as in thermometer or thermal).",
+      "options": [
+        {
+          "key": "A",
+          "text": "Life",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "water",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "heat",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Pressure",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q10",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Select the language function primarily demonstrated in this sentence: \"Would you mind \nturning down the music?\"",
+      "explanation": "\"Would you mind...\" is a standard, polite grammatical formula used to ask someone to do \nsomething.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Expressing Enjoyment",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "giving an opinion",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Requesting politely",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Making demand",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q11",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Choose the expression that is equivalent to \"once in a blue moon\".",
+      "explanation": "\"Once in a blue moon\" is an idiom used to describe an event that almost never happens.",
+      "options": [
+        {
+          "key": "A",
+          "text": "annually",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "every evening",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "very rarely",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Frequently",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q12",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Select the correct plural form of the word \"thesis\".",
+      "explanation": "Nouns of Greek origin ending in -is change to -es in their plural form.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Theses",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Thesisies",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Thesiic",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Thesises",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q13",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Which of the following grammatical structure is appropriate to convey a hypothetical \nsituation in the past?",
+      "explanation": "To express a past hypothetical (third conditional), the result clause requires would have + past\nparticiple. (Note: Standard grammar uses \"had studied\" in the conditional clause, but option C \nis the only choice that successfully uses the past-hypothetical result structure).",
+      "options": [
+        {
+          "key": "A",
+          "text": "if he will study harder, he passed the exam.",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "He studied harder, so he passed the exam.",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "If he studied harder, he would have passed the exam.",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "if he study harder, he passes the exam.",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q14",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Which sentence most accurately utilizes complex grammatical structures to convey a \nmessage?",
+      "explanation": "This sentence uses an advanced prepositional contrast phrase (\"Despite...\") and a sophisticated \npast participle adjective (\"uninterrupted\") instead of basic coordinating conjunctions like \"but\" or \n\"and.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "Despite the heavy rains, the match continued uninterrupted",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "The match went on even though it rained heavily",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "The rains were heavy, but the match continued",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "It rained a lot, and the match kept going",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q15",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "In light of the new regulations, _______, we have decided to alter our strategy.",
+      "explanation": "This creates a grammatically correct parenthetical contrast. The other options are either \nconjunctions that break the sentence structure (\"but\", \"although\") or redundant (\"and \nconsequentially\").",
+      "options": [
+        {
+          "key": "A",
+          "text": "despite our previous success",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "but",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "and consequentially",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "although",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q16",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Select the sentence where indirect speech is used appropriately",
+      "explanation": "Indirect questions must use statement word order (subject before verb: I would) instead of \nquestion word order (would I), and backshift the tense from \"will\" to \"would\" to match the past tense reporting verb \"asked.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "He asked me when I would finish the report",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "He asked me when would I finish the report",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "He tells me to when will I finish the report.",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "He asked me when I will finish the report",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q17",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Which option correctly demonstrates the passive voice?",
+      "explanation": "This follows the standard passive formula: Subject (The novel) + auxiliary verb \"to be\" (was) \n+ past participle (written) + by-agent (by the author).",
+      "options": [
+        {
+          "key": "A",
+          "text": "One month was what it took the author to write the novel",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "The author wrote the novel in one month",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "in one month, the novel was written",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "The novel was written by the author in one month",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q18",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Which of the following sentences uses correct English \ngrammar?",
+      "explanation": "A is incorrect (uses \"will\" in an if-clause); B is incorrect (subject-verb agreement error: \"They \nhas\"); D is incorrect (lacks an auxiliary verb before \"done\").",
+      "options": [
+        {
+          "key": "A",
+          "text": "I would go to the shop if I will need milk.",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "They has finished the project in record time.",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "She has written the report by herself",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "He done the work by yesterday evening",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q19",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Given the context of scientific report, which word would you use to describe an increase that \nis not only large but also very rapid?",
+      "explanation": "In scientific and mathematical contexts, \"exponential\" growth refers to an extremely rapid, \ncompounding increase.",
+      "options": [
+        {
+          "key": "A",
+          "text": "marginal",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Incremental",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Exponential",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Steady",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q20",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "In a formal report, which of the following phrases is considered the most appropriate and \neffective?",
+      "explanation": "Formal academic and business writing avoids contractions. \"Cannot\" is the fully spelled-out, \nnon-contracted form.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cannot",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Isn't",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Don't",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Ain't",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q21",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "The professor recommends that the student _______ more source in his research.",
+      "explanation": "The verb \"recommends\" triggers the subjunctive mood, which requires the bare infinitive verb \nform (\"include\") regardless of the subject.",
+      "options": [
+        {
+          "key": "A",
+          "text": "included",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "will include",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "includes",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "include",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q22",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "In the sentence 'Her veracity was unquestionable, even in the most complicated of cases.' \nWhat does 'veracity' refer to?",
+      "explanation": "\"Veracity\" is defined as conformity to facts, accuracy, or habitual truthfulness.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Intensity",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Cleverness",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Speed",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "truthfulness",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q23",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Based on its usage in the following sentence, what is the best synonym for 'ersatz'? 'The hotel \nserved an ersatz version of coffee that displeased the guests'",
+      "explanation": "\"Ersatz\" means used as a substitute, typically an inferior or artificial imitation of the real thing.",
+      "options": [
+        {
+          "key": "A",
+          "text": "gourmet",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Exotic",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Artificial",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Original",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q24",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Determine the meaning of \"intransigent\" as used in the sentence: \"Despite numerous \ndiscussions, the committee remained intransigent on the issue.\"",
+      "explanation": "\"Intransigent\" describes someone who is completely unwilling to change their views or \ncompromise.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Open-minded",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Distracted",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Flexible",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "stubborn",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q25",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Determine the connotation of \"impetuous\" in the context: \"The CEO's impetuous decision to \nrebrand the company raised concerns among the stakeholders.\"",
+      "explanation": "\"Impetuous\" means acting quickly and without thought or care, which translates to a \"rash\" or \nimpulsive decision.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Timid",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Rash",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Deliberate",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Informed",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "Strategic\n[7/17/2026 1:58 PM] Yeabsra Niguse:",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q26",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "The lady in 15C will need help getting out of her seat.",
+      "explanation": "This is the most professional and helpful customer service response to a passenger's stated need.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ok. Yes, I can",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Ok. I'll take care of that",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Ok. I will get her",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Ok. I'm going to get her out",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q27",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Can I get my book from the overhead locker?",
+      "explanation": "This option is grammatically correct and uses a polite, formal tone (\"I'm afraid you'll have to...\") \nsuitable for a cabin crew member addressing a passenger.",
+      "options": [
+        {
+          "key": "A",
+          "text": "We are about to take off so you can't",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "No, you can't. we are taking off in a few minutes",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "The plane is about to take off. I'm afraid you'll have to wait",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "No. I can't. We are about to take off",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q28",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "I don't have any water on this meal tray.",
+      "explanation": "This choice correctly uses the future tense (\"I'll get...\") to offer immediate assistance and \ncorrectly uses \"some\" to refer back to the uncountable noun \"water.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "I'm sorry, madam. I get it now",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "I'm sorry, madam. I'll get you some now",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "I'm sorry, madam. I am getting them now",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "I'm sorry, madam. Now I will get some",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q29",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "I feel very dizzy, I think I'm going to faint.",
+      "explanation": "This is the standard and natural negative imperative structure (\"Don't try to...\") used to give \nurgent, helpful advice.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Don't try to get up",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Don't you get up",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "You don't try to get up",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Try not getting up",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q30",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "_______ the bad weather, take-off has been delayed.",
+      "explanation": "The prepositional phrase \"Because of\" is required here because it is followed directly by a noun \nphrase (\"the bad weather\"). \"Because\" would require a full clause with a verb.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Because",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "So",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Because of",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "In order of",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q31",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "How about _______ some water?",
+      "explanation": "The suggestive phrase \"How about\" must be followed by a gerund (verb + \"-ing\").",
+      "options": [
+        {
+          "key": "A",
+          "text": "to drink",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "drank",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "drink",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "drinking",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q32",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "We _______ to put that bag in the overhead locker for take-off.",
+      "explanation": "\"Need\" is the only option here that is grammatically followed by the infinitive marker \"to\" \n(\"need to put\"). Modals like \"must\" and \"should\" are followed by bare infinitives.",
+      "options": [
+        {
+          "key": "A",
+          "text": "must",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "need",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "should",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "are",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q33",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "_______ it be possible to switch off your mobile phone please, sir?",
+      "explanation": "\"Would it be possible...\" is a highly polite, idiomatic, and standard conditional formula used to \nmake requests in formal environments.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Would",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Could",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "May",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "I wounder if",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q34",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "The man in 34A _______ very angry about the baby behind him. I think we need to do \nsomething.",
+      "explanation": "The present continuous tense (\"is getting\") is correct because it describes a temporary, ongoing \ntransition happening right now, which prompts the immediate need to act.",
+      "options": [
+        {
+          "key": "A",
+          "text": "gets",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "is get",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "is getting",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "get",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q35",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "I am very sorry _______ that.",
+      "explanation": "The adjective \"sorry\" is idiomatically paired with the preposition \"about\" when expressing regret \nfor a specific event or situation.",
+      "options": [
+        {
+          "key": "A",
+          "text": "of",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "because",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "about",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "with",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q36",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Would you _______ helping me with this?",
+      "explanation": "The polite formula \"Would you mind...\" is always followed by a gerund (\"helping\") to request \nassistance.",
+      "options": [
+        {
+          "key": "A",
+          "text": "mind",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "can",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "possible",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "might",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q37",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "This water heater is out of _______. We'll have to use the other one.",
+      "explanation": "\"Out of action\" is a standard English idiom meaning that a machine or piece of equipment is \nbroken or not functioning.",
+      "options": [
+        {
+          "key": "A",
+          "text": "working",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "action",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "function",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "showed",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q38",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "The captain has just _______ us of some turbulence ahead.",
+      "explanation": "[7/17/2026 1:58 PM] Yeabsra Niguse: \"Informed\" is a transitive verb that correctly takes a direct \nobject (\"us\") and the preposition \"of\" (\"informed us of...\").",
+      "options": [
+        {
+          "key": "A",
+          "text": "announced",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "explained",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "informed",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "showed",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q39",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Could you put your bag in the locker, sir? We need to keep the _______ clear.",
+      "explanation": "For safety reasons during a flight, the walkways (\"aisles\") must be kept entirely clear of \nobstacles.",
+      "options": [
+        {
+          "key": "A",
+          "text": "aisles",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "luggage",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "take-off",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "passengers",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q40",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "She was a devoted wife and looked _______ her husband.",
+      "explanation": "The phrasal verb \"look after\" means to take care of someone, which fits the context of being a \n\"devoted wife.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "at",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "upon",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "after",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "for",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q41",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Good sleep is necessary _______ good health.",
+      "explanation": "The adjective \"necessary\" is followed by the preposition \"for\" to point to the benefit or target of \nthe necessity.",
+      "options": [
+        {
+          "key": "A",
+          "text": "from",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "for",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "of",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "at",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q42",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "My voice reverberated _______ the walls of the castle.",
+      "explanation": "Sound \"reverberates from\" (or bounces off) physical surfaces.",
+      "options": [
+        {
+          "key": "A",
+          "text": "from",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "on",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "with",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "in",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q43",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "A steady mind triumphs _______ difficulties.",
+      "explanation": "The verb \"triumph\" is idiomatically paired with the preposition \"over\" to mean defeating or \novercoming challenges.",
+      "options": [
+        {
+          "key": "A",
+          "text": "with",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "at",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "in",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "over",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q44",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Jack's mind was attuned _______ music.",
+      "explanation": "\"Attuned\" is always followed by the preposition \"to,\" meaning harmonized or receptive to \nsomething.",
+      "options": [
+        {
+          "key": "A",
+          "text": "on",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "at",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "with",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "to",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q45",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Select the word that is spelled incorrectly.",
+      "explanation": "The correct spelling is permanent (ending in \"-nent\").",
+      "options": [
+        {
+          "key": "A",
+          "text": "judgment",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "permenant",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "dialogue",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "adjacent",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q46",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Select the word that is spelled incorrectly.",
+      "explanation": "The correct spelling is precede (meaning to go or come before).",
+      "options": [
+        {
+          "key": "A",
+          "text": "independent",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "convenient",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "percede",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "anarchy",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q47",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Select the word that is spelled incorrectly.",
+      "explanation": "All choices are spelled correctly here, but \"achieve\" is historically the most tested spelling \npattern on standardized quizzes.",
+      "options": [
+        {
+          "key": "A",
+          "text": "proficient",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "apprehend",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "achieve",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "ignorance",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q48",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Select the word that is spelled incorrectly.",
+      "explanation": "The correct spelling is vacuum (with two \"u\"s and no \"e\").",
+      "options": [
+        {
+          "key": "A",
+          "text": "vacume",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "humorous",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "separate",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "efficient",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q49",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Select the word that is spelled incorrectly.",
+      "explanation": "The correct spelling is equipment (without a \"t\" after the \"p\").",
+      "options": [
+        {
+          "key": "A",
+          "text": "poised",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "equiptment",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "accumulate",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "porous",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q50",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "In this sentence, there may be a problem with English grammar. If a problem does \nexist, select the letter that indicates the most effective change. If no problem exists, select \nchoice D.\nUniversities are going to increase their tuition next year because increasing demand to \nattend.",
+      "explanation": "The word \"increased\" functions as a past participle adjective modifying \"demand,\" which is \nmore grammatically cohesive than the active participle \"increasing\" in this sentence structure.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Change Universities to University",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Change increasing to increased",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Change their to there",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "No changes are necessary",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q51",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "In this sentence, there may be a problem with English grammar. If a problem does exist, \nselect the letter that indicates the most effective change. If no problem exists, select choice D.\nThere are different types of student loans; some don't need to be paid back until after you \ngraduate, as long as you maintain a high average.",
+      "explanation": "The sentence is grammatically flawless as written.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Change different types to different type",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Change high to highest",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Change some to all",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "No changes are necessary",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q52",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "In this sentence, there may be a problem with English grammar. If a problem does exist, \nselect the letter that indicates the most effective change. If no problem exists, select choice D.\n[7/17/2026 1:58 PM] Yeabsra Niguse: The meeting needs to take place next week to ensure \nthat the client are happy with our services.",
+      "explanation": "\"The client\" is singular, so it requires the singular verb \"is\" rather than the plural \"are\" for \nsubject-verb agreement.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Change are to is",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Change next week to last week",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Change our service to their service",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "No changes are necessary",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q53",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "In this sentence, there may be a problem with English grammar. If a problem does exist, \nselect the letter that indicates the most effective change. If no problem exists, select choice D.\nDoctor appointments need to be made in the morning to assure that the rest of the day will \nbe efficient.",
+      "explanation": "\"Ensure\" means to make certain that something will happen, which is the correct meaning here. \n\"Assure\" means to remove doubt by telling someone confidently.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Change appointments to appointment",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Change need to needs",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Change assure to ensure",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "No changes are necessary",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q54",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "In order for a disagreement to not _______, it is best for people to try to resolve their \ndifferences _______.",
+      "explanation": "To keep a disagreement from getting worse (\"escalating\"), it is logical to resolve the issues as \nsoon as possible (\"early on\").",
+      "options": [
+        {
+          "key": "A",
+          "text": "escalate .. early on",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "deteriorate .. slowly",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "improve .. carefully",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "dissolve .. respectfully",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "retire .. quietly",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q55",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Dina is looking for a travelling _______ for her next overseas _______.",
+      "explanation": "\"Travelling companion\" is a standard collocation, and \"overseas adventure\" fits the travel theme \nperfectly.",
+      "options": [
+        {
+          "key": "A",
+          "text": "companion .. adventure",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "company .. guide",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "buddy .. suitcase",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "trip .. ticket",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "abroad .. vacation",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q56",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "The Rogers family always _______ to celebrate birthdays, since birthdays are a special \n_______.",
+      "explanation": "\"Assembles\" is a grammatically correct verb for a family gathering, and \"occasion\" fits perfectly \nas a synonym for a special celebration.",
+      "options": [
+        {
+          "key": "A",
+          "text": "assembles .. occasion",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "together .. event",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "party .. anniversary",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "joyous .. milestone",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "gives gifts .. greeting",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q57",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "\"If I had _______ when things were hard, I would never have _______ my vision.\"",
+      "explanation": "This third conditional sentence logically states that if the speaker had quit (\"given up\") in the \npast, they wouldn't have reached (\"accomplished\") their goal.",
+      "options": [
+        {
+          "key": "A",
+          "text": "given up .. accomplished",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "continued .. fulfilled",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "stopped .. success",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "abandon .. realized",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "hopeful .. seen",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q58",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "The dance performance _______ Michael deeply and inspired him to _______ dancing.",
+      "explanation": "Being deeply \"impressed\" by a performance provides the logical motivation to begin (\"take up\") \npracticing that activity.",
+      "options": [
+        {
+          "key": "A",
+          "text": "impressed .. take up",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "disappointed .. pursue",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "thrilled .. give up",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "affected .. Ballet",
+          "isCorrect": false
+        },
+        {
+          "key": "E",
+          "text": "admired .. continue",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q63",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "suddenly",
+      "explanation": "Putting the words in this order forms the grammatically correct, natural sentence: \"He (4) \nsuddenly (5) left (1) the (2) house (3).\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "12435",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "21354",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "45123",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "52341",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-exam-1-q64",
+      "topicSlug": "exam 1",
+      "type": "multiple_choice",
+      "prompt": "Safety and Health During International Travel\nAll Travelers Should Take the Following Precautions:\n· Wash hands often with soap and water.\n· Because motor vehicle crashes are a leading cause of injury among travelers, walk and \ndrive defensively. Avoid travel at night if possible and always use seat belts.\n· Don't eat or drink dairy products unless you know they have been pasteurized.\n· Eat only thoroughly cooked food or fruits and vegetables you have peeled yourself. \nRemember: boil it, cook it, peel it, or forget it.\n· Never eat undercooked meat, raw eggs, and unpasteurized dairy products. Raw shellfish is \nparticularly dangerous to persons who have liver disease or compromised immune systems.\n\nWhich one of the following would best replace 'compromised' while maintaining the \nmeaning of the passage?",
+      "explanation": "In a medical context, a \"compromised\" immune system is one that has been \"weakened,\" making \nit harder to fight off infections.",
+      "options": [
+        {
+          "key": "A",
+          "text": "weakened",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "settled",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "cooperative",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "risky",
+          "isCorrect": false
+        }
+      ]
+    }
+  ]
+}

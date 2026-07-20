@@ -41,7 +41,7 @@ export const BOT_COPY: Record<AppLanguage, CopyTree> = {
     invalidPassword:
       "Your password must be at least 4 digits and contain numbers only.",
     paymentInstructions:
-      "💸 Payment required: 200 Birr\n\n🏦 CBE: 1000293836648 (Admassu Yano)\n📱 Telebirr: 0907667755 (Admassu Yano)\n\n📸 Please upload the screenshot of your payment receipt.",
+      "💸 Payment required: 499 Birr\n\n🏦 CBE: 1000718365361 (yeabsra niguse and ermias Abera)\n📱 BOA: 236844412 (yeabsra niguse and ermias abera)\n\n📸 Please upload the screenshot of your payment receipt.",
     receiptOnly: "Please upload the receipt as an image.",
     pendingReview:
       "Your registration is under review. Please wait 30 minutes to 1 hour for approval.",
@@ -72,7 +72,7 @@ export const BOT_COPY: Record<AppLanguage, CopyTree> = {
       "ቢያንስ 4 አሃዝ ያለው የይለፍ ቃል ያዘጋጁ። ለመግቢያ አሃዞች ብቻ መጠቀም ይመከራል።",
     invalidPassword: "የይለፍ ቃሉ ቢያንስ 4 አሃዝ መሆን እና አሃዞች ብቻ መያዝ አለበት።",
     paymentInstructions:
-      "💸 ክፍያ ያስፈልጋል: 200 ብር\n\n🏦 ንግድ ባንክ: 1000293836648 (Admassu Yano)\n📱 ቴሌብር: 0907667755 (Admassu Yano)\n\n📸 የከፈሉበትን ደረሰኝ ስክሪንሾት ይላኩ።",
+      "💸 ክፍያ ያስፈልጋል: 200 ብር\n\n🏦 ንግድ ባንክ: 1000718365361 (yeabsra niguse and ermias Abera)\n📱 አቢሲኒያ: 236844412 (yeabsra niguse and ermias abera)\n\n📸 የከፈሉበትን ደረሰኝ ስክሪንሾት ይላኩ።",
     receiptOnly: "እባክዎ ደረሰኙን እንደ ምስል ይላኩ።",
     pendingReview: "ምዝገባዎ በምርመራ ላይ ነው። እባክዎ ለፍቃድ 30 ደቂቃ እስከ 1 ሰዓት ይጠብቁ።",
     alreadyApproved: "ምዝገባዎ ተፈቅዷል። የፈተናውን Mini App መጠቀም ይችላሉ።",

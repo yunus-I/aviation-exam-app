@@ -1,0 +1,746 @@
+{
+  "questionBank": {
+    "key": "cabin-practice-bank-3",
+    "slug": "cabin-practice-3",
+    "title": "Cabin Crew Practice 3 Bank",
+    "description": "Vocabulary, Synonyms & Antonyms",
+    "departmentCode": "CABIN"
+  },
+  "examSet": {
+    "key": "cabin-practice-set-3",
+    "slug": "cabin-practice-3",
+    "title": "Practice 3",
+    "description": "Cabin Crew Practice Test 3",
+    "departmentCode": "CABIN",
+    "mode": "practice",
+    "durationMinutes": 60,
+    "published": true
+  },
+  "questions": [
+    {
+      "key": "cabin-practice-3-q1",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the antonym of Soporific:",
+      "explanation": "A soporific substance tends to induce drowsiness or sleep, whereas something stimulating keeps you awake.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sleepy",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Drowsy",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Stimulating",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Calming",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q2",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the synonym of Taciturn:",
+      "explanation": "Taciturn describes a person who is reserved or uncommunicative in speech, saying very little.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Talkative",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Reserved",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Loquacious",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Garrulous",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q3",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the antonym of Transient:",
+      "explanation": "Transient means lasting only for a short time, while perpetual means never-ending or everlasting.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Temporary",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Fleeting",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Perpetual",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Brief",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q4",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the synonym of Vacillate:",
+      "explanation": "Vacillate means to alternate or waver between different opinions or actions (waver).",
+      "options": [
+        {
+          "key": "A",
+          "text": "Decide",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Waver",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Persist",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Remain",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q5",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the antonym of Reproach:",
+      "explanation": "To reproach means to express disapproval or disappointment, while commend means to praise.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Blame",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Criticize",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Commend",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Scold",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q6",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the synonym of Zealous:",
+      "explanation": "Zealous means having or showing great energy and enthusiasm for a cause (enthusiastic).",
+      "options": [
+        {
+          "key": "A",
+          "text": "Indifferent",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Apathetic",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Enthusiastic",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Uninterested",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q7",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the synonym of Obdurate:",
+      "explanation": "Both obdurate and obstinate describe someone who is stubbornly unyielding.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Yielding",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Obstinate",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Flexible",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Amenable",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q8",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the antonym of Meticulous:",
+      "explanation": "Meticulous means taking extreme care and attention to detail, while negligent means careless or failing to take proper care.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Careful",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Negligent",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Precise",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Detailed",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q9",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the synonym of Ephemeral:",
+      "explanation": "Both words mean short-lived, fleeting, or passing quickly out of existence.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Permanent",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Transient",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Eternal",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Lasting",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q10",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the antonym of Placate:",
+      "explanation": "Placate means to make someone less angry or hostile, while enrage means to make them furious.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Enrage",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Appease",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Pacify",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Soothe",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q11",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the synonym of Acquiesce:",
+      "explanation": "Acquiesce means to accept something reluctantly but without protest (consent).",
+      "options": [
+        {
+          "key": "A",
+          "text": "Deny",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Refuse",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Consent",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Protest",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q12",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the antonym of Fortuitous:",
+      "explanation": "Fortuitous means happening by accident or lucky chance, while intentional means planned or deliberate.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Accidental",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Intentional",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Random",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Lucky",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q13",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the synonym of Audacious:",
+      "explanation": "Audacious means showing a willingness to take surprisingly bold risks (daring).",
+      "options": [
+        {
+          "key": "A",
+          "text": "Timid",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Daring",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Cautious",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Fearful",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q14",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the antonym of Morose:",
+      "explanation": "Morose means sullen, gloomy, and ill-tempered, making cheerful its direct antonym.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sullen",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Cheerful",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Gloomy",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Glum",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q15",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the synonym of Perspicacious:",
+      "explanation": "Perspicacious means having a ready insight into and understanding of things (insightful).",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ignorant",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Insightful",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Dull",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Foolish",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q16",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the antonym of Cogent:",
+      "explanation": "A cogent argument is clear and highly persuasive; an ineffective argument fails to convince.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Convincing",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Ineffective",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Logical",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Persuasive",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q17",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the synonym of Frugal:",
+      "explanation": "Frugal means sparing or economical with regard to money or food (thrifty).",
+      "options": [
+        {
+          "key": "A",
+          "text": "Wasteful",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Extravagant",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Thrifty",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Prodigal",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q18",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Choose the synonym of Capricious:",
+      "explanation": "Both words describe someone or something that changes mind, mood, or direction unpredictably.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Consistent",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Fickle",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Predictable",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Constant",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q19",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "The cybersecurity analyst recommended that the IT team install the critical software updates _______ in order to prevent malicious actors from _______ the vulnerability.",
+      "explanation": "Applying patches systematically (ordered, thorough method) stops attackers from exploiting vulnerabilities.",
+      "options": [
+        {
+          "key": "A",
+          "text": "rapidly / ignoring",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "systematically / exploiting",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "randomly / creating",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "occasionally / fixing",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q20",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Due to the unexpected delay in receiving the laboratory results, the medical board decided to _______ the final diagnosis until a _______ report could be generated.",
+      "explanation": "You postpone (delay) medical decisions when waiting for a comprehensive (complete, all-inclusive) report.",
+      "options": [
+        {
+          "key": "A",
+          "text": "accelerate / partial",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "postpone / comprehensive",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "cancel / brief",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "publish / preliminary",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q21",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Although the structural design of the new pavilion was visually _______, the materials required for its construction were deemed too _______ for the local municipality's budget.",
+      "explanation": "Use of the word \"Although\" sets up a contrast: the pavilion was elegantly designed but too expensive, causing a conflict with the budget.",
+      "options": [
+        {
+          "key": "A",
+          "text": "simple / cheap",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "elegant / expensive",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "flawed / costless",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "massive / affordable",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q22",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "The standard operating procedure requires all employee personnel to _______ their credentials before _______ access to the secure server room.",
+      "explanation": "Standard IT security process: personnel must verify who they are before obtaining physical or digital entry.",
+      "options": [
+        {
+          "key": "A",
+          "text": "lose / requesting",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "verify / obtaining",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "forget / denying",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "change / blocking",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q23",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "The torrential rainfall heavily _______ the afternoon commute, forcing city transit officials to suggest _______ routes for commuters traveling downtown.",
+      "explanation": "Severe weather disrupted the normal flow of traffic, forcing transit authorities to suggest alternative routes.",
+      "options": [
+        {
+          "key": "A",
+          "text": "assisted / standard",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "disrupted / alternative",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "stopped / longer",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "improved / normal",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q24",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "Because the corporate project budget remains highly _______ at this stage, the procurement manager is hesitant to purchase any _______ machinery.",
+      "explanation": "Budgets that are not fixed are tentative (subject to change), which makes a manager avoid permanent or unchangeable financial commitments.",
+      "options": [
+        {
+          "key": "A",
+          "text": "generous / cheap",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "tentative / permanent",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "finalized / expensive",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "massive / temporary",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "cabin-practice-3-q25",
+      "topicSlug": "english",
+      "type": "multiple_choice",
+      "prompt": "The human resources department plans to _______ the seasonal workforce next month to effectively _______ the increased consumer demand during the holidays.",
+      "explanation": "Corporate logic dictates you augment (increase/add to) staff to manage higher holiday traffic volumes.",
+      "options": [
+        {
+          "key": "A",
+          "text": "reduce / avoid",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "augment / manage",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "dismiss / decrease",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "stabilize / ignore",
+          "isCorrect": false
+        }
+      ]
+    }
+  ]
+}

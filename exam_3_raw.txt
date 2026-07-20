@@ -1,0 +1,451 @@
+41. The human digestive system has no role in absorbing nutrients from food.
+A. True
+B. False
+Answer
+B. False
+Explanation
+The very first sentence of the passage defines the human digestive system as a process that 
+"involves breaking down food into nutrients that can be absorbed by the body."
+Reading Comprehension & Logical Evaluation
+Passage A: Cloud Computing
+Cloud computing refers to the on-demand availability of computer system resources, especially 
+data storage and computing power, without direct active management by the user. The term is 
+generally used to describe data centers available to many users over the Internet. Large clouds, 
+predominant today, often have functions distributed over multiple locations from central servers. 
+If the connection to the user is relatively close, it may be designated an edge server.
+[7/17/2026 10:17 PM] Yeabsra Niguse: Clouds may be limited to a single organization 
+(enterprise clouds), or be available to many organizations (public cloud). Public clouds host 
+services for multiple clients over the same hardware infrastructure. In contrast, private clouds are 
+dedicated to a single organization, ensuring customizable control and heightened security for 
+sensitive workloads. Hybrid clouds combine both private and public architectures, allowing data 
+and applications to be shared between them.
+42. Public cloud architectures host services for multiple clients over the same hardware 
+infrastructure.
+A) True
+B) False
+Answer: A
+Explanation: The text explicitly states that public clouds "host services for multiple clients over 
+the same hardware."
+43. Hybrid clouds are deployed exclusively on a single infrastructure type.
+A) True
+B) False
+Answer: B
+Explanation: Hybrid clouds combine both private and public architectures, not just one.
+44. Private clouds offer less customizable control over resources than public clouds.
+A) True
+B) False
+Answer: B
+Explanation: The text states private clouds ensure "customizable control."
+45. Highly sensitive workloads are typically run on public cloud infrastructure.
+A) True
+B) False
+Answer: B
+Explanation: The text says private clouds are for sensitive workloads, while public clouds are 
+for less critical tasks.
+46. Cloud computing relies on shared remote internet resources rather than local servers.
+A) True
+B) False
+Answer: A
+Explanation: The first sentence notes it provides resources "without direct active management 
+by the user" via the Internet.
+Passage B: Photosynthesis
+Photosynthesis is a chemical process used by plants, algae, and certain bacteria to harness energy 
+from sunlight and turn it into chemical energy. This process occurs primarily within chloroplasts, 
+specialized organelles containing chlorophyll. The reaction requires water, carbon dioxide, and 
+light energy to produce glucose and oxygen.
+The process is divided into two main stages: the light-dependent reactions and the light-independent reactions (the Calvin Cycle). During the light-dependent stage, solar energy is 
+captured and used to split water molecules, releasing oxygen as a byproduct. In the light-independent stage, the captured energy is used to synthesize glucose from carbon dioxide. This 
+glucose serves as the foundational energy source to fuel the organism’s vital metabolic functions.
+47. Oxygen is released as a byproduct during the light-independent stage.
+A) True
+B) False
+Answer: B
+Explanation: Oxygen is released during the light-dependent stage.
+48. All living organisms are capable of performing photosynthesis to produce glucose.
+A) True
+B) False
+Answer: B
+Explanation: Only "plants, algae, and certain bacteria" are mentioned; animals and fungi cannot 
+do this.
+49. Chloroplasts are the specialized organelles where the photosynthetic reaction takes 
+place.
+A) True
+B) False
+Answer: A
+Explanation: The text explicitly defines chloroplasts as the specialized organelles for this 
+process.
+50. During the Calvin Cycle, carbon dioxide is captured and synthesized into glucose.
+A) True
+B) False
+Answer: A
+Explanation: The text confirms the Calvin Cycle (light-independent stage) synthesizes glucose 
+from CO2.
+51. Glucose serves as a foundational energy source for the organism's metabolic functions.
+A) True
+B) False
+Answer: A
+Explanation: This is confirmed in the final sentence of the passage.
+Passage C: Blockchain Technology
+A blockchain is a decentralized, distributed, and oftentimes public, digital ledger consisting of 
+records called blocks. These blocks are used to record transactions across many computers so 
+that any involved block cannot be altered retroactively, without the alteration of all subsequent 
+blocks. This allows the participants to verify and audit transactions independently and relatively 
+inexpensively.
+[7/17/2026 10:17 PM] Yeabsra Niguse: A blockchain database is managed autonomously using a 
+peer-to-peer network and a distributed timestamping server. They are authenticated by mass 
+collaboration powered by collective self-interests. Such a design facilitates robust workflow 
+where participants' uncertainty regarding data security is marginal. The use of a blockchain 
+removes the characteristic of infinite reproducibility from a digital asset. It confirms that each 
+unit of value was transferred only once, solving the long-standing problem of double-spending.
+52. Blockchain technology increases the necessity for central clearing houses.
+A) True
+B) False
+Answer: B
+Explanation: The decentralized nature eliminates the need for central authorities.
+53. Each block in a blockchain is securely linked to the preceding block using 
+cryptographic hashing.
+A) True
+B) False
+Answer: A
+Explanation: Though the specific phrase "cryptographic hashing" isn't in this specific excerpt, 
+the concept of blocks not being alterable without "alteration of all subsequent blocks" describes 
+this link.
+54. It is mathematically impossible to alter historical data within a blockchain network.
+A) True
+B) False
+Answer: B
+Explanation: It requires the "alteration of all subsequent blocks," which is extremely difficult 
+but not defined as "mathematically impossible" in the logic of the text.
+55. Data blocks within a blockchain ledger are distributed randomly to network nodes.
+A) True
+B) False
+Answer: B
+Explanation: The ledger is distributed across many computers, but blocks are linear and 
+chronological, not random.
+56. A blockchain ledger is distributed to all participating nodes simultaneously.
+A) True
+B) False
+Answer: A
+Explanation: The text describes it as a "distributed digital ledger" across a peer-to-peer network.
+Passage D: Circadian Rhythms
+Circadian rhythms are physical, mental, and behavioral changes that follow a 24-hour cycle. 
+These natural processes respond primarily to light and dark in an organism's environment. 
+Sleeping when it is dark and being awake when it is light is an example of a light-related 
+circadian rhythm. Circadian rhythms are found in most living things, including animals, plants, 
+and many tiny microbes.
+In humans, a master clock in the brain coordinates all biological clocks in a living thing, keeping 
+the clocks in sync. The master clock is a group of about 20,000 nerve cells (neurons) that form a 
+structure called the suprachiasmatic nucleus, or SCN. The SCN is located in a part of the brain 
+called the hypothalamus and receives direct input from the eyes. When there is less light—like at 
+night—the SCN tells the brain to make more melatonin, a hormone that makes you sleepy.
+57. When ambient light levels decrease, the SCN signals the pineal gland to secrete 
+melatonin.
+A) True
+B) False
+Answer: A
+Explanation: The text states: "When there is less light... the SCN tells the brain to make more 
+melatonin."
+58. The primary master clock in mammals is located within the pineal gland.
+A) True
+B) False
+Answer: B
+Explanation: The master clock is the SCN, located in the hypothalamus.
+59. Circadian rhythms help regulate internal body temperature and hormone release.
+A) True
+B) False
+Answer: A
+Explanation: While temperature isn't explicitly in this excerpt, "hormone release" (melatonin) 
+is. In general scientific tests of this passage, both are considered true.
+60. Light cues are directly received and processed by the pineal gland without ocular input.
+A) True
+B) False
+Answer: B
+Explanation: The SCN "receives direct input from the eyes."
+61. Circadian rhythms follow a strict, unchangeable 12-hour cycle.
+A) True
+B) False
+Answer: B
+Explanation: They follow a 24-hour cycle.
+Passage E: Patents
+[7/17/2026 10:18 PM] Yeabsra Niguse: A patent is a type of intellectual property that gives its 
+owner the legal right to exclude others from making, using, or selling an invention for a limited 
+period of years in exchange for publishing an enabling public disclosure of the invention. In most 
+countries, patent rights fall under private law and the patent holder must sue someone infringing 
+the patent in order to enforce their rights.
+To be patentable, an invention must generally meet three criteria: it must be new (novelty), it 
+must involve an inventive step (non-obviousness), and it must be capable of industrial 
+application (utility). Once the patent period—usually 20 years from the filing date—expires, the 
+protection ends, and the invention enters the public domain. This means anyone can 
+commercially exploit the invention without infringing the patent.
+62. Patents grant inventors an indefinite period of exclusive commercial rights.
+A) True
+B) False
+Answer: B
+Explanation: It is for a "limited period," usually 20 years.
+63. To receive a patent, an invention must be completely obvious to an expert in the field.
+A) True
+B) False
+Answer: B
+Explanation: It must be "non-obvious."
+64. Patent applicants are allowed to keep the technical specifications of their invention 
+completely secret.
+A) True
+B) False
+Answer: B
+Explanation: They must provide an "enabling public disclosure."
+65. Once a patent expires, anyone is legally permitted to manufacture or sell the invention 
+without paying royalties.
+A) True
+B) False
+Answer: A
+Explanation: It enters the "public domain."
+66. The three primary criteria for patentability are novelty, non-obviousness, and practical 
+utility.
+A) True
+B) False
+Answer: A
+Explanation: These are the three criteria listed in the second paragraph.
+Passage F: Urban Heat Islands
+An urban heat island (UHI) is an urban area or metropolitan area that is significantly warmer 
+than its surrounding rural areas due to human activities. The temperature difference is usually 
+larger at night than during the day, and is most apparent when winds are weak. UHI is most 
+noticeable during the summer and winter.
+The main cause of the urban heat island effect is from the modification of land surfaces. Waste 
+heat generated by energy usage is a secondary contributor. As a population center grows, it tends 
+to expand its area and increase its average temperature. Dark surfaces, such as asphalt and 
+roofing, absorb significantly more solar radiation than natural landscapes. Furthermore, the lack 
+of vegetation in urban centers limits evapotranspiration, a process that naturally cools the air. 
+Mitigation strategies include the use of green roofs and the application of light-colored, reflective 
+surfaces in city planning.
+66. A high density of vegetation in urban centers significantly limits evapotranspiration.
+A) True
+B) False
+Answer: B
+Explanation: The text says a lack of vegetation limits it; more vegetation would increase it.
+67. Dark surfaces like asphalt and concrete absorb and retain more solar radiation than 
+natural landscapes.
+A) True
+B) False
+Answer: A
+Explanation: The text explicitly states dark surfaces "absorb significantly more solar radiation."
+68. Highly reflective surface coatings are a viable mitigation tool used by urban planners.
+A) True
+B) False
+Answer: A
+Explanation: The text lists "light-colored, reflective surfaces" as a mitigation strategy.
+69. The Urban Heat Island effect describes urban areas being significantly warmer than 
+surrounding oceans.
+A) True
+B) False
+Answer: B
+Explanation: It compares urban areas to "surrounding rural areas."
+70. Increasing urban canopies and foliage can help counteract the heat island effect.
+A) True
+B) False
+Answer: A
+Explanation: Since a lack of vegetation causes heat, adding foliage (vegetation) counteracts it.
+Passage G: Monetary Policy
+[7/17/2026 10:18 PM] Yeabsra Niguse: Monetary policy is the policy adopted by the monetary 
+authority of a nation to control either the interest rate payable for very short-term borrowing or 
+the money supply, often as an attempt to reduce inflation or the interest rate to ensure price 
+stability and general trust of the value and stability of the nation's currency.
+Central banks typically use interest rates as their primary tool. When inflation is high, central 
+banks may raise interest rates to reduce consumer spending and cool the economy. Conversely, 
+during periods of economic stagnation or deflation, central banks may lower interest rates to 
+encourage borrowing and stimulate investment. The ultimate goal is to maintain a stable rate of 
+inflation, usually around 2%, which prevents the erosion of purchasing power while avoiding the 
+dangers of deflationary stagnation.
+71. Raising interest rates is a tool used by central banks to accelerate consumer spending.
+A) True
+B) False
+Answer: B
+Explanation: Raising rates is used to "reduce consumer spending."
+72. Deflation describes an economic period characterized by a rapid, uncontrollable rise in 
+consumer prices.
+A) True
+B) False
+Answer: B
+Explanation: That is the definition of inflation. Deflation is a drop in prices.
+73. High inflation systematically erodes the purchasing power of an economy's currency.
+A) True
+B) False
+Answer: A
+Explanation: The text states the goal is to "prevent the erosion of purchasing power" caused by 
+high inflation.
+74. Central banks manage monetary stability primarily by adjusting corporate tax rates.
+A) True
+B) False
+Answer: B
+Explanation: They use "interest rates" as their primary tool.
+75. When inflation falls below target levels, lowering interest rates can help stimulate 
+economic activity.
+A) True
+B) False
+Answer: A
+Explanation: Lowering rates "encourage borrowing and stimulate investment."
+Passage H: Lymphatic System
+The lymphatic system is part of the circulatory system and an important part of the immune 
+system, comprising a large network of lymphatic vessels, lymph nodes, lymphatic or lymphoid 
+organs, and lymphoid tissues. The vessels carry a clear fluid called lymph towards the heart.
+The lymphatic system has multiple interrelated functions: it is responsible for the removal of 
+interstitial fluid from tissues; it absorbs and transports fatty acids and fats from the digestive 
+system; and it transports white blood cells to and from the lymph nodes into the bones. The 
+lymph nodes act as biological filters, trapping foreign particles and pathogens such as bacteria 
+and viruses. Within the nodes, immune cells called lymphocytes attack and neutralize these 
+threats, providing a crucial defense against infection.
+76. The lymphatic system operates completely independently of the cardiovascular 
+circulatory system.
+A) True
+B) False
+Answer: B
+Explanation: It is "part of the circulatory system."
+77. Lymph nodes function as biological filters to neutralize foreign pathogens.
+A) True
+B) False
+Answer: A
+Explanation: The text states they act as "biological filters, trapping foreign particles."
+78. Excess interstitial fluid accumulates primarily inside the lymph nodes before draining.
+A) True
+B) False
+Answer: B
+Explanation: It is removed "from tissues."
+79. Lymph nodes are packed with immune cells called lymphocytes.
+A) True
+B) False
+Answer: A
+Explanation: Confirmed in the final paragraph.
+80. The primary role of the lymphatic system is the continuous production of red blood 
+cells.
+A) True
+B) False
+Answer: B
+Explanation: It transports "white blood cells." Red blood cells are not mentioned as a role.
+[7/17/2026 10:19 PM] Yeabsra Niguse: Correct Spelling Identification
+41. Choose the correct spelling:
+A) Publically
+B) Publicly
+C) Publically
+D) Publiclye
+Answer: B | Explanation: Publicly is the standard adverb form.
+42. Choose the correct spelling:
+A) Occurence
+B) Occurrence
+C) Occurrance
+D) Ocurence
+Answer: B | Explanation: Double 'c' and double 'r'.
+43. Choose the correct spelling:
+A) Maintenance
+B) Maintainance
+C) Maintenence
+D) Maintainence
+Answer: A | Explanation: Vowel change from "maintain."
+44. Choose the correct spelling:
+A) Liesure
+B) Lesure
+C) Leisure
+D) Leishure
+Answer: C | Explanation: Common "ei" exception.
+45. Choose the correct spelling:
+A) Unecessary
+B) Unneccessary
+C) Unnecessary
+D) Unnecesary
+Answer: C | Explanation: One 'n' in prefix, two 'c's in root.
+46. Choose the correct spelling:
+A) Accessible
+B) Accessable
+C) Acesible
+D) Accesible
+Answer: A | Explanation: Ends in -ible.
+47. Choose the correct spelling:
+A) Proscedure
+B) Procedure
+C) Proceedure
+D) Prosedure
+Answer: B | Explanation: One 'o', no double 'e'.
+48. Choose the correct spelling:
+A) Restaraunt
+B) Restaurant
+C) Resturant
+D) Resterant
+Answer: B | Explanation: Features "-au-".
+49. Choose the correct spelling:
+A) Prioraties
+B) Prioritys
+C) Priorities
+D) Prioreties
+Answer: C | Explanation: Standard pluralization.
+50. Choose the correct spelling:
+A) Millenium
+B) Millennium
+C) Milennium
+D) Millennum
+Answer: B | Explanation: Double 'l' and double 'n'.
+51. Choose the correct spelling:
+A) Fullfil
+B) Fullfill
+C) Fulfill
+D) Fulfull
+Answer: C | Explanation: US Standard spelling.
+52. Choose the correct spelling:
+A) Minature
+B) Miniature
+C) Minnature
+D) Miniatire
+Answer: B | Explanation: Includes the "ia".
+53. Choose the correct spelling:
+A) Temperment
+B) Temperament
+C) Temprement
+D) Tempurament
+Answer: B | Explanation: Root is "tempera-".
+54. Choose the correct spelling:
+A) Basicly
+B) Basiclye
+C) Basically
+D) Basicaly
+Answer: C | Explanation: Adverb suffix "-ally".
+55. Choose the correct spelling:
+A) Transfered
+B) Transferred
+C) Transfered
+D) Transferrd
+Answer: B | Explanation: Doubled consonant.
+Redundancy & Pleonasm Elimination
+(Select the word that is redundant/unnecessary)
+56. "The teams decided to merge together."
+A) teams
+B) decided
+C) merge
+D) together
+Answer: D | Explanation: Merge already means to come together.
+57. "Please reply back to this email."
+A) please
+B) reply
+C) back
+D) email
+Answer: C | Explanation: Reply means to answer back.
+58. "The cost is approximately about $100."
+A) cost
+B) approximately
+C) about
+D) $100
+Answer: C | Explanation: Approx. and about mean the same thing. Use one.
+59. "Learn the basic fundamentals."
+A) learn
+B) basic
+C) fundamentals
+D) the
+Answer: B | Explanation: Fundamentals are basic.
+60. "A brief summary of the report."
+A) brief
+B) summary
+C) the
+D) report
+Answer: A | Explanation: Summaries are brief by definition.
+61. "In my personal opinion..."
+A) In
+B) my
+C) personal
+D) opinion
+Answer: C | Explanation: Opinions are personal.

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { loadSession, clearSession, loadHistory } from "@/lib/session";
+import { loadSession, clearSession, loadHistory, getAllowedDepartmentId } from "@/lib/session";
 import type { StudentSession, ExamHistoryEntry } from "@/lib/session";
 import { DEPARTMENTS } from "@/features/exam/departments";
 
@@ -197,11 +197,12 @@ export default function HomePage() {
     const s = loadSession();
     if (!s) { router.replace("/"); return; }
     setSession(s);
-    setSelectedDeptId(s.department
-      ? (DEPARTMENTS.find((d) =>
-          d.name.toLowerCase() === s.department.toLowerCase()
-        )?.id ?? null)
-      : null);
+    const allowedDeptId = getAllowedDepartmentId(s.department);
+    if (allowedDeptId) {
+      router.replace(`/subjects?dept=${allowedDeptId}`);
+      return;
+    }
+    setSelectedDeptId(null);
     setHistory(loadHistory().slice(0, 3));
   }, [router]);
 

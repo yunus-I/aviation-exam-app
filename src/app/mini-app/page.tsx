@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { MiniAppShell } from "@/app/mini-app-shell";
 
 export default function MiniAppPage() {
-  redirect("/");
+  return <MiniAppShell />;
 }

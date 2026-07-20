@@ -6,6 +6,11 @@ values
   ('pilot', 'PILOT', 'Pilot', 'ፓይለት', 'Math, aptitude, and aviation-oriented entrance preparation.', 'የሂሳብ፣ አፕቲቱድ እና የአቪዬሽን የመግቢያ ዝግጅት።')
 on conflict (slug) do nothing;
 
+insert into public.departments (slug, code, name_en, name_am, description_en, description_am)
+values
+  ('others', 'OTHERS', 'Others', 'ሌሎች', 'General entrance preparation for other aviation university departments.', 'ለሌሎች የአቪዬሽን ዩኒቨርሲቲ ዲፓርትመንቶች የመግቢያ ዝግጅት።')
+on conflict (slug) do nothing;
+
 insert into public.regions (slug, name_en, name_am)
 values
   ('addis-ababa', 'Addis Ababa', 'አዲስ አበባ'),

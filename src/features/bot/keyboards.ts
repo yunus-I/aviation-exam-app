@@ -2,6 +2,18 @@ import { InlineKeyboard } from "grammy";
 import type { AppLanguage } from "@/types/db";
 import type { LookupOption } from "@/features/bot/types";
 
+function getDepartmentIcon(department: LookupOption) {
+  const key = `${department.slug ?? ""} ${department.label ?? ""}`.toLowerCase();
+
+  if (key.includes("amt") || key.includes("maintenance")) return "🔧";
+  if (key.includes("cabin")) return "🧳";
+  if (key.includes("market")) return "📣";
+  if (key.includes("pilot")) return "✈️";
+  if (key.includes("other")) return "🎓";
+
+  return "🎓";
+}
+
 export function createLanguageKeyboard() {
   return new InlineKeyboard()
     .text("English", "lang:en")
@@ -20,7 +32,7 @@ export function createDepartmentKeyboard(
         ? department.secondaryLabel
         : department.label;
 
-    keyboard.text(label, `dept:${department.id}`);
+    keyboard.text(`${getDepartmentIcon(department)} ${label}`, `dept:${department.id}`);
 
     if (index % 2 === 1) {
       keyboard.row();
