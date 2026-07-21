@@ -98,6 +98,40 @@ function OptionCard({
   );
 }
 
+// ─── Prompt renderer ───────────────────────────────────────────────────────
+
+function QuestionPrompt({ question, className = "exam-prompt" }: { question: ExamQuestion; className?: string }) {
+  const passage = question.passage?.trim();
+  const prompt = question.prompt?.trim();
+
+  if (!passage) {
+    return <p className={className}>{prompt}</p>;
+  }
+
+  return (
+    <>
+      <div
+        className="exam-passage"
+        style={{
+          background: "#f8fafc",
+          border: "1px solid #e2e8f0",
+          borderLeft: "4px solid #003580",
+          borderRadius: 12,
+          padding: "16px 18px",
+          marginBottom: 16,
+          boxShadow: "0 2px 4px rgba(0,0,0,0.02)",
+        }}
+      >
+        <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.6px", textTransform: "uppercase", color: "#003580", marginBottom: 8 }}>
+          Passage
+        </div>
+        <div style={{ whiteSpace: "pre-wrap", lineHeight: 1.7, color: "#1e293b" }}>{passage}</div>
+      </div>
+      <p className={className} style={{ marginTop: 0 }}>{prompt}</p>
+    </>
+  );
+}
+
 // ─── Main exam component ───────────────────────────────────────────────────────
 
 function ExamContent() {
@@ -133,11 +167,29 @@ function ExamContent() {
   // Load exam set & session
   useEffect(() => {
     const session = loadSession();
-    if (!session) { router.replace("/"); return; }
+    if (!session) {
+      router.replace("/");
+      return;
+    }
 
+    let isActive = true;
     setReady(false);
-    
-    // Attempt to load from live Supabase endpoint first
+
+    const applyExamSet = (nextExamSet: ExamSet) => {
+      if (!isActive) return;
+      setExamSet(nextExamSet);
+      setState({
+        stage: "active",
+        currentIndex: 0,
+        answers: {},
+        flags: {},
+        startedAt: Date.now(),
+        submittedAt: null,
+        remainingSeconds: nextExamSet.durationMinutes * 60,
+        feedbackShown: false,
+      });
+    };
+
     fetch("/api/exams/live", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -145,52 +197,28 @@ function ExamContent() {
     })
       .then(async (res) => {
         const payload = await res.json();
-        if (payload.ok && payload.examSet && payload.examSet.questions.length > 0) {
-          setExamSet(payload.examSet);
-          setState({
-            stage: "active",
-            currentIndex: 0,
-            answers: {},
-            flags: {},
-            startedAt: Date.now(),
-            submittedAt: null,
-            remainingSeconds: payload.examSet.durationMinutes * 60,
-            feedbackShown: false,
-          });
+        if (!isActive) return;
+        if (payload.ok && payload.examSet && payload.examSet.questions?.length > 0) {
+          applyExamSet(payload.examSet);
         } else {
-          // Fall back to demo data
           const found = DEMO_EXAM_SETS.find((s) => s.id === examSetId) ?? DEMO_EXAM_SET;
-          setExamSet(found);
-          setState({
-            stage: "active",
-            currentIndex: 0,
-            answers: {},
-            flags: {},
-            startedAt: Date.now(),
-            submittedAt: null,
-            remainingSeconds: found.durationMinutes * 60,
-            feedbackShown: false,
-          });
+          applyExamSet(found);
         }
       })
       .catch(() => {
-        // Fall back on error
+        if (!isActive) return;
         const found = DEMO_EXAM_SETS.find((s) => s.id === examSetId) ?? DEMO_EXAM_SET;
-        setExamSet(found);
-        setState({
-          stage: "active",
-          currentIndex: 0,
-          answers: {},
-          flags: {},
-          startedAt: Date.now(),
-          submittedAt: null,
-          remainingSeconds: found.durationMinutes * 60,
-          feedbackShown: false,
-        });
+        applyExamSet(found);
       })
       .finally(() => {
-        setReady(true);
+        if (isActive) {
+          setReady(true);
+        }
       });
+
+    return () => {
+      isActive = false;
+    };
   }, [examSetId, router, deptId, subjectName]);
 
   // Countdown timer
@@ -473,7 +501,7 @@ function ExamContent() {
                         // eslint-disable-next-line @next/next/no-img-element
                         <img className="review-img" src={q.imageUrl} alt={`Q${idx + 1} illustration`} />
                       )}
-                      <p className="review-prompt">{q.prompt}</p>
+                      <QuestionPrompt question={q} className="review-prompt" />
                       <div className="review-answers">
                         {selectedOpts.length > 0 && (
                           <div className={`review-answer ${isCorrect ? "review-answer--correct" : "review-answer--wrong"}`}>
@@ -703,7 +731,7 @@ function ExamContent() {
               )}
 
               {/* Prompt */}
-              <p className="exam-prompt">{currentQ.prompt}</p>
+              <QuestionPrompt question={currentQ} />
 
               {/* Options */}
               <div className={`exam-options ${isTF ? "exam-options--tf" : ""}`}>
