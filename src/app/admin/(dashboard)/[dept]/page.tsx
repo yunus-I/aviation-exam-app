@@ -4,6 +4,7 @@ import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { DEPTS, isValidDept, type DeptSlug } from "@/lib/admin/constants";
 import { Plus, Search, SlidersHorizontal } from "lucide-react";
 import { DeptQuestionsClient } from "./dept-questions-client";
+import { CsvImportButton } from "@/components/admin/csv-import-button";
 
 interface Props {
  params: Promise<{ dept: string }>;
@@ -50,6 +51,8 @@ export default async function DeptQuestionsPage({ params, searchParams }: Props)
  <h1 className="text-2xl font-bold text-[#1A202C] tracking-tight">{deptInfo.nameEn}</h1>
  <p className="text-sm text-[#64748B] mt-1">{total ?? 0} question{(total ?? 0) !== 1 ? "s" : ""}</p>
  </div>
+ <div className="flex items-center gap-3">
+ <CsvImportButton dept={dept} departmentId={deptInfo.dbDeptId} />
  <Link
  href={`/admin/${dept}/new`}
  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white admin-logo-sq hover:admin-logo-sq-strong active:scale-[0.98] transition-all duration-150 shadow-sm hover:shadow-md"
@@ -57,6 +60,7 @@ export default async function DeptQuestionsPage({ params, searchParams }: Props)
  <Plus className="w-4 h-4" />
  New Question
  </Link>
+ </div>
  </div>
 
  {/* Search + filters */}
