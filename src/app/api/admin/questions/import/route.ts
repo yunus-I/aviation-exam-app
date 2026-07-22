@@ -249,9 +249,16 @@ export async function POST(request: NextRequest) {
       const topicName = topicIdx !== -1 ? row[topicIdx]?.trim() || null : null;
       const topic_id = await resolveTopicId(topicName);
 
-      const questionType = typeIdx !== -1 && row[typeIdx]?.trim()
+      const rawType = typeIdx !== -1 && row[typeIdx]?.trim()
         ? row[typeIdx].trim()
         : "single_choice";
+      const typeMap: Record<string, string> = {
+        "multiple choice": "multiple_choice",
+        "single choice": "single_choice",
+        "true false": "true_false",
+        "true/false": "true_false",
+      };
+      const questionType = typeMap[rawType.toLowerCase()] || rawType;
 
       const questionNum = numIdx !== -1 && row[numIdx]?.trim()
         ? parseInt(row[numIdx].trim(), 10)
