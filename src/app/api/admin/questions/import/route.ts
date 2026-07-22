@@ -163,34 +163,12 @@ export async function POST(request: NextRequest) {
       const cacheKey = topicName.toLowerCase().replace(/[^a-z0-9]/g, "");
       if (topicCache[cacheKey] !== undefined) return topicCache[cacheKey];
 
-      const slug = slugify(topicName);
+      const normalizedInput = topicName.toLowerCase().replace(/[^a-z0-9]/g, "");
 
-      // 1. Exact slug match
-      const { data: bySlug } = await supabase
-        .from("topics")
-        .select("id")
-        .eq("slug", slug)
-        .maybeSingle();
-      if (bySlug) {
-        topicCache[cacheKey] = bySlug.id;
-        return bySlug.id;
-      }
-
-      // 2. Case-insensitive slug match (practice1 matches Practice 1)
-      const { data: bySlugFuzzy } = await supabase
-        .from("topics")
-        .select("id, slug")
-        .ilike("slug", slug)
-        .maybeSingle();
-      if (bySlugFuzzy) {
-        topicCache[cacheKey] = bySlugFuzzy.id;
-        return bySlugFuzzy.id;
-      }
-
-      // 3. Case-insensitive name match (Practice 1 matches "Practice 1" in DB)
+      // 1. Exact name match (case-insensitive)
       const { data: byName } = await supabase
         .from("topics")
-        .select("id")
+        .select("id, name_en")
         .ilike("name_en", topicName)
         .maybeSingle();
       if (byName) {
@@ -198,23 +176,24 @@ export async function POST(request: NextRequest) {
         return byName.id;
       }
 
-      // 4. Normalized name match: strip all non-alphanumeric, compare
-      const normalized = topicName.toLowerCase().replace(/[^a-z0-9]/g, "");
+      // 2. Fetch all topics and match by normalized name
       const { data: allTopics } = await supabase
         .from("topics")
-        .select("id, name_en")
-        .ilike("name_en", `%${topicName}%`);
+        .select("id, name_en, slug");
       if (allTopics?.length) {
-        const match = allTopics.find((t: any) =>
-          t.name_en.toLowerCase().replace(/[^a-z0-9]/g, "") === normalized,
-        );
+        const match = allTopics.find((t: any) => {
+          const normalizedDbName = t.name_en.toLowerCase().replace(/[^a-z0-9]/g, "");
+          const normalizedDbSlug = t.slug.toLowerCase().replace(/[^a-z0-9]/g, "");
+          return normalizedDbName === normalizedInput || normalizedDbSlug === normalizedInput;
+        });
         if (match) {
           topicCache[cacheKey] = match.id;
           return match.id;
         }
       }
 
-      // 5. Create new topic
+      // 3. Create new topic
+      const slug = slugify(topicName);
       const { data: newTopic } = await supabase
         .from("topics")
         .upsert(
