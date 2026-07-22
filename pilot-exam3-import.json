@@ -1,0 +1,1473 @@
+{
+  "questionBank": {
+    "key": "pilot-bank-exam-1",
+    "slug": "pilot-bank-exam-1",
+    "title": "Pilot Exam 1 Bank",
+    "description": "Imported pilot exam 1 questions for pilot training",
+    "departmentCode": "PILOT",
+    "topicSlug": "aptitude"
+  },
+  "examSet": {
+    "key": "pilot-exam-set-1",
+    "slug": "pilot-exam-set-1",
+    "title": "Pilot Training Exam 1",
+    "description": "Pilot Training Exam 1 questions",
+    "departmentCode": "PILOT",
+    "topicSlug": "aptitude",
+    "mode": "mock",
+    "durationMinutes": 60,
+    "published": true
+  },
+  "questions": [
+    {
+      "key": "pilot-exam1-q001",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "1. The human digestive system has no role in absorbing nutrients from food.",
+      "explanation": "The very first sentence of the passage defines the human digestive system as a process that \"involves breaking down food into nutrients that can be absorbed by the body.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q002",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Passage A: Cloud Computing\nCloud computing refers to the on-demand availability of computer system resources, especially data storage and computing power, without direct active management by the user. The term is generally used to describe data centers available to many users over the Internet. Large clouds, predominant today, often have functions distributed over multiple locations from central servers. If the connection to the user is relatively close, it may be designated an edge server.\nClouds may be limited to a single organization (enterprise clouds), or be available to many organizations (public cloud). Public clouds host services for multiple clients over the same hardware infrastructure. In contrast, private clouds are dedicated to a single organization, ensuring customizable control and heightened security for sensitive workloads. Hybrid clouds combine both private and public architectures, allowing data and applications to be shared between them.\n\n2. Public cloud architectures host services for multiple clients over the same hardware infrastructure.",
+      "explanation": "The text explicitly states that public clouds \"host services for multiple clients over the same hardware.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q003",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "3. Hybrid clouds are deployed exclusively on a single infrastructure type.",
+      "explanation": "Hybrid clouds combine both private and public architectures, not just one.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q004",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "4. Private clouds offer less customizable control over resources than public clouds.",
+      "explanation": "The text states private clouds ensure \"customizable control.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q005",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "5. Highly sensitive workloads are typically run on public cloud infrastructure.",
+      "explanation": "The text says private clouds are for sensitive workloads, while public clouds are for less critical tasks.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q006",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "6. Cloud computing relies on shared remote internet resources rather than local servers.",
+      "explanation": "The first sentence notes it provides resources \"without direct active management by the user\" via the Internet.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q007",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Passage B: Photosynthesis\nPhotosynthesis is a chemical process used by plants, algae, and certain bacteria to harness energy from sunlight and turn it into chemical energy. This process occurs primarily within chloroplasts, specialized organelles containing chlorophyll. The reaction requires water, carbon dioxide, and light energy to produce glucose and oxygen.\nThe process is divided into two main stages: the light-dependent reactions and the light-independent reactions (the Calvin Cycle). During the light-dependent stage, solar energy is captured and used to split water molecules, releasing oxygen as a byproduct. In the light-independent stage, the captured energy is used to synthesize glucose from carbon dioxide. This glucose serves as the foundational energy source to fuel the organism's vital metabolic functions.\n\n7. Oxygen is released as a byproduct during the light-independent stage.",
+      "explanation": "Oxygen is released during the light-dependent stage.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q008",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "8. All living organisms are capable of performing photosynthesis to produce glucose.",
+      "explanation": "Only \"plants, algae, and certain bacteria\" are mentioned; animals and fungi cannot do this.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q009",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "9. Chloroplasts are the specialized organelles where the photosynthetic reaction takes place.",
+      "explanation": "The text explicitly defines chloroplasts as the specialized organelles for this process.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q010",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "10. During the Calvin Cycle, carbon dioxide is captured and synthesized into glucose.",
+      "explanation": "The text confirms the Calvin Cycle (light-independent stage) synthesizes glucose from CO2.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q011",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "11. Glucose serves as a foundational energy source for the organism's metabolic functions.",
+      "explanation": "This is confirmed in the final sentence of the passage.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q012",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Passage C: Blockchain Technology\nA blockchain is a decentralized, distributed, and oftentimes public, digital ledger consisting of records called blocks. These blocks are used to record transactions across many computers so that any involved block cannot be altered retroactively, without the alteration of all subsequent blocks. This allows the participants to verify and audit transactions independently and relatively inexpensively.\nA blockchain database is managed autonomously using a peer-to-peer network and a distributed timestamping server. They are authenticated by mass collaboration powered by collective self-interests. Such a design facilitates robust workflow where participants' uncertainty regarding data security is marginal. The use of a blockchain removes the characteristic of infinite reproducibility from a digital asset. It confirms that each unit of value was transferred only once, solving the long-standing problem of double-spending.\n\n12. Blockchain technology increases the necessity for central clearing houses.",
+      "explanation": "The decentralized nature eliminates the need for central authorities.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q013",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "13. Each block in a blockchain is securely linked to the preceding block using cryptographic hashing.",
+      "explanation": "The concept of blocks not being alterable without \"alteration of all subsequent blocks\" describes this secure link.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q014",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "14. It is mathematically impossible to alter historical data within a blockchain network.",
+      "explanation": "It requires the \"alteration of all subsequent blocks,\" which is extremely difficult but not defined as \"mathematically impossible\" in the logic of the text.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q015",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "15. Data blocks within a blockchain ledger are distributed randomly to network nodes.",
+      "explanation": "The ledger is distributed across many computers, but blocks are linear and chronological, not random.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q016",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "16. A blockchain ledger is distributed to all participating nodes simultaneously.",
+      "explanation": "The text describes it as a \"distributed digital ledger\" across a peer-to-peer network.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q017",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Passage D: Circadian Rhythms\nCircadian rhythms are physical, mental, and behavioral changes that follow a 24-hour cycle. These natural processes respond primarily to light and dark in an organism's environment. Sleeping when it is dark and being awake when it is light is an example of a light-related circadian rhythm. Circadian rhythms are found in most living things, including animals, plants, and many tiny microbes.\nIn humans, a master clock in the brain coordinates all biological clocks in a living thing, keeping the clocks in sync. The master clock is a group of about 20,000 nerve cells (neurons) that form a structure called the suprachiasmatic nucleus, or SCN. The SCN is located in a part of the brain called the hypothalamus and receives direct input from the eyes. When there is less light—like at night—the SCN tells the brain to make more melatonin, a hormone that makes you sleepy.\n\n17. When ambient light levels decrease, the SCN signals the pineal gland to secrete melatonin.",
+      "explanation": "The text states: \"When there is less light... the SCN tells the brain to make more melatonin.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q018",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "18. The primary master clock in mammals is located within the pineal gland.",
+      "explanation": "The master clock is the SCN, located in the hypothalamus.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q019",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "19. Circadian rhythms help regulate internal body temperature and hormone release.",
+      "explanation": "\"Hormone release\" (melatonin) is explicitly confirmed in the passage.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q020",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "20. Light cues are directly received and processed by the pineal gland without ocular input.",
+      "explanation": "The SCN \"receives direct input from the eyes.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q021",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "21. Circadian rhythms follow a strict, unchangeable 12-hour cycle.",
+      "explanation": "They follow a 24-hour cycle.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q022",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Passage E: Patents\nA patent is a type of intellectual property that gives its owner the legal right to exclude others from making, using, or selling an invention for a limited period of years in exchange for publishing an enabling public disclosure of the invention. In most countries, patent rights fall under private law and the patent holder must sue someone infringing the patent in order to enforce their rights.\nTo be patentable, an invention must generally meet three criteria: it must be new (novelty), it must involve an inventive step (non-obviousness), and it must be capable of industrial application (utility). Once the patent period—usually 20 years from the filing date—expires, the protection ends, and the invention enters the public domain. This means anyone can commercially exploit the invention without infringing the patent.\n\n22. Patents grant inventors an indefinite period of exclusive commercial rights.",
+      "explanation": "It is for a \"limited period,\" usually 20 years.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q023",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "23. To receive a patent, an invention must be completely obvious to an expert in the field.",
+      "explanation": "It must be \"non-obvious.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q024",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "24. Patent applicants are allowed to keep the technical specifications of their invention completely secret.",
+      "explanation": "They must provide an \"enabling public disclosure.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q025",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "25. Once a patent expires, anyone is legally permitted to manufacture or sell the invention without paying royalties.",
+      "explanation": "It enters the \"public domain.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q026",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "26. The three primary criteria for patentability are novelty, non-obviousness, and practical utility.",
+      "explanation": "These are the three criteria listed in the second paragraph.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q027",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Passage F: Urban Heat Islands\nAn urban heat island (UHI) is an urban area or metropolitan area that is significantly warmer than its surrounding rural areas due to human activities. The temperature difference is usually larger at night than during the day, and is most apparent when winds are weak. UHI is most noticeable during the summer and winter.\nThe main cause of the urban heat island effect is from the modification of land surfaces. Waste heat generated by energy usage is a secondary contributor. As a population center grows, it tends to expand its area and increase its average temperature. Dark surfaces, such as asphalt and roofing, absorb significantly more solar radiation than natural landscapes. Furthermore, the lack of vegetation in urban centers limits evapotranspiration, a process that naturally cools the air. Mitigation strategies include the use of green roofs and the application of light-colored, reflective surfaces in city planning.\n\n27. A high density of vegetation in urban centers significantly limits evapotranspiration.",
+      "explanation": "The text says a lack of vegetation limits it; more vegetation would increase it.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q028",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "28. Dark surfaces like asphalt and concrete absorb and retain more solar radiation than natural landscapes.",
+      "explanation": "The text explicitly states dark surfaces \"absorb significantly more solar radiation.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q029",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "29. Highly reflective surface coatings are a viable mitigation tool used by urban planners.",
+      "explanation": "The text lists \"light-colored, reflective surfaces\" as a mitigation strategy.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q030",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "30. The Urban Heat Island effect describes urban areas being significantly warmer than surrounding oceans.",
+      "explanation": "It compares urban areas to \"surrounding rural areas.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q031",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "31. Increasing urban canopies and foliage can help counteract the heat island effect.",
+      "explanation": "Since a lack of vegetation causes heat, adding foliage (vegetation) counteracts it.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q032",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Passage G: Monetary Policy\nMonetary policy is the policy adopted by the monetary authority of a nation to control either the interest rate payable for very short-term borrowing or the money supply, often as an attempt to reduce inflation or the interest rate to ensure price stability and general trust of the value and stability of the nation's currency.\nCentral banks typically use interest rates as their primary tool. When inflation is high, central banks may raise interest rates to reduce consumer spending and cool the economy. Conversely, during periods of economic stagnation or deflation, central banks may lower interest rates to encourage borrowing and stimulate investment. The ultimate goal is to maintain a stable rate of inflation, usually around 2%, which prevents the erosion of purchasing power while avoiding the dangers of deflationary stagnation.\n\n32. Raising interest rates is a tool used by central banks to accelerate consumer spending.",
+      "explanation": "Raising rates is used to \"reduce consumer spending.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q033",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "33. Deflation describes an economic period characterized by a rapid, uncontrollable rise in consumer prices.",
+      "explanation": "That is the definition of inflation. Deflation is a drop in prices.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q034",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "34. High inflation systematically erodes the purchasing power of an economy's currency.",
+      "explanation": "The text states the goal is to \"prevent the erosion of purchasing power\" caused by high inflation.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q035",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "35. Central banks manage monetary stability primarily by adjusting corporate tax rates.",
+      "explanation": "They use \"interest rates\" as their primary tool.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q036",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "36. When inflation falls below target levels, lowering interest rates can help stimulate economic activity.",
+      "explanation": "Lowering rates \"encourage borrowing and stimulate investment.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q037",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Passage H: Lymphatic System\nThe lymphatic system is part of the circulatory system and an important part of the immune system, comprising a large network of lymphatic vessels, lymph nodes, lymphatic or lymphoid organs, and lymphoid tissues. The vessels carry a clear fluid called lymph towards the heart.\nThe lymphatic system has multiple interrelated functions: it is responsible for the removal of interstitial fluid from tissues; it absorbs and transports fatty acids and fats from the digestive system; and it transports white blood cells to and from the lymph nodes into the bones. The lymph nodes act as biological filters, trapping foreign particles and pathogens such as bacteria and viruses. Within the nodes, immune cells called lymphocytes attack and neutralize these threats, providing a crucial defense against infection.\n\n37. The lymphatic system operates completely independently of the cardiovascular circulatory system.",
+      "explanation": "It is \"part of the circulatory system.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q038",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "38. Lymph nodes function as biological filters to neutralize foreign pathogens.",
+      "explanation": "The text states they act as \"biological filters, trapping foreign particles.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q039",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "39. Excess interstitial fluid accumulates primarily inside the lymph nodes before draining.",
+      "explanation": "It is removed \"from tissues.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q040",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "40. Lymph nodes are packed with immune cells called lymphocytes.",
+      "explanation": "Confirmed in the final paragraph.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q041",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "41. The primary role of the lymphatic system is the continuous production of red blood cells.",
+      "explanation": "It transports \"white blood cells.\" Red blood cells are not mentioned as a role.",
+      "options": [
+        {
+          "key": "A",
+          "text": "True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "False",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q042",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "42. Choose the correct spelling:",
+      "explanation": "Publicly is the standard adverb form.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Publically",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Publicly",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Publically",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Publiclye",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q043",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "43. Choose the correct spelling:",
+      "explanation": "Double 'c' and double 'r'.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Occurence",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Occurrence",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Occurrance",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Ocurence",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q044",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "44. Choose the correct spelling:",
+      "explanation": "Vowel change from \"maintain.\"",
+      "options": [
+        {
+          "key": "A",
+          "text": "Maintenance",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Maintainance",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Maintenence",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Maintainence",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q045",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "45. Choose the correct spelling:",
+      "explanation": "Common \"ei\" exception.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Liesure",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Lesure",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Leisure",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Leishure",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q046",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "46. Choose the correct spelling:",
+      "explanation": "One 'n' in prefix, two 'c's in root.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Unecessary",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Unneccessary",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Unnecessary",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Unnecesary",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q047",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "47. Choose the correct spelling:",
+      "explanation": "Ends in -ible.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Accessible",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Accessable",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Acesible",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Accesible",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q048",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "48. Choose the correct spelling:",
+      "explanation": "One 'o', no double 'e'.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Proscedure",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Procedure",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Proceedure",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Prosedure",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q049",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "49. Choose the correct spelling:",
+      "explanation": "Features \"-au-\".",
+      "options": [
+        {
+          "key": "A",
+          "text": "Restaraunt",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Restaurant",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Resturant",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Resterant",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q050",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "50. Choose the correct spelling:",
+      "explanation": "Standard pluralization.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Prioraties",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Prioritys",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Priorities",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Prioreties",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q051",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "51. Choose the correct spelling:",
+      "explanation": "Double 'l' and double 'n'.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Millenium",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Millennium",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Milennium",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Millennum",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q052",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "52. Choose the correct spelling:",
+      "explanation": "US Standard spelling.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fullfil",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Fullfill",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Fulfill",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Fulfull",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q053",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "53. Choose the correct spelling:",
+      "explanation": "Includes the \"ia\".",
+      "options": [
+        {
+          "key": "A",
+          "text": "Minature",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Miniature",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Minnature",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Miniatire",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q054",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "54. Choose the correct spelling:",
+      "explanation": "Root is \"tempera-\".",
+      "options": [
+        {
+          "key": "A",
+          "text": "Temperment",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Temperament",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Temprement",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Tempurament",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q055",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "55. Choose the correct spelling:",
+      "explanation": "Adverb suffix \"-ally\".",
+      "options": [
+        {
+          "key": "A",
+          "text": "Basicly",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Basiclye",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Basically",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Basicaly",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q056",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "56. Choose the correct spelling:",
+      "explanation": "Doubled consonant.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Transfered",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Transferred",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Transfered",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Transferrd",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q057",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "57. \"The teams decided to merge together.\" — Select the redundant word:",
+      "explanation": "Merge already means to come together.",
+      "options": [
+        {
+          "key": "A",
+          "text": "teams",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "decided",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "merge",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "together",
+          "isCorrect": true
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q058",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "58. \"Please reply back to this email.\" — Select the redundant word:",
+      "explanation": "Reply means to answer back.",
+      "options": [
+        {
+          "key": "A",
+          "text": "please",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "reply",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "back",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "email",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q059",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "59. \"The cost is approximately about $100.\" — Select the redundant word:",
+      "explanation": "Approximately and about mean the same thing. Use one.",
+      "options": [
+        {
+          "key": "A",
+          "text": "cost",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "approximately",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "about",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "$100",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    },
+    {
+      "key": "pilot-exam1-q060",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "60. \"Learn the basic fundamentals.\" — Select the redundant word:",
+      "explanation": "Fundamentals are basic.",
+      "options": [
+        {
+          "key": "A",
+          "text": "learn",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "basic",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "fundamentals",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "the",
+          "isCorrect": false
+        }
+      ],
+      "sourceLabel": "Imported pilot exam 1",
+      "sourceYear": 2026
+    }
+  ]
+}

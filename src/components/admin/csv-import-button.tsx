@@ -43,10 +43,9 @@ export function CsvImportButton({ dept, departmentId, onImported }: Props) {
       if (!res.ok) {
         toast("error", data.error || "Import failed");
       } else if (data.errors?.length > 0) {
-        toast(
-          "success",
-          `Imported ${data.imported} of ${data.total} questions (${data.errors.length} errors)`,
-        );
+        const firstErrors = data.errors.slice(0, 3).map((e: any) => `Row ${e.row}: ${e.error}`).join("; ");
+        const more = data.errors.length > 3 ? ` (+${data.errors.length - 3} more)` : "";
+        toast("error", `Imported ${data.imported}/${data.total}. Errors: ${firstErrors}${more}`);
       } else {
         toast("success", `Successfully imported ${data.imported} questions`);
       }

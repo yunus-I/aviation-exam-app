@@ -1,0 +1,1942 @@
+{
+  "questionBank": {
+    "key": "pilot-bank-exam-1",
+    "slug": "pilot-bank-exam-1",
+    "title": "Pilot Exam 1 Bank",
+    "description": "Imported Pilot Exam 1 questions from PDF",
+    "departmentCode": "PILOT",
+    "topicSlug": "aptitude"
+  },
+  "examSet": {
+    "key": "pilot-exam-set-1",
+    "slug": "pilot-exam-set-1",
+    "title": "Pilot Training Exam 1",
+    "description": "Pilot Training Exam 1 questions from PDF",
+    "departmentCode": "PILOT",
+    "topicSlug": "aptitude",
+    "mode": "mock",
+    "durationMinutes": 60,
+    "published": true
+  },
+  "questions": [
+    {
+      "key": "pilot-ex1-pdf-001",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Which of the following best describes what the passage is trying to advise the reader?",
+      "explanation": "The passage warns that discounts entice us into shops where we often end up buying unnecessary things or full-priced items we didn't intend to purchase.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "We should not buy goods at full price; we should wait for the sale",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Shop discounts can lead to us buying items we could live without",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "High street shops provide discounting options that really benefit shoppers",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Sales are a great way of saving money in the shops",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-002",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Which of the following do we know to be true based on the passage?",
+      "explanation": "The first paragraph explicitly states that the discounts offered by major high-street retailers are \"huge.\"",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Retailers tend to make less profit when their sales are on",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "High-street shops offer big discounts when their sales are on",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Online discounts can't match high-street sales",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Most people buy goods from the high-street sales",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-003",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "According to the information in the passage, most people find they save a lot of money in the high-street sales.",
+      "explanation": "The text points out that shoppers usually justify buying other full-price items they don't need, meaning they actually end up spending money rather than saving it.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Definitely True",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Probably False",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Probably True",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Definitely false",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-004",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Which word would best replace 'enticing' in the second paragraph?",
+      "explanation": "\"Enticing\" means attracting someone by offering something appealing, which is a direct synonym of \"tempting.\"",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Tempting",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "promising",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "engaging",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "inspiring",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-005",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Based on the information in the passage, which factor probably matters most to high street shops when they plan their sales?",
+      "explanation": "Retailers use these eye-catching sales front-and-center \"purely as a means of enticing you in,\" meaning customer perception of the deal is their primary goal. PART-II: Grammar Application-Sentence Completion Directions: Find the correct combination in each case that result in a sentence both grammatically correct and makes best sense.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Which products have been most popular that season",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "What the local competitors are doing",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Which offer sound like the best deal to customers",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Which products they need to sell off quickly",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-006",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Despite the inclement weather, we preceded _______ our hike.",
+      "explanation": "\"Proceed with\" is the correct phrasal verb meaning to start or continue an action.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "With",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "by",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "through",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "over",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-007",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Had she applied herself more diligently, she _______ a higher band score on the reading section.",
+      "explanation": "This is an inverted third conditional sentence (hypothetical past). The results clause must use the form would have + past participle. [7/17/2026 1:58 PM] Yeabsra Niguse: 8. Identify the synonymous of \"ubiquitous\" from the options presented. A. Unique B. Scarce C. rare D. Omnipresent Both words mean existing or being present everywhere at the same time.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Would have achieved",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "achieved",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "will achieve",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "was achieving",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-009",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "In the context of linguistic morphology, choose the option that identifies the correct meaning of the root 'therm'",
+      "explanation": "The Greek root \"therm\" translates directly to \"heat\" (as in thermometer or thermal).",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Life",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "water",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "heat",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Pressure",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-010",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Select the language function primarily demonstrated in this sentence: \"Would you mind turning down the music?\"",
+      "explanation": "\"Would you mind...\" is a standard, polite grammatical formula used to ask someone to do something.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Expressing Enjoyment",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "giving an opinion",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Requesting politely",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Making demand",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-011",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Choose the expression that is equivalent to \"once in a blue moon\".",
+      "explanation": "\"Once in a blue moon\" is an idiom used to describe an event that almost never happens.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "annually",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "every evening",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "very rarely",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Frequently",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-012",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Select the correct plural form of the word \"thesis\".",
+      "explanation": "Nouns of Greek origin ending in -is change to -es in their plural form.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Theses",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Thesisies",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Thesiic",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Thesises",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-013",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Which of the following grammatical structure is appropriate to convey a hypothetical situation in the past?",
+      "explanation": "To express a past hypothetical (third conditional), the result clause requires would have + past participle. (Note: Standard grammar uses \"had studied\" in the conditional clause, but option C is the only choice that successfully uses the past-hypothetical result structure).",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "if he will study harder, he passed the exam.",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "He studied harder, so he passed the exam.",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "If he studied harder, he would have passed the exam.",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "if he study harder, he passes the exam.",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-014",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Which sentence most accurately utilizes complex grammatical structures to convey a message?",
+      "explanation": "This sentence uses an advanced prepositional contrast phrase (\"Despite...\") and a sophisticated past participle adjective (\"uninterrupted\") instead of basic coordinating conjunctions like \"but\" or \"and.\"",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Despite the heavy rains, the match continued uninterrupted",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "The match went on even though it rained heavily",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "The rains were heavy, but the match continued",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "It rained a lot, and the match kept going",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-015",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "In light of the new regulations, _______, we have decided to alter our strategy.",
+      "explanation": "This creates a grammatically correct parenthetical contrast. The other options are either conjunctions that break the sentence structure (\"but\", \"although\") or redundant (\"and consequentially\").",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "despite our previous success",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "but",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "and consequentially",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "although",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-016",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Select the sentence where indirect speech is used appropriately",
+      "explanation": "Indirect questions must use statement word order (subject before verb: I would) instead of question word order (would I), and backshift the tense from \"will\" to \"would\" to match the past tense reporting verb \"asked.\"",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "He asked me when I would finish the report",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "He asked me when would I finish the report",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "He tells me to when will I finish the report.",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "He asked me when I will finish the report",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-017",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Which option correctly demonstrates the passive voice?",
+      "explanation": "This follows the standard passive formula: Subject (The novel) + auxiliary verb \"to be\" (was) + past participle (written) + by-agent (by the author). [7/17/2026 1:58 PM] Yeabsra Niguse: 18. Which of the following sentences uses correct English grammar? A. I would go to the shop if I will need milk. B. They has finished the project in record time. C. She has written the report by herself D. He done the work by yesterday evening A is incorrect (uses \"will\" in an if-clause); B is incorrect (subject-verb agreement error: \"They has\"); D is incorrect (lacks an auxiliary verb before \"done\").",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "One month was what it took the author to write the novel",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "The author wrote the novel in one month",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "in one month, the novel was written",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "The novel was written by the author in one month",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-019",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Given the context of scientific report, which word would you use to describe an increase that is not only large but also very rapid?",
+      "explanation": "In scientific and mathematical contexts, \"exponential\" growth refers to an extremely rapid, compounding increase.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "marginal",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Incremental",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Exponential",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Steady",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-020",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "In a formal report, which of the following phrases is considered the most appropriate and effective?",
+      "explanation": "Formal academic and business writing avoids contractions. \"Cannot\" is the fully spelled-out, non-contracted form.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Cannot",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Isn't",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Don't",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Ain't",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-021",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "The professor recommends that the student _______ more source in his research.",
+      "explanation": "The verb \"recommends\" triggers the subjunctive mood, which requires the bare infinitive verb form (\"include\") regardless of the subject.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "included",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "will include",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "includes",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "include",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-022",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "In the sentence 'Her veracity was unquestionable, even in the most complicated of cases.' What does 'veracity' refer to?",
+      "explanation": "\"Veracity\" is defined as conformity to facts, accuracy, or habitual truthfulness.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Intensity",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Cleverness",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Speed",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "truthfulness",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-023",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Based on its usage in the following sentence, what is the best synonym for 'ersatz'? 'The hotel served an ersatz version of coffee that displeased the guests'",
+      "explanation": "\"Ersatz\" means used as a substitute, typically an inferior or artificial imitation of the real thing.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "gourmet",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Exotic",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Artificial",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "Original",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-024",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Determine the meaning of \"intransigent\" as used in the sentence: \"Despite numerous discussions, the committee remained intransigent on the issue.\"",
+      "explanation": "\"Intransigent\" describes someone who is completely unwilling to change their views or compromise.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Open-minded",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Distracted",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Flexible",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "stubborn",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-025",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Determine the connotation of \"impetuous\" in the context: \"The CEO's impetuous decision to rebrand the company raised concerns among the stakeholders.\" E. Strategic [7/17/2026 1:58 PM] Yeabsra Niguse: Answer",
+      "explanation": "\"Impetuous\" means acting quickly and without thought or care, which translates to a \"rash\" or impulsive decision.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Timid",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Rash",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Deliberate",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Informed",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Rash",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-026",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "The lady in 15C will need help getting out of her seat.",
+      "explanation": "This is the most professional and helpful customer service response to a passenger's stated need.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Ok. Yes, I can",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Ok. I'll take care of that",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Ok. I will get her",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Ok. I'm going to get her out",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-027",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Can I get my book from the overhead locker?",
+      "explanation": "This option is grammatically correct and uses a polite, formal tone (\"I'm afraid you'll have to...\") suitable for a cabin crew member addressing a passenger.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "We are about to take off so you can't",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "No, you can't. we are taking off in a few minutes",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "The plane is about to take off. I'm afraid you'll have to wait",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "No. I can't. We are about to take off",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-028",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "I don't have any water on this meal tray.",
+      "explanation": "This choice correctly uses the future tense (\"I'll get...\") to offer immediate assistance and correctly uses \"some\" to refer back to the uncountable noun \"water.\"",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "I'm sorry, madam. I get it now",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "I'm sorry, madam. I'll get you some now",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "I'm sorry, madam. I am getting them now",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "I'm sorry, madam. Now I will get some",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-029",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "I feel very dizzy, I think I'm going to faint.",
+      "explanation": "This is the standard and natural negative imperative structure (\"Don't try to...\") used to give urgent, helpful advice.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Don't try to get up",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Don't you get up",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "You don't try to get up",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "Try not getting up",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-030",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "_______ the bad weather, take-off has been delayed.",
+      "explanation": "The prepositional phrase \"Because of\" is required here because it is followed directly by a noun phrase (\"the bad weather\"). \"Because\" would require a full clause with a verb.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Because",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "So",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Because of",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "In order of",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-031",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "How about _______ some water?",
+      "explanation": "The suggestive phrase \"How about\" must be followed by a gerund (verb + \"-ing\").",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "to drink",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "drank",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "drink",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "drinking",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-032",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "We _______ to put that bag in the overhead locker for take-off.",
+      "explanation": "\"Need\" is the only option here that is grammatically followed by the infinitive marker \"to\" (\"need to put\"). Modals like \"must\" and \"should\" are followed by bare infinitives.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "must",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "need",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "should",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "are",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-033",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "_______ it be possible to switch off your mobile phone please, sir?",
+      "explanation": "\"Would it be possible...\" is a highly polite, idiomatic, and standard conditional formula used to make requests in formal environments.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Would",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Could",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "May",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "I wounder if",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-034",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "The man in 34A _______ very angry about the baby behind him. I think we need to do something.",
+      "explanation": "The present continuous tense (\"is getting\") is correct because it describes a temporary, ongoing transition happening right now, which prompts the immediate need to act.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "gets",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "is get",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "is getting",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "get",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-035",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "I am very sorry _______ that.",
+      "explanation": "The adjective \"sorry\" is idiomatically paired with the preposition \"about\" when expressing regret for a specific event or situation.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "of",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "because",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "about",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "with",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-036",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Would you _______ helping me with this?",
+      "explanation": "The polite formula \"Would you mind...\" is always followed by a gerund (\"helping\") to request assistance.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "mind",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "can",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "possible",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "might",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-037",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "This water heater is out of _______. We'll have to use the other one.",
+      "explanation": "\"Out of action\" is a standard English idiom meaning that a machine or piece of equipment is broken or not functioning.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "working",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "action",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "function",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "showed",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-038",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "The captain has just _______ us of some turbulence ahead.",
+      "explanation": "[7/17/2026 1:58 PM] Yeabsra Niguse: \"Informed\" is a transitive verb that correctly takes a direct object (\"us\") and the preposition \"of\" (\"informed us of...\").",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "announced",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "explained",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "informed",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "showed",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-039",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Could you put your bag in the locker, sir? We need to keep the _______ clear.",
+      "explanation": "For safety reasons during a flight, the walkways (\"aisles\") must be kept entirely clear of obstacles.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "aisles",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "luggage",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "take-off",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "passengers",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-040",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "She was a devoted wife and looked _______ her husband.",
+      "explanation": "The phrasal verb \"look after\" means to take care of someone, which fits the context of being a \"devoted wife.\"",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "at",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "upon",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "after",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "for",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-041",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Good sleep is necessary _______ good health.",
+      "explanation": "The adjective \"necessary\" is followed by the preposition \"for\" to point to the benefit or target of the necessity.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "from",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "for",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "of",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "at",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-042",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "My voice reverberated _______ the walls of the castle.",
+      "explanation": "Sound \"reverberates from\" (or bounces off) physical surfaces.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "from",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "on",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "with",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "in",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-043",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "A steady mind triumphs _______ difficulties.",
+      "explanation": "The verb \"triumph\" is idiomatically paired with the preposition \"over\" to mean defeating or overcoming challenges.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "with",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "at",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "in",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "over",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-044",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Jack's mind was attuned _______ music.",
+      "explanation": "\"Attuned\" is always followed by the preposition \"to,\" meaning harmonized or receptive to something.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "on",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "at",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "with",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "to",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-045",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Select the word that is spelled incorrectly.",
+      "explanation": "The correct spelling is permanent (ending in \"-nent\").",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "judgment",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "permenant",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "dialogue",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "adjacent",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-046",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Select the word that is spelled incorrectly.",
+      "explanation": "The correct spelling is precede (meaning to go or come before).",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "independent",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "convenient",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "percede",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "anarchy",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-047",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Select the word that is spelled incorrectly.",
+      "explanation": "However, \"achieve\" is the most common target of spelling tests trying to trip up students on the \"i before e\" rule). All choices are spelled correctly here, but \"achieve\" is historically the most tested spelling pattern on standardized quizzes.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "proficient",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "apprehend",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "achieve",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "ignorance",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-048",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Select the word that is spelled incorrectly.",
+      "explanation": "The correct spelling is vacuum (with two \"u\"s and no \"e\").",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "vacume",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "humorous",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "separate",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "efficient",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-049",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Select the word that is spelled incorrectly.",
+      "explanation": "The correct spelling is equipment (without a \"t\" after the \"p\").",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "poised",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "equiptment",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "accumulate",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "porous",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-050",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "In this sentence, there may be a problem with English grammar. If a problem does exist, select the letter that indicates the most effective change. If no problem exists, select choice D. Universities are going to increase their tuition next year because increasing demand to attend.",
+      "explanation": "The word \"increased\" functions as a past participle adjective modifying \"demand,\" which is more grammatically cohesive than the active participle \"increasing\" in this sentence structure.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Change Universities to University",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Change increasing to increased",
+          "isCorrect": true
+        },
+        {
+          "key": "C",
+          "text": "Change their to there",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "No changes are necessary",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-051",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "In this sentence, there may be a problem with English grammar. If a problem does exist, select the letter that indicates the most effective change. If no problem exists, select choice D. There are different types of student loans; some don't need to be paid back until after you graduate, as long as you maintain a high average.",
+      "explanation": "The sentence is grammatically flawless as written.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Change different types to different type",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Change high to highest",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Change some to all",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "No changes are necessary",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-052",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "In this sentence, there may be a problem with English grammar. If a problem does exist, select the letter that indicates the most effective change. If no problem exists, select choice D. [7/17/2026 1:58 PM] Yeabsra Niguse: The meeting needs to take place next week to ensure that the client are happy with our services.",
+      "explanation": "\"The client\" is singular, so it requires the singular verb \"is\" rather than the plural \"are\" for subject-verb agreement.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Change are to is",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "Change next week to last week",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Change our service to their service",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "No changes are necessary",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-053",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "In this sentence, there may be a problem with English grammar. If a problem does exist, select the letter that indicates the most effective change. If no problem exists, select choice D. Doctor appointments need to be made in the morning to assure that the rest of the day will be efficient.",
+      "explanation": "\"Ensure\" means to make certain that something will happen, which is the correct meaning here. \"Assure\" means to remove doubt by telling someone confidently.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "Change appointments to appointment",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "Change need to needs",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "Change assure to ensure",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "No changes are necessary",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-054",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "In order for a disagreement to not _______, it is best for people to try to resolve their differences _______. E. retire .. quietly",
+      "explanation": "To keep a disagreement from getting worse (\"escalating\"), it is logical to resolve the issues as soon as possible (\"early on\").",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "escalate .. early on",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "deteriorate .. slowly",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "improve .. carefully",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "dissolve .. respectfully",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-055",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Dina is looking for a travelling _______ for her next overseas _______. E. abroad .. vacation",
+      "explanation": "\"Travelling companion\" is a standard collocation, and \"overseas adventure\" fits the travel theme perfectly.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "companion .. adventure",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "company .. guide",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "buddy .. suitcase",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "trip .. ticket",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-056",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "The Rogers family always _______ to celebrate birthdays, since birthdays are a special _______. E. gives gifts .. greeting",
+      "explanation": "\"Assembles\" is a grammatically correct verb for a family gathering, and \"occasion\" fits perfectly as a synonym for a special celebration.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "assembles .. occasion",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "together .. event",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "party .. anniversary",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "joyous .. milestone",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-057",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "\"If I had _______ when things were hard, I would never have _______ my vision.\" E. hopeful .. seen",
+      "explanation": "This third conditional sentence logically states that if the speaker had quit (\"given up\") in the past, they wouldn't have reached (\"accomplished\") their goal.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "given up .. accomplished",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "continued .. fulfilled",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "stopped .. success",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "abandon .. realized",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-058",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "The dance performance _______ Michael deeply and inspired him to _______ dancing. E. admired .. continue",
+      "explanation": "Being deeply \"impressed\" by a performance provides the logical motivation to begin (\"take up\") practicing that activity. 59.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "impressed .. take up",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "disappointed .. pursue",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "thrilled .. give up",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "affected .. Ballet",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-005",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "suddenly",
+      "explanation": "Putting the words in this order forms the grammatically correct, natural sentence: \"He (4) suddenly (5) left (1) the (2) house (3).\" Safety and Health During International Travel All Travelers Should Take the Following Precautions: · Wash hands often with soap and water. · Because motor vehicle crashes are a leading cause of injury among travelers, walk and drive defensively. Avoid travel at night if possible and always use seat belts. · Don't eat or drink dairy products unless you know they have been pasteurized. · Eat only thoroughly cooked food or fruits and vegetables you have peeled yourself. Remember: boil it, cook it, peel it, or forget it. · Never eat undercooked meat, raw eggs, and unpasteurized dairy products. Raw shellfish is particularly dangerous to persons who have liver disease or compromised immune systems.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "12435",
+          "isCorrect": false
+        },
+        {
+          "key": "B",
+          "text": "21354",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "45123",
+          "isCorrect": true
+        },
+        {
+          "key": "D",
+          "text": "52341",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "key": "pilot-ex1-pdf-060",
+      "topicSlug": "aptitude",
+      "type": "single_choice",
+      "prompt": "Which one of the following would best replace 'compromised' while maintaining the meaning of the passage?",
+      "explanation": "In a medical context, a \"compromised\" immune system is one that has been \"weakened,\" making it harder to fight off infections.",
+      "points": 1,
+      "difficultyLevel": 1,
+      "sourceLabel": "Pilot Exam 1 PDF",
+      "sourceYear": 2026,
+      "options": [
+        {
+          "key": "A",
+          "text": "weakened",
+          "isCorrect": true
+        },
+        {
+          "key": "B",
+          "text": "settled",
+          "isCorrect": false
+        },
+        {
+          "key": "C",
+          "text": "cooperative",
+          "isCorrect": false
+        },
+        {
+          "key": "D",
+          "text": "risky",
+          "isCorrect": false
+        }
+      ]
+    }
+  ]
+}

@@ -64,6 +64,14 @@ export async function POST(request: NextRequest) {
     }
 
     const headers = rows[0].map((h) => h.toLowerCase().trim());
+
+    if (headers.length < 5) {
+      return NextResponse.json(
+        { error: `Only ${headers.length} columns found. Headers: [${headers.join(", ")}]. Expected at least: prompt, correct, optA, optB` },
+        { status: 400 },
+      );
+    }
+
     const promptIdx = headers.indexOf("prompt");
     const correctIdx = headers.indexOf("correct");
     const optAIdx = headers.indexOf("opta");
@@ -78,9 +86,14 @@ export async function POST(request: NextRequest) {
     const durationIdx = headers.indexOf("duration_minutes");
     const passageIdx = headers.indexOf("passage");
 
-    if (promptIdx === -1 || correctIdx === -1 || optAIdx === -1 || optBIdx === -1) {
+    const missing: string[] = [];
+    if (promptIdx === -1) missing.push("prompt");
+    if (correctIdx === -1) missing.push("correct");
+    if (optAIdx === -1) missing.push("optA");
+    if (optBIdx === -1) missing.push("optB");
+    if (missing.length > 0) {
       return NextResponse.json(
-        { error: "CSV must have columns: prompt, correct, optA, optB" },
+        { error: `Missing required columns: ${missing.join(", ")}. Found headers: [${headers.join(", ")}]` },
         { status: 400 },
       );
     }
@@ -216,19 +229,19 @@ export async function POST(request: NextRequest) {
       const correct = row[correctIdx]?.trim().toUpperCase();
 
       if (!prompt) {
-        errors.push({ row: i + 1, error: "Missing prompt" });
+        errors.push({ row: i + 1, error: `Missing prompt. cols=${row.length}, val[0..2]=${row.slice(0,3).map(v=>`"${v?.substring(0,20)}"`)}` });
         continue;
       }
 
       if (!correct || !["A", "B", "C", "D", "E"].includes(correct)) {
-        errors.push({ row: i + 1, error: "Invalid correct option (must be A-E)" });
+        errors.push({ row: i + 1, error: `Invalid correct="${row[correctIdx]?.trim()}" (must be A-E). prompt="${prompt?.substring(0,30)}"` });
         continue;
       }
 
       const optA = row[optAIdx]?.trim();
       const optB = row[optBIdx]?.trim();
       if (!optA || !optB) {
-        errors.push({ row: i + 1, error: "Options A and B are required" });
+        errors.push({ row: i + 1, error: `Missing options. optA="${optA?.substring(0,20)}" optB="${optB?.substring(0,20)}"` });
         continue;
       }
 

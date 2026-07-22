@@ -42,13 +42,21 @@ function makePracticeSets(deptId: string): PracticeSet[] {
   }));
 }
 
+function getExamSetImportKey(deptId: string, examNumber: number): string {
+  if (deptId === "pilot" && examNumber === 3) {
+    return "pilot-training-exam-3";
+  }
+
+  return `${deptId}-exam-set-${examNumber}`;
+}
+
 function makeExamSets(deptId: string): ExamSet[] {
   return [1, 2, 3].map((n) => ({
     id: `${deptId}-exam-${n}`,
     label: `Exam ${n}`,
     questionCount: 60,
     durationMinutes: 60,
-    examSetId: `${deptId}-exam-set-${n}`,
+    examSetId: getExamSetImportKey(deptId, n),
   }));
 }
 
