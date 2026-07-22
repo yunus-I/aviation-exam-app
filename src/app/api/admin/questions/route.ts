@@ -83,49 +83,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: questionError.message }, { status: 500 });
     }
 
-    let { data: examSet } = await supabase
-      .from("exam_sets")
-      .select("id")
-      .eq("department_id", department_id)
-      .eq("is_published", true)
-      .order("published_at", { ascending: false, nullsFirst: false })
-      .limit(1)
-      .maybeSingle();
-
-    if (!examSet) {
-      const { data: newExamSet } = await supabase
-        .from("exam_sets")
-        .upsert(
-          {
-            slug: `admin-exam-${department_id.slice(0, 8)}`,
-            title_en: "Practice Exam",
-            department_id,
-            mode: "practice",
-            duration_minutes: 45,
-            total_questions: 0,
-            is_published: true,
-            published_at: new Date().toISOString(),
-            created_by_admin_id: admin.id,
-          },
-          { onConflict: "slug" },
-        )
-        .select("id")
-        .single();
-      examSet = newExamSet;
-    }
-
-    if (examSet) {
-      const { count } = await supabase
-        .from("exam_set_questions")
-        .select("id", { count: "exact", head: true })
-        .eq("exam_set_id", examSet.id);
-
-      await supabase.from("exam_set_questions").insert({
-        exam_set_id: examSet.id,
-        question_id: question.id,
-        sort_order: (count ?? 0) + 1,
-      });
-    }
+    // Do NOT auto-link questions to an exam set.
+    // Questions should only be linked via explicit admin action or CSV import with topic mapping.
 
     if (options?.length > 0) {
       const { error: optionsError } = await supabase

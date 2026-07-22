@@ -126,48 +126,6 @@ export async function POST(request: NextRequest) {
       if (newBank) question_bank_id = newBank.id;
     }
 
-    // Get or create published exam set for linking
-    let { data: examSet } = await supabase
-      .from("exam_sets")
-      .select("id")
-      .eq("department_id", departmentId)
-      .eq("is_published", true)
-      .order("published_at", { ascending: false, nullsFirst: false })
-      .limit(1)
-      .maybeSingle();
-
-    if (!examSet) {
-      const { data: newExamSet } = await supabase
-        .from("exam_sets")
-        .upsert(
-          {
-            slug: `admin-exam-${departmentId.slice(0, 8)}`,
-            title_en: "Practice Exam",
-            department_id: departmentId,
-            mode: "practice",
-            duration_minutes: 45,
-            total_questions: 0,
-            is_published: true,
-            published_at: new Date().toISOString(),
-            created_by_admin_id: admin.id,
-          },
-          { onConflict: "slug" },
-        )
-        .select("id")
-        .single();
-      examSet = newExamSet;
-    }
-
-    // Get current count for sort_order
-    let baseSortOrder = 0;
-    if (examSet) {
-      const { count } = await supabase
-        .from("exam_set_questions")
-        .select("id", { count: "exact", head: true })
-        .eq("exam_set_id", examSet.id);
-      baseSortOrder = count ?? 0;
-    }
-
     // Cache for resolved topics to avoid repeated lookups
     const topicCache: Record<string, string | null> = {};
 
@@ -323,14 +281,53 @@ export async function POST(request: NextRequest) {
         continue;
       }
 
-      // Link to exam set
-      if (examSet) {
-        baseSortOrder++;
-        await supabase.from("exam_set_questions").insert({
-          exam_set_id: examSet.id,
-          question_id: question.id,
-          sort_order: baseSortOrder,
-        });
+      // Link to exam set based on topic
+      if (topic_id) {
+        // Find or create exam set for this topic+department
+        const topicSlug = topicName?.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "";
+        let { data: topicExamSet } = await supabase
+          .from("exam_sets")
+          .select("id")
+          .eq("department_id", departmentId)
+          .eq("topic_id", topic_id)
+          .maybeSingle();
+
+        if (!topicExamSet) {
+          // Determine mode: exam topics -> mock, practice topics -> practice
+          const mode = topicSlug.startsWith("exam") ? "mock" : "practice";
+          const { data: newEs } = await supabase
+            .from("exam_sets")
+            .upsert(
+              {
+                slug: `${departmentId.slice(0, 8)}-${topicSlug}`,
+                title_en: topicName || "Untitled",
+                department_id: departmentId,
+                topic_id,
+                mode,
+                duration_minutes: 45,
+                is_published: true,
+                published_at: new Date().toISOString(),
+                created_by_admin_id: admin.id,
+              },
+              { onConflict: "slug" },
+            )
+            .select("id")
+            .single();
+          topicExamSet = newEs;
+        }
+
+        if (topicExamSet) {
+          const { count } = await supabase
+            .from("exam_set_questions")
+            .select("id", { count: "exact", head: true })
+            .eq("exam_set_id", topicExamSet.id);
+
+          await supabase.from("exam_set_questions").insert({
+            exam_set_id: topicExamSet.id,
+            question_id: question.id,
+            sort_order: (count ?? 0) + 1,
+          });
+        }
       }
 
       imported.push(i + 1);
