@@ -21,6 +21,52 @@ function getTopicSlug(subjectName: string): string {
   return subjectName.toLowerCase();
 }
 
+function normalizeLookupKey(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+async function resolveImportedExamSetKey(
+  supabase: ReturnType<typeof getSupabaseAdminClient>,
+  departmentId: string,
+  subjectName: string,
+  requestedKey?: string,
+) {
+  const candidates = new Set<string>();
+  if (requestedKey) {
+    candidates.add(normalizeLookupKey(requestedKey));
+  }
+
+  const normalizedSubject = normalizeLookupKey(subjectName);
+  if (normalizedSubject) {
+    candidates.add(normalizedSubject);
+  }
+
+  const examSetResult = await supabase
+    .from("exam_sets")
+    .select("import_key, slug, title_en")
+    .eq("department_id", departmentId)
+    .eq("is_published", true)
+    .order("published_at", { ascending: false, nullsFirst: false });
+
+  if (examSetResult.error) {
+    throw examSetResult.error;
+  }
+
+  const rows = (examSetResult.data ?? []) as Array<{
+    import_key?: string;
+    slug?: string;
+    title_en?: string;
+  }>;
+
+  return rows.find((row) => {
+    const haystacks = [row.import_key, row.slug, row.title_en].filter(Boolean) as string[];
+    return haystacks.some((value) => {
+      const normalizedValue = normalizeLookupKey(value);
+      return candidates.has(normalizedValue) || normalizedValue.includes(normalizedSubject);
+    });
+  })?.import_key ?? null;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as { dept?: string; subject?: string; examSetId?: string };
@@ -32,17 +78,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: false, error: "missing_parameters" }, { status: 400 });
     }
 
+    const supabase = getSupabaseAdminClient();
+    const repo = new ExamContentRepository();
+
     if (examSetId) {
       try {
-        const repo = new ExamContentRepository();
         const examSet = await repo.getExamSetByImportKey(examSetId);
         return NextResponse.json({ ok: true, examSet });
       } catch (error) {
         console.error("Failed to load via importKey, falling back to legacy fetch:", error);
       }
     }
-
-    const supabase = getSupabaseAdminClient();
 
     // 1. Get Department
     const dbDeptCode = DEPT_MAP[deptId] ?? deptId.toUpperCase();
@@ -54,6 +100,22 @@ export async function POST(request: NextRequest) {
 
     if (deptResult.error) {
       return NextResponse.json({ ok: false, error: "department_not_found" });
+    }
+
+    const resolvedExamSetKey = await resolveImportedExamSetKey(
+      supabase,
+      deptResult.data.id,
+      subjectName,
+      examSetId,
+    );
+
+    if (resolvedExamSetKey) {
+      try {
+        const examSet = await repo.getExamSetByImportKey(resolvedExamSetKey);
+        return NextResponse.json({ ok: true, examSet });
+      } catch (error) {
+        console.error("Failed to resolve imported exam set:", error);
+      }
     }
 
     // 2. Get Topic
@@ -73,6 +135,7 @@ export async function POST(request: NextRequest) {
       .from("questions")
       .select(`
         id,
+        question_num,
         question_type,
         passage_text,
         prompt_en,
@@ -82,7 +145,9 @@ export async function POST(request: NextRequest) {
       `)
       .eq("department_id", deptResult.data.id)
       .eq("topic_id", topicResult.data.id)
-      .eq("is_active", true)) as any;
+      .eq("is_active", true)
+      .order("question_num", { ascending: true, nullsFirst: false })
+      .order("created_at", { ascending: true })) as any;
 
     if (questionsResult.error || !questionsResult.data || questionsResult.data.length === 0) {
       return NextResponse.json({ ok: false, error: "no_questions_found" });
