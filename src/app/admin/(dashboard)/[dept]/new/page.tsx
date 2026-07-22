@@ -18,7 +18,8 @@ export default async function NewDeptQuestionPage({ params }: Props) {
  .from("topics")
  .select("id, slug, name_en")
  .order("name_en");
- const topics = (_topics as { id: string; slug: string; name_en: string }[]) ?? [];
+ const topics = ((_topics as { id: string; slug: string; name_en: string }[]) ?? [])
+   .filter((t) => t.slug !== "aptitude" && t.slug !== "english");
 
  return (
  <div className="space-y-6">

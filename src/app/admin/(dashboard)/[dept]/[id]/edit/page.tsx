@@ -27,7 +27,8 @@ export default async function EditDeptQuestionPage({ params }: Props) {
  if (!question) notFound();
 
  const options = (optsResult.data as any[]) ?? [];
- const topics = (topicsResult.data as { id: string; slug: string; name_en: string }[]) ?? [];
+ const topics = ((topicsResult.data as { id: string; slug: string; name_en: string }[]) ?? [])
+   .filter((t) => t.slug !== "aptitude" && t.slug !== "english");
  const mediaItems = (mediaResult.data as any[]) ?? [];
 
  const optMap: Record<string, string> = {};
