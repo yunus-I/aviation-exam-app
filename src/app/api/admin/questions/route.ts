@@ -95,17 +95,20 @@ export async function POST(request: NextRequest) {
     if (!examSet) {
       const { data: newExamSet } = await supabase
         .from("exam_sets")
-        .insert({
-          slug: `admin-exam-${department_id.slice(0, 8)}`,
-          title_en: "Practice Exam",
-          department_id,
-          mode: "practice",
-          duration_minutes: 45,
-          total_questions: 0,
-          is_published: true,
-          published_at: new Date().toISOString(),
-          created_by_admin_id: admin.id,
-        })
+        .upsert(
+          {
+            slug: `admin-exam-${department_id.slice(0, 8)}`,
+            title_en: "Practice Exam",
+            department_id,
+            mode: "practice",
+            duration_minutes: 45,
+            total_questions: 0,
+            is_published: true,
+            published_at: new Date().toISOString(),
+            created_by_admin_id: admin.id,
+          },
+          { onConflict: "slug" },
+        )
         .select("id")
         .single();
       examSet = newExamSet;
