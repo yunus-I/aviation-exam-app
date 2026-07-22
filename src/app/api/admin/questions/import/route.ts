@@ -33,6 +33,10 @@ function parseCsv(text: string): string[][] {
   return lines.map((line) => parseCsvLine(line));
 }
 
+function slugify(text: string): string {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
 export async function POST(request: NextRequest) {
   const admin = await getAdminUser(request);
   if (!admin) {
@@ -66,11 +70,13 @@ export async function POST(request: NextRequest) {
     const optBIdx = headers.indexOf("optb");
     const optCIdx = headers.indexOf("optc");
     const optDIdx = headers.indexOf("optd");
+    const optEIdx = headers.indexOf("opte");
     const typeIdx = headers.indexOf("type");
     const numIdx = headers.indexOf("question_num");
     const explanationIdx = headers.indexOf("explanation");
-    const topicSlugIdx = headers.indexOf("topicslug");
+    const topicIdx = headers.indexOf("topic");
     const durationIdx = headers.indexOf("duration_minutes");
+    const passageIdx = headers.indexOf("passage");
 
     if (promptIdx === -1 || correctIdx === -1 || optAIdx === -1 || optBIdx === -1) {
       return NextResponse.json(
@@ -104,9 +110,6 @@ export async function POST(request: NextRequest) {
       if (newBank) question_bank_id = newBank.id;
     }
 
-    // Resolve default topic for this department
-    let default_topic_id: string | null = null;
-
     // Get published exam set for linking
     const { data: examSet } = await supabase
       .from("exam_sets")
@@ -127,6 +130,41 @@ export async function POST(request: NextRequest) {
       baseSortOrder = count ?? 0;
     }
 
+    // Cache for resolved topics to avoid repeated lookups
+    const topicCache: Record<string, string | null> = {};
+
+    async function resolveTopicId(topicName: string | null): Promise<string | null> {
+      if (!topicName) return null;
+      const slug = slugify(topicName);
+      if (topicCache[slug] !== undefined) return topicCache[slug];
+
+      // Try to find existing topic by slug
+      const { data: existing } = await supabase
+        .from("topics")
+        .select("id")
+        .eq("slug", slug)
+        .maybeSingle();
+
+      if (existing) {
+        topicCache[slug] = existing.id;
+        return existing.id;
+      }
+
+      // Create new topic
+      const { data: newTopic } = await supabase
+        .from("topics")
+        .insert({
+          slug,
+          name_en: topicName,
+          is_active: true,
+        })
+        .select("id")
+        .single();
+
+      topicCache[slug] = newTopic?.id ?? null;
+      return newTopic?.id ?? null;
+    }
+
     const imported: number[] = [];
     const errors: { row: number; error: string }[] = [];
 
@@ -140,8 +178,8 @@ export async function POST(request: NextRequest) {
         continue;
       }
 
-      if (!correct || !["A", "B", "C", "D"].includes(correct)) {
-        errors.push({ row: i + 1, error: "Invalid correct option" });
+      if (!correct || !["A", "B", "C", "D", "E"].includes(correct)) {
+        errors.push({ row: i + 1, error: "Invalid correct option (must be A-E)" });
         continue;
       }
 
@@ -152,17 +190,9 @@ export async function POST(request: NextRequest) {
         continue;
       }
 
-      // Resolve topic if provided
-      let topic_id: string | null = default_topic_id;
-      const topicSlug = topicSlugIdx !== -1 ? row[topicSlugIdx]?.trim() : null;
-      if (topicSlug) {
-        const { data: topic } = await supabase
-          .from("topics")
-          .select("id")
-          .eq("slug", topicSlug)
-          .maybeSingle();
-        if (topic) topic_id = topic.id;
-      }
+      // Resolve topic
+      const topicName = topicIdx !== -1 ? row[topicIdx]?.trim() || null : null;
+      const topic_id = await resolveTopicId(topicName);
 
       const questionType = typeIdx !== -1 && row[typeIdx]?.trim()
         ? row[typeIdx].trim()
@@ -173,9 +203,10 @@ export async function POST(request: NextRequest) {
         : null;
 
       const explanation = explanationIdx !== -1 ? row[explanationIdx]?.trim() || null : null;
+      const passage = passageIdx !== -1 ? row[passageIdx]?.trim() || null : null;
       const duration = durationIdx !== -1 && row[durationIdx]?.trim()
         ? parseInt(row[durationIdx].trim(), 10)
-        : 2;
+        : 1;
 
       const { data: question, error: qError } = await supabase
         .from("questions")
@@ -184,6 +215,7 @@ export async function POST(request: NextRequest) {
           department_id: departmentId,
           topic_id,
           question_type: questionType,
+          passage_text: passage,
           prompt_en: prompt,
           explanation_en: explanation,
           question_num: questionNum,
@@ -210,6 +242,9 @@ export async function POST(request: NextRequest) {
       }
       if (optDIdx !== -1 && row[optDIdx]?.trim()) {
         options.push({ option_key: "D", option_text_en: row[optDIdx].trim(), is_correct: correct === "D", sort_order: 4 });
+      }
+      if (optEIdx !== -1 && row[optEIdx]?.trim()) {
+        options.push({ option_key: "E", option_text_en: row[optEIdx].trim(), is_correct: correct === "E", sort_order: 5 });
       }
 
       const { error: oError } = await supabase
