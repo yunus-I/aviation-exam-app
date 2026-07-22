@@ -94,6 +94,10 @@ export async function DELETE(
 
   const { id } = await params;
   const supabase = getSupabaseAdminClient() as any;
+
+  await supabase.from("attempt_answers").delete().eq("question_id", id);
+  await supabase.from("exam_set_questions").delete().eq("question_id", id);
+
   const { error } = await supabase.from("questions").delete().eq("id", id);
 
   if (error) {
