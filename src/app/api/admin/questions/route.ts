@@ -37,9 +37,34 @@ export async function POST(request: NextRequest) {
       if (topic) topic_id = (topic as any).id;
     }
 
+    let question_bank_id: string | null = null;
+    const { data: existingBank } = await supabase
+      .from("question_banks")
+      .select("id")
+      .eq("department_id", department_id)
+      .maybeSingle();
+    if (existingBank) {
+      question_bank_id = existingBank.id;
+    } else {
+      const deptSlug = department_id.slice(0, 8);
+      const { data: newBank } = await supabase
+        .from("question_banks")
+        .insert({
+          slug: `admin-bank-${deptSlug}`,
+          title_en: "Admin Questions",
+          department_id,
+          topic_id,
+          is_active: true,
+        })
+        .select("id")
+        .single();
+      if (newBank) question_bank_id = newBank.id;
+    }
+
     const { data: question, error: questionError } = await supabase
       .from("questions")
       .insert({
+        question_bank_id,
         department_id,
         topic_id,
         question_type: rest.type || "single_choice",
@@ -56,6 +81,28 @@ export async function POST(request: NextRequest) {
 
     if (questionError) {
       return NextResponse.json({ error: questionError.message }, { status: 500 });
+    }
+
+    const { data: examSet } = await supabase
+      .from("exam_sets")
+      .select("id")
+      .eq("department_id", department_id)
+      .eq("is_published", true)
+      .order("published_at", { ascending: false, nullsFirst: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (examSet) {
+      const { count } = await supabase
+        .from("exam_set_questions")
+        .select("id", { count: "exact", head: true })
+        .eq("exam_set_id", examSet.id);
+
+      await supabase.from("exam_set_questions").insert({
+        exam_set_id: examSet.id,
+        question_id: question.id,
+        sort_order: (count ?? 0) + 1,
+      });
     }
 
     if (options?.length > 0) {
