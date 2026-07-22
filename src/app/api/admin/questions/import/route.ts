@@ -99,12 +99,15 @@ export async function POST(request: NextRequest) {
     } else {
       const { data: newBank } = await supabase
         .from("question_banks")
-        .insert({
-          slug: `admin-bank-${departmentId.slice(0, 8)}`,
-          title_en: "Admin Questions",
-          department_id: departmentId,
-          is_active: true,
-        })
+        .upsert(
+          {
+            slug: `admin-bank-${departmentId.slice(0, 8)}`,
+            title_en: "Admin Questions",
+            department_id: departmentId,
+            is_active: true,
+          },
+          { onConflict: "slug" },
+        )
         .select("id")
         .single();
       if (newBank) question_bank_id = newBank.id;
@@ -135,33 +138,71 @@ export async function POST(request: NextRequest) {
 
     async function resolveTopicId(topicName: string | null): Promise<string | null> {
       if (!topicName) return null;
-      const slug = slugify(topicName);
-      if (topicCache[slug] !== undefined) return topicCache[slug];
+      const cacheKey = topicName.toLowerCase().replace(/[^a-z0-9]/g, "");
+      if (topicCache[cacheKey] !== undefined) return topicCache[cacheKey];
 
-      // Try to find existing topic by slug
-      const { data: existing } = await supabase
+      const slug = slugify(topicName);
+
+      // 1. Exact slug match
+      const { data: bySlug } = await supabase
         .from("topics")
         .select("id")
         .eq("slug", slug)
         .maybeSingle();
-
-      if (existing) {
-        topicCache[slug] = existing.id;
-        return existing.id;
+      if (bySlug) {
+        topicCache[cacheKey] = bySlug.id;
+        return bySlug.id;
       }
 
-      // Create new topic
+      // 2. Case-insensitive slug match (practice1 matches Practice 1)
+      const { data: bySlugFuzzy } = await supabase
+        .from("topics")
+        .select("id, slug")
+        .ilike("slug", slug)
+        .maybeSingle();
+      if (bySlugFuzzy) {
+        topicCache[cacheKey] = bySlugFuzzy.id;
+        return bySlugFuzzy.id;
+      }
+
+      // 3. Case-insensitive name match (Practice 1 matches "Practice 1" in DB)
+      const { data: byName } = await supabase
+        .from("topics")
+        .select("id")
+        .ilike("name_en", topicName)
+        .maybeSingle();
+      if (byName) {
+        topicCache[cacheKey] = byName.id;
+        return byName.id;
+      }
+
+      // 4. Normalized name match: strip all non-alphanumeric, compare
+      const normalized = topicName.toLowerCase().replace(/[^a-z0-9]/g, "");
+      const { data: allTopics } = await supabase
+        .from("topics")
+        .select("id, name_en")
+        .ilike("name_en", `%${topicName}%`);
+      if (allTopics?.length) {
+        const match = allTopics.find((t: any) =>
+          t.name_en.toLowerCase().replace(/[^a-z0-9]/g, "") === normalized,
+        );
+        if (match) {
+          topicCache[cacheKey] = match.id;
+          return match.id;
+        }
+      }
+
+      // 5. Create new topic
       const { data: newTopic } = await supabase
         .from("topics")
-        .insert({
-          slug,
-          name_en: topicName,
-          is_active: true,
-        })
+        .upsert(
+          { slug, name_en: topicName, is_active: true },
+          { onConflict: "slug" },
+        )
         .select("id")
         .single();
 
-      topicCache[slug] = newTopic?.id ?? null;
+      topicCache[cacheKey] = newTopic?.id ?? null;
       return newTopic?.id ?? null;
     }
 
