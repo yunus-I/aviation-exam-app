@@ -113,8 +113,8 @@ export async function POST(request: NextRequest) {
       if (newBank) question_bank_id = newBank.id;
     }
 
-    // Get published exam set for linking
-    const { data: examSet } = await supabase
+    // Get or create published exam set for linking
+    let { data: examSet } = await supabase
       .from("exam_sets")
       .select("id")
       .eq("department_id", departmentId)
@@ -122,6 +122,25 @@ export async function POST(request: NextRequest) {
       .order("published_at", { ascending: false, nullsFirst: false })
       .limit(1)
       .maybeSingle();
+
+    if (!examSet) {
+      const { data: newExamSet } = await supabase
+        .from("exam_sets")
+        .insert({
+          slug: `admin-exam-${departmentId.slice(0, 8)}`,
+          title_en: "Practice Exam",
+          department_id: departmentId,
+          mode: "practice",
+          duration_minutes: 45,
+          total_questions: 0,
+          is_published: true,
+          published_at: new Date().toISOString(),
+          created_by_admin_id: admin.id,
+        })
+        .select("id")
+        .single();
+      examSet = newExamSet;
+    }
 
     // Get current count for sort_order
     let baseSortOrder = 0;
