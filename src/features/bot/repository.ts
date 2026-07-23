@@ -377,6 +377,21 @@ export class BotRepository {
     return Boolean(result.data);
   }
 
+  async getActiveAdminTelegramUserIds(): Promise<number[]> {
+    const result = await this.supabase
+      .from("admin_accounts")
+      .select("telegram_user_id")
+      .eq("is_active", true);
+
+    if (result.error || !result.data) {
+      return [];
+    }
+
+    return result.data
+      .map((row: any) => Number(row.telegram_user_id))
+      .filter((id: number) => !isNaN(id) && id > 0);
+  }
+
   async getSubmissionForReview(submissionId: string) {
     const result = await this.supabase
       .from("registration_submissions")

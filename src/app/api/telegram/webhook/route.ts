@@ -10,6 +10,7 @@ export async function POST(request: NextRequest) {
 
     if (
       env.TELEGRAM_BOT_WEBHOOK_SECRET &&
+      env.TELEGRAM_BOT_WEBHOOK_SECRET !== "choose_a_strong_secret" &&
       secretHeader !== env.TELEGRAM_BOT_WEBHOOK_SECRET
     ) {
       return NextResponse.json({ ok: false }, { status: 401 });

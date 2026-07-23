@@ -99,29 +99,47 @@ function buildAdminReviewCaption(summary: {
   ].join("\n");
 }
 
+function getAdminChatIds(): number[] {
+  if (!env.TELEGRAM_ADMIN_CHAT_ID) {
+    return [];
+  }
+  return env.TELEGRAM_ADMIN_CHAT_ID
+    .split(/[,;\s]+/)
+    .map((id) => Number(id.trim()))
+    .filter((id) => !isNaN(id) && id > 0);
+}
+
 async function notifyAdminWithReviewCard(
   ctx: BotContext,
   summary: Awaited<ReturnType<BotRepository["submitDraft"]>>,
 ) {
-  if (!env.TELEGRAM_ADMIN_CHAT_ID) {
-    throw new Error("TELEGRAM_ADMIN_CHAT_ID is not configured.");
+  const envAdminIds = getAdminChatIds();
+  const dbAdminIds = await getRepository().getActiveAdminTelegramUserIds().catch(() => []);
+  const allAdminIds = Array.from(new Set([...envAdminIds, ...dbAdminIds]));
+
+  if (allAdminIds.length === 0) {
+    throw new Error("No admin chat IDs configured.");
   }
 
-  const chatId = Number(env.TELEGRAM_ADMIN_CHAT_ID);
   const caption = buildAdminReviewCaption(summary);
   const reviewKeyboard = createAdminReviewKeyboard(summary.submissionId);
 
-  if (summary.receiptTelegramFileId) {
-    await ctx.api.sendPhoto(chatId, summary.receiptTelegramFileId, {
-      caption,
-      reply_markup: reviewKeyboard,
-    });
-    return;
+  for (const chatId of allAdminIds) {
+    try {
+      if (summary.receiptTelegramFileId) {
+        await ctx.api.sendPhoto(chatId, summary.receiptTelegramFileId, {
+          caption,
+          reply_markup: reviewKeyboard,
+        });
+      } else {
+        await ctx.api.sendMessage(chatId, caption, {
+          reply_markup: reviewKeyboard,
+        });
+      }
+    } catch (error) {
+      console.error(`Failed to send review card to admin Telegram chat ID ${chatId}:`, error);
+    }
   }
-
-  await ctx.api.sendMessage(chatId, caption, {
-    reply_markup: reviewKeyboard,
-  });
 }
 
 async function beginRegistration(ctx: BotContext) {

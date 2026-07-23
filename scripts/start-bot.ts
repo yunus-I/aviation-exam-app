@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 
-dotenv.config({ path: ".env.local" });
+dotenv.config();
 
 async function main() {
   const { getTelegramBot } = await import("@/features/bot/bot");
