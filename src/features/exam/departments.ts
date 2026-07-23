@@ -71,9 +71,9 @@ function makeNoteSets(deptId: string): NoteSet[] {
 export const DEPARTMENTS: Department[] = [
   {
     id: "amt",
-    name: "Aircraft Maintenance Technology",
+    name: "Aircraft Maintenance Technician",
     icon: "🔧",
-    description: "Aircraft Maintenance Technology entrance exam preparation.",
+    description: "Aircraft Maintenance Technician entrance exam preparation.",
     practiceSets: makePracticeSets("amt"),
     examSets: makeExamSets("amt"),
     noteSets: makeNoteSets("amt"),

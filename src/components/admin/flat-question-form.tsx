@@ -7,6 +7,8 @@ import { DEPTS, type DeptSlug } from "@/lib/admin/constants";
 import { Card, Button, Badge, SectionHeader, Input, Select, ConfirmDialog } from "./admin-ui";
 import { useToast } from "./toat-provider";
 
+import { MathText } from "@/components/common/math-text";
+
 /* ------------------------------------------------------------------ */
 /* Types */
 /* ------------------------------------------------------------------ */
@@ -16,6 +18,7 @@ interface FlatFormData {
  question_num: number;
  topicSlug: string;
  type: string;
+ instruction_text: string;
  passage_text: string;
  prompt: string;
  explanation: string;
@@ -37,7 +40,7 @@ interface Props {
 }
 
 const defaultForm: FlatFormData = {
- question_num: 0, topicSlug: "", type: "single_choice", passage_text: "", prompt: "", explanation: "",
+ question_num: 0, topicSlug: "", type: "single_choice", instruction_text: "", passage_text: "", prompt: "", explanation: "",
  optA: "", optB: "", optC: "", optD: "", optE: "", correct: "", duration_minutes: 2,
 };
 
@@ -199,6 +202,11 @@ export function FlatQuestionForm({ dept, topics, initialData }: Props) {
  </Select>
  </div>
  {errors.topicSlug && <p className="text-xs text-red-500 -mt-3">{errors.topicSlug}</p>}
+
+ <div>
+ <Input label="Instruction (Optional)" value={form.instruction_text} onChange={(e) => upd("instruction_text", e.target.value)} placeholder="e.g. Choose the correct conjunction: / Fill in the blank with..." />
+ <p className="text-xs text-[#94A3B8] mt-1">Special direction for the student (displayed prominently above prompt).</p>
+ </div>
 
  <div>
  <Input label="Passage (Optional)" value={form.passage_text} onChange={(e) => upd("passage_text", e.target.value)} rows={3} placeholder="Read the passage and answer the questions..." />

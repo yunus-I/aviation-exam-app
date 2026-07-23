@@ -67,7 +67,7 @@ export function getAllowedDepartmentId(department: string | null | undefined): s
   const value = (department ?? "").trim().toLowerCase();
 
   if (!value) return null;
-  if (value.includes("amt") || value.includes("maintenance")) return "amt";
+  if (value.includes("amt") || value.includes("maintenance") || value.includes("technician")) return "amt";
   if (value.includes("pilot")) return "pilot";
   if (value.includes("cabin")) return "cabin";
   if (value.includes("marketing") || value.includes("aviation management")) return "marketing";
@@ -86,11 +86,12 @@ type MockStudent = {
 };
 
 const MOCK_STUDENTS: MockStudent[] = [
-  { studentId: "EAU-2024-001", password: "student1", name: "Abebe Girma",     department: "Aircraft Maintenance Technology" },
+  { studentId: "EAU-2024-001", password: "student1", name: "Abebe Girma",     department: "Aircraft Maintenance Technician" },
   { studentId: "EAU-2024-002", password: "student2", name: "Selamawit Tesfaye", department: "Pilot Training" },
   { studentId: "EAU-2024-003", password: "student3", name: "Yohannes Alemu",  department: "Cabin Crew" },
   { studentId: "EAU-2024-004", password: "student4", name: "Hiwot Bekele",    department: "Aviation Management" },
-  { studentId: "demo",         password: "demo",     name: "Demo Student",    department: "Aircraft Maintenance Technology" },
+  { studentId: "EAU-2024-005", password: "student5", name: "Tigist Haile",    department: "Others" },
+  { studentId: "demo",         password: "demo",     name: "Demo Student",    department: "Aircraft Maintenance Technician" },
 ];
 
 export function mockLogin(

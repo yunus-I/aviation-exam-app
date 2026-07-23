@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Wrench, Plane, Users, Megaphone, HelpCircle, Plus, ArrowRight, Clock, FileText, HardDrive } from "lucide-react";
+import { Wrench, Plane, Users, Megaphone, GraduationCap, HelpCircle, Plus, ArrowRight, Clock, FileText, HardDrive } from "lucide-react";
 import { Card, Badge } from "@/components/admin/admin-ui";
 
 interface Props {
@@ -11,10 +11,11 @@ interface Props {
 }
 
 const deptConfig = {
- amt: { label: "AMT Maintenance", icon: Wrench, color: "text-blue-600", bg: "bg-blue-50", href: "/admin/amt" },
+ amt: { label: "AMT Technician", icon: Wrench, color: "text-blue-600", bg: "bg-blue-50", href: "/admin/amt" },
  pilot: { label: "Pilot", icon: Plane, color: "text-cyan-600", bg: "bg-cyan-50", href: "/admin/pilot" },
  cabin: { label: "Cabin Crew", icon: Users, color: "text-violet-600", bg: "bg-violet-50", href: "/admin/cabin" },
  mkt: { label: "Marketing", icon: Megaphone, color: "text-amber-600", bg: "bg-amber-50", href: "/admin/mkt" },
+ others: { label: "Others", icon: GraduationCap, color: "text-emerald-600", bg: "bg-emerald-50", href: "/admin/others" },
 };
 
 const typeLabel: Record<string, string> = { single_choice: "SC", multiple_choice: "MC", true_false: "TF" };

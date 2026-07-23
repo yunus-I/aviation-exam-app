@@ -156,6 +156,8 @@ export class ExamContentRepository {
             source_label: question.sourceLabel ?? null,
             source_year: question.sourceYear ?? null,
             question_type: question.type,
+            instruction_text: question.instruction ?? null,
+            passage_text: question.passage ?? null,
             prompt_en: question.prompt,
             explanation_en: question.explanation ?? null,
             is_active: true,
@@ -251,7 +253,7 @@ export class ExamContentRepository {
   private async buildExamSetFromRow(examSetRow: Record<string, any>) {
     const examSetId = examSetRow.id as string;
 
-    const questionLinks = await this.supabase
+    let questionLinks = await this.supabase
       .from("exam_set_questions")
       .select(
         `
@@ -259,6 +261,8 @@ export class ExamContentRepository {
         questions:question_id(
           id,
           question_type,
+          instruction_text,
+          passage_text,
           prompt_en,
           explanation_en,
           topics:topic_id(name_en),
@@ -269,6 +273,49 @@ export class ExamContentRepository {
       )
       .eq("exam_set_id", examSetId)
       .order("sort_order", { ascending: true });
+
+    if (questionLinks.error && (questionLinks.error.code === "42703" || questionLinks.error.message?.includes("instruction_text"))) {
+      questionLinks = await this.supabase
+        .from("exam_set_questions")
+        .select(
+          `
+          sort_order,
+          questions:question_id(
+            id,
+            question_type,
+            passage_text,
+            prompt_en,
+            explanation_en,
+            topics:topic_id(name_en),
+            question_media(storage_path, sort_order),
+            question_options(id, option_key, option_text_en, is_correct, sort_order)
+          )
+        `,
+        )
+        .eq("exam_set_id", examSetId)
+        .order("sort_order", { ascending: true });
+    }
+
+    if (questionLinks.error && (questionLinks.error.code === "42703" || questionLinks.error.message?.includes("passage_text"))) {
+      questionLinks = await this.supabase
+        .from("exam_set_questions")
+        .select(
+          `
+          sort_order,
+          questions:question_id(
+            id,
+            question_type,
+            prompt_en,
+            explanation_en,
+            topics:topic_id(name_en),
+            question_media(storage_path, sort_order),
+            question_options(id, option_key, option_text_en, is_correct, sort_order)
+          )
+        `,
+        )
+        .eq("exam_set_id", examSetId)
+        .order("sort_order", { ascending: true });
+    }
 
     if (questionLinks.error) {
       throw questionLinks.error;
@@ -303,6 +350,8 @@ export class ExamContentRepository {
         id: question.id as string,
         type: question.question_type,
         topic: (question.topics?.name_en as string | null) ?? "General",
+        instruction: (question.instruction_text as string | null) ?? undefined,
+        passage: (question.passage_text as string | null) ?? undefined,
         prompt: question.prompt_en as string,
         explanation:
           (question.explanation_en as string | null) ?? "No explanation yet.",

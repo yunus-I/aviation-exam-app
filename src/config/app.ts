@@ -9,7 +9,7 @@ export const DEPARTMENTS = [
   {
     slug: "amt-maintenance",
     shortLabel: "AMT",
-    label: "AMT Maintenance",
+    label: "Aircraft Maintenance Technician",
     description:
       "Mechanical reasoning, technical aptitude, maintenance basics, and image-supported practice questions.",
   },

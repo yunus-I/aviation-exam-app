@@ -7,6 +7,7 @@ import { saveHistoryEntry } from "@/lib/session";
 import { DEMO_EXAM_SETS, DEMO_EXAM_SET } from "@/features/exam/mock-data";
 import { calculateExamResult, formatExamTime } from "@/features/exam/utils";
 import type { ExamQuestion, ExamSet, ExamAnswerMap, ExamFlagMap } from "@/features/exam/types";
+import { MathText } from "@/components/common/math-text";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -52,7 +53,7 @@ function Lightbox({ src, onClose }: { src: string; onClose: () => void }) {
   );
 }
 
-// ─── Option Card ──────────────────────────────────────────────────────────────
+// ─── Option Card Component ───────────────────────────────────────────────────
 
 function OptionCard({
   label,
@@ -68,31 +69,34 @@ function OptionCard({
   label: string;
   text: string;
   isSelected: boolean;
-  isCorrect: boolean;
-  isWrong: boolean;
-  isCorrectHighlight: boolean;
-  isTrueFalse: boolean;
+  isCorrect?: boolean;
+  isWrong?: boolean;
+  isCorrectHighlight?: boolean;
+  isTrueFalse?: boolean;
   onClick: () => void;
-  disabled: boolean;
+  disabled?: boolean;
 }) {
-  let cls = "exam-option";
-  if (isCorrect) cls += " exam-option--correct";
-  else if (isWrong) cls += " exam-option--wrong";
-  else if (isCorrectHighlight) cls += " exam-option--correct-highlight";
-  else if (isSelected) cls += " exam-option--selected";
+  let cardClass = "exam-option";
+  if (isSelected) cardClass += " exam-option--selected";
+  if (isCorrect) cardClass += " exam-option--correct";
+  if (isWrong) cardClass += " exam-option--wrong";
+  if (isCorrectHighlight) cardClass += " exam-option--correct-highlight";
 
-  const checkIcon = isCorrect || isCorrectHighlight ? "✓" : isWrong ? "✗" : isSelected ? "✓" : null;
+  let checkIcon = null;
+  if (isCorrect || isCorrectHighlight) checkIcon = "✓";
+  if (isWrong) checkIcon = "✗";
 
   return (
     <button
-      className={cls}
+      id={`opt-${label}`}
+      className={cardClass}
       onClick={onClick}
       disabled={disabled}
       type="button"
       style={isTrueFalse ? { flex: 1, justifyContent: "center", fontSize: 16, fontWeight: 600 } : {}}
     >
       <span className="exam-option__letter">{label}</span>
-      <span className="exam-option__text">{text}</span>
+      <span className="exam-option__text"><MathText text={text} /></span>
       {checkIcon && <span className="exam-option__check">{checkIcon}</span>}
     </button>
   );
@@ -101,34 +105,71 @@ function OptionCard({
 // ─── Prompt renderer ───────────────────────────────────────────────────────
 
 function QuestionPrompt({ question, className = "exam-prompt" }: { question: ExamQuestion; className?: string }) {
-  const passage = question.passage?.trim();
-  const prompt = question.prompt?.trim();
+  const explicitPassage = question.passage?.trim();
+  const rawPrompt = question.prompt?.trim() || "";
+  const instruction = question.instruction?.trim();
 
-  if (!passage) {
-    return <p className={className}>{prompt}</p>;
+  let finalPassage = explicitPassage;
+  let finalPrompt = rawPrompt;
+
+  if (!finalPassage && rawPrompt.includes("\n\n")) {
+    const parts = rawPrompt.split("\n\n");
+    if (parts.length > 1) {
+      finalPassage = parts.slice(0, -1).join("\n\n").trim();
+      finalPrompt = parts[parts.length - 1].trim();
+    }
   }
 
   return (
-    <>
-      <div
-        className="exam-passage"
-        style={{
-          background: "#f8fafc",
-          border: "1px solid #e2e8f0",
-          borderLeft: "4px solid #003580",
-          borderRadius: 12,
-          padding: "16px 18px",
-          marginBottom: 16,
-          boxShadow: "0 2px 4px rgba(0,0,0,0.02)",
-        }}
-      >
-        <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.6px", textTransform: "uppercase", color: "#003580", marginBottom: 8 }}>
-          Passage
+    <div className="exam-prompt-wrapper space-y-3">
+      {instruction && (
+        <div
+          className="exam-instruction"
+          style={{
+            background: "#eff6ff",
+            border: "1px solid #bfdbfe",
+            borderLeft: "4px solid #2563eb",
+            borderRadius: 8,
+            padding: "10px 14px",
+            fontSize: "13px",
+            fontWeight: 600,
+            color: "#1e40af",
+            marginBottom: 12,
+          }}
+        >
+          <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px", color: "#3b82f6", marginBottom: 2 }}>
+            Direction / Instruction
+          </div>
+          <MathText text={instruction} />
         </div>
-        <div style={{ whiteSpace: "pre-wrap", lineHeight: 1.7, color: "#1e293b" }}>{passage}</div>
-      </div>
-      <p className={className} style={{ marginTop: 0 }}>{prompt}</p>
-    </>
+      )}
+
+      {finalPassage && (
+        <div
+          className="exam-passage"
+          style={{
+            background: "#f8fafc",
+            border: "1px solid #e2e8f0",
+            borderLeft: "4px solid #003580",
+            borderRadius: 12,
+            padding: "16px 18px",
+            marginBottom: 16,
+            boxShadow: "0 2px 4px rgba(0,0,0,0.02)",
+          }}
+        >
+          <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.6px", textTransform: "uppercase", color: "#003580", marginBottom: 8 }}>
+            Reading Passage
+          </div>
+          <div style={{ whiteSpace: "pre-wrap", lineHeight: 1.7, color: "#1e293b" }}>
+            <MathText text={finalPassage} />
+          </div>
+        </div>
+      )}
+
+      <p className={className} style={{ marginTop: 0 }}>
+        <MathText text={finalPrompt} />
+      </p>
+    </div>
   );
 }
 
@@ -489,7 +530,7 @@ function ExamContent() {
                     onKeyDown={(e) => e.key === "Enter" && setOpenReviewIdx(isOpen ? null : idx)}
                   >
                     <span className="review-item__q-label">Q{idx + 1}</span>
-                    <span className="review-item__q-text">{q.prompt}</span>
+                    <span className="review-item__q-text"><MathText text={q.prompt} /></span>
                     <span className="review-item__status">
                       {isSkipped ? "⏭" : isCorrect ? "✅" : "❌"}
                     </span>
@@ -517,7 +558,7 @@ function ExamContent() {
                         )}
                       </div>
                       <div className="review-explanation">
-                        💡 {q.explanation}
+                        💡 <MathText text={q.explanation} />
                       </div>
                     </div>
                   )}

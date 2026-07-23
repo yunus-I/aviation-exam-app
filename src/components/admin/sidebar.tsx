@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Wrench, Plane, Users, Megaphone, Image, Settings, LogOut, ChevronLeft, PanelLeftClose, PanelLeft, BookOpen } from "lucide-react";
+import { LayoutDashboard, Wrench, Plane, Users, Megaphone, GraduationCap, Image, Settings, LogOut, ChevronLeft, PanelLeftClose, PanelLeft, BookOpen } from "lucide-react";
 import { useState } from "react";
 import { DEPTS, DEPT_SLUGS, type DeptSlug } from "@/lib/admin/constants";
 import { createClient } from "@/lib/supabase/client";
@@ -17,6 +17,7 @@ const deptIconMap: Record<DeptSlug, typeof Wrench> = {
  pilot: Plane,
  cabin: Users,
  mkt: Megaphone,
+ others: GraduationCap,
 };
 
 export function Sidebar() {

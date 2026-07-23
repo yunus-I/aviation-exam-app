@@ -10,6 +10,7 @@ import type {
   PersistedExamSession,
 } from "@/features/exam/types";
 import { calculateExamResult, formatExamTime } from "@/features/exam/utils";
+import { MathText } from "@/components/common/math-text";
 
 const STORAGE_VERSION = 1;
 
@@ -499,13 +500,38 @@ export function ExamWorkbench({
               </button>
             </div>
 
+            {/* Instruction callout */}
+            {currentQuestion.instruction && (
+              <div style={{
+                background: "linear-gradient(135deg, #fefce8 0%, #fef9c3 100%)",
+                border: "1px solid #fde68a",
+                borderLeft: "4px solid #f59e0b",
+                borderRadius: "10px",
+                padding: "10px 16px",
+                marginBottom: "4px",
+                fontSize: "13px",
+                fontWeight: 600,
+                color: "#78350f",
+                letterSpacing: "0.01em",
+              }}>
+                <MathText text={currentQuestion.instruction} />
+              </div>
+            )}
+
             {(() => {
-              // Split prompt on double-newline: passage text (if embedded) is before the blank line,
-              // the actual question sentence is after it.
-              const parts = currentQuestion.prompt.split(/\n{2,}/);
-              const hasEmbeddedPassage = parts.length > 1;
-              const passageText = hasEmbeddedPassage ? parts.slice(0, -1).join("\n\n") : null;
-              const questionText = hasEmbeddedPassage ? parts[parts.length - 1] : currentQuestion.prompt;
+              // Prefer the explicit passage field; fall back to embedded detection in prompt.
+              const passageText = currentQuestion.passage
+                ? currentQuestion.passage
+                : (() => {
+                    const parts = currentQuestion.prompt.split(/\n{2,}/);
+                    return parts.length > 1 ? parts.slice(0, -1).join("\n\n") : null;
+                  })();
+              const questionText = !currentQuestion.passage
+                ? (() => {
+                    const parts = currentQuestion.prompt.split(/\n{2,}/);
+                    return parts.length > 1 ? parts[parts.length - 1] : currentQuestion.prompt;
+                  })()
+                : currentQuestion.prompt;
 
               return (
                 <>
@@ -521,12 +547,12 @@ export function ExamWorkbench({
                     }}>
                       <h4 style={{ margin: "0 0 10px", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.6px", color: "var(--brand, #003580)", fontWeight: 700 }}>Reading Passage</h4>
                       <p style={{ margin: 0, fontSize: "14px", lineHeight: "1.75", color: "var(--text, #1e293b)", whiteSpace: "pre-wrap" }}>
-                        {passageText}
+                        <MathText text={passageText} />
                       </p>
                     </div>
                   )}
                   <p className="exam-question-prompt" style={{ marginTop: passageText ? "20px" : undefined }}>
-                    {questionText}
+                    <MathText text={questionText} />
                   </p>
                 </>
               );
@@ -559,7 +585,7 @@ export function ExamWorkbench({
                     type="button"
                   >
                     <span className="exam-option__marker">{option.label}</span>
-                    <span>{option.text}</span>
+                    <span><MathText text={option.text} /></span>
                   </button>
                 );
               })}
@@ -588,7 +614,7 @@ export function ExamWorkbench({
                   color: "var(--text, #0c4a6e)",
                 }}>
                   <strong style={{ display: "block", marginBottom: "6px", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.5px", color: "#0ea5e9" }}>Explanation</strong>
-                  {currentQuestion.explanation}
+                  <MathText text={currentQuestion.explanation} />
                 </div>
               )}
             </div>
@@ -704,8 +730,13 @@ export function ExamWorkbench({
                         <strong>Q{index + 1}</strong>
                         <span>{question.topic}</span>
                       </div>
-                      <p>{question.prompt}</p>
-                      <small>{question.explanation}</small>
+                      {question.instruction && (
+                        <p style={{ fontSize: "12px", fontStyle: "italic", color: "#78350f", marginBottom: "4px", marginTop: "4px" }}>
+                          <MathText text={question.instruction} />
+                        </p>
+                      )}
+                      <p><MathText text={question.prompt} /></p>
+                      <small><MathText text={question.explanation ?? ""} /></small>
                     </article>
                   );
                 })}

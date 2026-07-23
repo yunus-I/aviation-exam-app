@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "@/styles/globals.css";
+import "katex/dist/katex.min.css";
 
 export const metadata: Metadata = {
   title: "EAU Exam Practice Portal",

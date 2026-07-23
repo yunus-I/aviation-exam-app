@@ -11,6 +11,7 @@ export type ExamQuestion = {
   id: string;
   type: QuestionType;
   topic: string;
+  instruction?: string;
   passage?: string;
   prompt: string;
   explanation: string;

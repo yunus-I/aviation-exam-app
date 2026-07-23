@@ -15,7 +15,7 @@ export async function PUT(
 
   try {
     const body = await request.json();
-    const { options, topicSlug, department_id, passage_text, ...rest } = body;
+    const { options, topicSlug, department_id, passage_text, instruction_text, ...rest } = body;
     const prompt = (rest.prompt || "").trim();
     const explanation = (rest.explanation || "").trim();
 
@@ -35,18 +35,39 @@ export async function PUT(
       if (topic) topic_id = (topic as any).id;
     }
 
-    const { error: questionError } = await supabase
+    let updatePayload: Record<string, any> = {
+      topic_id,
+      question_type: rest.type || "single_choice",
+      instruction_text: instruction_text || null,
+      passage_text: passage_text || null,
+      prompt_en: prompt,
+      explanation_en: explanation || null,
+      question_num: rest.question_num ? parseInt(rest.question_num, 10) : null,
+      duration_minutes: rest.duration_minutes ? parseInt(rest.duration_minutes, 10) : 2,
+    };
+
+    let { error: questionError } = await supabase
       .from("questions")
-      .update({
-        topic_id,
-        question_type: rest.type || "single_choice",
-        passage_text: passage_text || null,
-        prompt_en: prompt,
-        explanation_en: explanation || null,
-        question_num: rest.question_num ? parseInt(rest.question_num, 10) : null,
-        duration_minutes: rest.duration_minutes ? parseInt(rest.duration_minutes, 10) : 2,
-      })
+      .update(updatePayload)
       .eq("id", id);
+
+    if (questionError && (questionError.code === "42703" || questionError.message?.includes("instruction_text"))) {
+      delete updatePayload.instruction_text;
+      const res = await supabase
+        .from("questions")
+        .update(updatePayload)
+        .eq("id", id);
+      questionError = res.error;
+    }
+
+    if (questionError && (questionError.code === "42703" || questionError.message?.includes("passage_text"))) {
+      delete updatePayload.passage_text;
+      const res = await supabase
+        .from("questions")
+        .update(updatePayload)
+        .eq("id", id);
+      questionError = res.error;
+    }
 
     if (questionError) {
       return NextResponse.json({ error: questionError.message }, { status: 500 });

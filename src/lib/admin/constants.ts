@@ -1,4 +1,4 @@
-export type DeptSlug = "amt" | "pilot" | "cabin" | "mkt";
+export type DeptSlug = "amt" | "pilot" | "cabin" | "mkt" | "others";
 
 export interface DeptInfo {
   slug: DeptSlug;
@@ -12,7 +12,7 @@ export const DEPTS: Record<DeptSlug, DeptInfo> = {
   amt: {
     slug: "amt",
     label: "AMT",
-    nameEn: "AMT Maintenance",
+    nameEn: "Aircraft Maintenance Technician",
     dbSlug: "amt-maintenance",
     dbDeptId: "676ec20b-f7a6-470f-8f33-8c589740b148",
   },
@@ -37,9 +37,16 @@ export const DEPTS: Record<DeptSlug, DeptInfo> = {
     dbSlug: "marketing",
     dbDeptId: "ffbd895c-de14-4320-87c2-c580efb12350",
   },
+  others: {
+    slug: "others",
+    label: "OTHERS",
+    nameEn: "Others",
+    dbSlug: "others",
+    dbDeptId: "e4776101-7006-444a-9b49-b5f7781b0a88",
+  },
 };
 
-export const DEPT_SLUGS: DeptSlug[] = ["amt", "pilot", "cabin", "mkt"];
+export const DEPT_SLUGS: DeptSlug[] = ["amt", "pilot", "cabin", "mkt", "others"];
 
 export function getDept(slug: string): DeptInfo | undefined {
   return DEPTS[slug as DeptSlug];

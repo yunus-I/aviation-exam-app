@@ -58,6 +58,7 @@ export default async function EditDeptQuestionPage({ params }: Props) {
  question_num: question.question_num ?? 0,
  topicSlug: topicSlug || "",
  type: question.question_type,
+ instruction_text: question.instruction_text ?? "",
  passage_text: question.passage_text ?? "",
  prompt: question.prompt_en,
  explanation: question.explanation_en ?? "",

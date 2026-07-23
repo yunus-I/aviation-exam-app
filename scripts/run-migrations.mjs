@@ -47,6 +47,38 @@ async function migrate() {
       }
     }
 
+    // 3. Add instruction_text to questions
+    console.log("Adding instruction_text column to questions table...");
+    try {
+      await client.query(`
+        ALTER TABLE public.questions
+        ADD COLUMN instruction_text TEXT;
+      `);
+      console.log("Column instruction_text added.");
+    } catch (err) {
+      if (err.code === '42701') {
+        console.log("Column instruction_text already exists. Skipping.");
+      } else {
+        throw err;
+      }
+    }
+
+    // 4. Add set_name to notes (if missing)
+    console.log("Adding set_name column to notes table...");
+    try {
+      await client.query(`
+        ALTER TABLE public.notes
+        ADD COLUMN set_name TEXT NOT NULL DEFAULT 'Note 1';
+      `);
+      console.log("Column set_name added.");
+    } catch (err) {
+      if (err.code === '42701') {
+        console.log("Column set_name already exists. Skipping.");
+      } else {
+        throw err;
+      }
+    }
+
     console.log("Migrations completed successfully!");
   } catch (err) {
     console.error("Migration failed:", err);

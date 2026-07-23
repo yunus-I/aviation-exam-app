@@ -131,6 +131,8 @@ export type QuestionRecord = {
   source_label: string | null;
   source_year: number | null;
   question_type: QuestionType;
+  passage_text?: string | null;
+  instruction_text?: string | null;
   prompt_en: string;
   prompt_am: string | null;
   explanation_en: string | null;

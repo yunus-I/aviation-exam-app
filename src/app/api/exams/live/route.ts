@@ -15,6 +15,7 @@ const DEPT_MAP: Record<string, string> = {
   mgmt: "MKT",
   aero: "AMT",
   atc: "PILOT",
+  others: "OTHERS",
 };
 
 function getTopicSlug(subjectName: string): string {
@@ -131,12 +132,13 @@ export async function POST(request: NextRequest) {
     }
 
     // 3. Get Questions with options and media
-    const questionsResult = (await supabase
+    let questionsResult = (await supabase
       .from("questions")
       .select(`
         id,
         question_num,
         question_type,
+        instruction_text,
         passage_text,
         prompt_en,
         explanation_en,
@@ -148,6 +150,45 @@ export async function POST(request: NextRequest) {
       .eq("is_active", true)
       .order("question_num", { ascending: true, nullsFirst: false })
       .order("created_at", { ascending: true })) as any;
+
+    if (questionsResult.error && (questionsResult.error.code === "42703" || questionsResult.error.message?.includes("instruction_text"))) {
+      questionsResult = (await supabase
+        .from("questions")
+        .select(`
+          id,
+          question_num,
+          question_type,
+          passage_text,
+          prompt_en,
+          explanation_en,
+          question_media(storage_path, sort_order),
+          question_options(id, option_key, option_text_en, is_correct, sort_order)
+        `)
+        .eq("department_id", deptResult.data.id)
+        .eq("topic_id", topicResult.data.id)
+        .eq("is_active", true)
+        .order("question_num", { ascending: true, nullsFirst: false })
+        .order("created_at", { ascending: true })) as any;
+    }
+
+    if (questionsResult.error && (questionsResult.error.code === "42703" || questionsResult.error.message?.includes("passage_text"))) {
+      questionsResult = (await supabase
+        .from("questions")
+        .select(`
+          id,
+          question_num,
+          question_type,
+          prompt_en,
+          explanation_en,
+          question_media(storage_path, sort_order),
+          question_options(id, option_key, option_text_en, is_correct, sort_order)
+        `)
+        .eq("department_id", deptResult.data.id)
+        .eq("topic_id", topicResult.data.id)
+        .eq("is_active", true)
+        .order("question_num", { ascending: true, nullsFirst: false })
+        .order("created_at", { ascending: true })) as any;
+    }
 
     if (questionsResult.error || !questionsResult.data || questionsResult.data.length === 0) {
       return NextResponse.json({ ok: false, error: "no_questions_found" });
@@ -175,6 +216,7 @@ export async function POST(request: NextRequest) {
         id: q.id,
         type: q.question_type as any,
         topic: topicResult.data.name_en,
+        instruction: q.instruction_text || undefined,
         passage: q.passage_text || undefined,
         prompt: q.prompt_en,
         explanation: q.explanation_en ?? "No explanation yet.",
