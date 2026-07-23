@@ -87,6 +87,24 @@ async function migrate() {
       }
     }
 
+    // 5. Ensure 'others' department exists in departments table
+    console.log("Ensuring 'others' department exists in departments table...");
+    await client.query(`
+      INSERT INTO public.departments (id, slug, code, name_en, name_am, description_en, description_am, is_active)
+      VALUES (
+        'e4776101-7006-444a-9b49-b5f7781b0a88',
+        'others',
+        'OTHERS',
+        'Others',
+        'ሌሎች',
+        'Other departments and general entrance preparation.',
+        'ሌሎች የትምህርት ክፍሎች እና አጠቃላይ የመግቢያ ዝግጅት።',
+        true
+      )
+      ON CONFLICT (id) DO NOTHING;
+    `);
+    console.log("Department 'others' ensured.");
+
     console.log("Migrations completed successfully!");
   } catch (err) {
     console.error("Migration failed:", err);
