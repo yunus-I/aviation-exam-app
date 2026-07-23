@@ -5,11 +5,19 @@ dotenv.config();
 
 const { Client } = pg;
 
-const connectionString = process.env.DATABASE_URL;
+let connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
   console.error("Missing DATABASE_URL in .env");
   process.exit(1);
+}
+
+// Convert direct db.[ref].supabase.co to pooler URL if legacy format is passed
+if (connectionString.includes("db.irasmbfqhrrsdtmgpzrf.supabase.co")) {
+  connectionString = connectionString.replace(
+    "postgres:1Y2y3y4y5y6y7y8y@db.irasmbfqhrrsdtmgpzrf.supabase.co:5432",
+    "postgres.irasmbfqhrrsdtmgpzrf:1Y2y3y4y5y6y7y8y@aws-0-eu-west-1.pooler.supabase.com:6543"
+  );
 }
 
 const client = new Client({ connectionString });
