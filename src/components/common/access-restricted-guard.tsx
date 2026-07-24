@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { clearSession, saveSession, loadSession } from "@/lib/session";
 
 export function AccessRestrictedGuard({
@@ -10,7 +10,7 @@ export function AccessRestrictedGuard({
   status?: string;
   name?: string;
 }) {
-  const [checking, setChecking] = useState(false);
+  const [checking, setChecking] = useState(true);
   const [checkMsg, setCheckMsg] = useState<string | null>(null);
 
   const statusLabel =
@@ -32,23 +32,23 @@ export function AccessRestrictedGuard({
     "ETaviation_bot";
   const botUrl = `https://t.me/${botUsername}`;
 
-  function handleOpenBot() {
-    if (typeof window !== "undefined" && (window as any).Telegram?.WebApp?.openTelegramLink) {
-      (window as any).Telegram.WebApp.openTelegramLink(botUrl);
-    } else {
-      window.open(botUrl, "_blank", "noopener,noreferrer");
-    }
-  }
-
-  async function handleRecheckStatus() {
+  const handleRecheckStatus = useCallback(async () => {
     setChecking(true);
     setCheckMsg(null);
     try {
+      const existingSession = loadSession();
       const webApp = (typeof window !== "undefined" && (window as any).Telegram?.WebApp) || null;
       const initDataRaw = webApp?.initData?.trim();
 
-      if (!initDataRaw) {
-        setCheckMsg("Please open this app from inside Telegram to verify your account.");
+      let telegramUserId: number | undefined;
+      if (existingSession?.studentId?.startsWith("TG-")) {
+        const parsed = Number(existingSession.studentId.replace("TG-", ""));
+        if (!isNaN(parsed) && parsed > 0) {
+          telegramUserId = parsed;
+        }
+      }
+
+      if (!initDataRaw && !telegramUserId) {
         setChecking(false);
         return;
       }
@@ -56,7 +56,7 @@ export function AccessRestrictedGuard({
       const res = await fetch("/api/mini-app/session", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ initDataRaw }),
+        body: JSON.stringify({ initDataRaw, telegramUserId }),
       });
 
       const payload = await res.json();
@@ -70,7 +70,7 @@ export function AccessRestrictedGuard({
         const newSession = {
           id: ts.candidateId,
           name: ts.fullName || payload.telegramUser?.first_name || name || "Student",
-          studentId: `TG-${payload.telegramUser?.id}`,
+          studentId: `TG-${payload.telegramUser?.id || ts.telegramUserId}`,
           department: ts.departmentName || "General",
           avatarInitials: (ts.fullName || payload.telegramUser?.first_name || "S")[0].toUpperCase(),
           loginAt: Date.now(),
@@ -80,6 +80,7 @@ export function AccessRestrictedGuard({
         };
         saveSession(newSession);
         window.location.reload();
+        return;
       } else {
         const currentStatus = payload.session?.registrationStatus || "unregistered";
         setCheckMsg(
@@ -94,6 +95,18 @@ export function AccessRestrictedGuard({
       setCheckMsg("Unable to recheck status right now. Please try again.");
     } finally {
       setChecking(false);
+    }
+  }, [name]);
+
+  useEffect(() => {
+    void handleRecheckStatus();
+  }, [handleRecheckStatus]);
+
+  function handleOpenBot() {
+    if (typeof window !== "undefined" && (window as any).Telegram?.WebApp?.openTelegramLink) {
+      (window as any).Telegram.WebApp.openTelegramLink(botUrl);
+    } else {
+      window.open(botUrl, "_blank", "noopener,noreferrer");
     }
   }
 

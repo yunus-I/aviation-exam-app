@@ -6,39 +6,43 @@ export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
   try {
-    const body = (await request.json()) as { initDataRaw?: string };
+    const body = (await request.json().catch(() => ({}))) as { initDataRaw?: string; telegramUserId?: number | string };
     const initDataRaw = body.initDataRaw?.trim();
 
-    if (!initDataRaw) {
+    let telegramUserId: number | null = null;
+    let telegramUser: any = null;
+
+    if (initDataRaw) {
+      const verified = verifyTelegramInitData(initDataRaw);
+      if (verified?.user?.id) {
+        telegramUserId = verified.user.id;
+        telegramUser = verified.user;
+      }
+    }
+
+    if (!telegramUserId && body.telegramUserId) {
+      const parsed = Number(body.telegramUserId);
+      if (!isNaN(parsed) && parsed > 0) {
+        telegramUserId = parsed;
+      }
+    }
+
+    if (!telegramUserId) {
       return NextResponse.json(
         {
           ok: false,
-          error: "missing_init_data",
+          error: "missing_identifier",
         },
         { status: 400 },
       );
     }
 
-    const verified = verifyTelegramInitData(initDataRaw);
-
-    if (!verified?.user?.id) {
-      return NextResponse.json(
-        {
-          ok: false,
-          error: "invalid_init_data",
-        },
-        { status: 401 },
-      );
-    }
-
     const repository = new AuthRepository();
-    const session = await repository.getCandidateSessionByTelegramUserId(
-      verified.user.id,
-    );
+    const session = await repository.getCandidateSessionByTelegramUserId(telegramUserId);
 
     return NextResponse.json({
       ok: true,
-      telegramUser: verified.user,
+      telegramUser: telegramUser || (session ? { id: telegramUserId, first_name: session.fullName } : null),
       session,
     });
   } catch (error) {

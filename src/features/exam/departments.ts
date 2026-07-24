@@ -33,6 +33,13 @@ export type Department = {
 };
 
 function makePracticeSets(deptId: string): PracticeSet[] {
+  if (deptId === "others") {
+    return [
+      { id: "others-practice-1", label: "SAT English Practice", questionCount: 25, durationMinutes: 0, examSetId: "others-practice-set-1" },
+      { id: "others-practice-2", label: "SAT Maths Practice", questionCount: 25, durationMinutes: 0, examSetId: "others-practice-set-2" },
+      { id: "others-practice-3", label: "SAT Physics Practice", questionCount: 25, durationMinutes: 0, examSetId: "others-practice-set-3" },
+    ];
+  }
   return [1, 2, 3, 4].map((n) => ({
     id: `${deptId}-practice-${n}`,
     label: `Practice ${n}`,
@@ -51,6 +58,13 @@ function getExamSetImportKey(deptId: string, examNumber: number): string {
 }
 
 function makeExamSets(deptId: string): ExamSet[] {
+  if (deptId === "others") {
+    return [
+      { id: "others-exam-1", label: "SAT English Exam", questionCount: 60, durationMinutes: 60, examSetId: getExamSetImportKey("others", 1) },
+      { id: "others-exam-2", label: "SAT Maths Exam", questionCount: 60, durationMinutes: 60, examSetId: getExamSetImportKey("others", 2) },
+      { id: "others-exam-3", label: "SAT Physics Exam", questionCount: 60, durationMinutes: 60, examSetId: getExamSetImportKey("others", 3) },
+    ];
+  }
   return [1, 2, 3].map((n) => ({
     id: `${deptId}-exam-${n}`,
     label: `Exam ${n}`,
