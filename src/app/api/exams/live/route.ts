@@ -18,8 +18,24 @@ const DEPT_MAP: Record<string, string> = {
   others: "OTHERS",
 };
 
+const SAT_ALIAS_MAP: Record<string, string[]> = {
+  "sat english exam": ["exam-1", "exam 1", "others-exam-set-1", "others-exam-1"],
+  "sat maths exam": ["exam-2", "exam 2", "others-exam-set-2", "others-exam-2"],
+  "sat physics exam": ["exam-3", "exam 3", "others-exam-set-3", "others-exam-3"],
+  "sat english practice": ["practice-1", "practice 1", "others-practice-set-1", "others-practice-1"],
+  "sat maths practice": ["practice-2", "practice 2", "others-practice-set-2", "others-practice-2"],
+  "sat physics practice": ["practice-3", "practice 3", "others-practice-set-3", "others-practice-3"],
+  "others-exam-set-1": ["exam-1", "exam 1"],
+  "others-exam-set-2": ["exam-2", "exam 2"],
+  "others-exam-set-3": ["exam-3", "exam 3"],
+  "others-practice-set-1": ["practice-1", "practice 1"],
+  "others-practice-set-2": ["practice-2", "practice 2"],
+  "others-practice-set-3": ["practice-3", "practice 3"],
+};
+
 function getTopicSlug(subjectName: string): string {
-  return subjectName.toLowerCase();
+  const aliases = SAT_ALIAS_MAP[subjectName.toLowerCase()];
+  return (aliases?.[0] || subjectName).toLowerCase();
 }
 
 function normalizeLookupKey(value: string): string {
@@ -34,7 +50,12 @@ async function resolveImportedExamSetKey(
 ) {
   const candidates = new Set<string>();
   if (requestedKey) {
-    candidates.add(normalizeLookupKey(requestedKey));
+    const normKey = normalizeLookupKey(requestedKey);
+    candidates.add(normKey);
+    const reqAliases = SAT_ALIAS_MAP[requestedKey.toLowerCase()] || SAT_ALIAS_MAP[normKey];
+    if (reqAliases) {
+      reqAliases.forEach((a) => candidates.add(normalizeLookupKey(a)));
+    }
   }
 
   const normalizedSubject = normalizeLookupKey(subjectName);
@@ -42,9 +63,14 @@ async function resolveImportedExamSetKey(
     candidates.add(normalizedSubject);
   }
 
+  const subjectAliases = SAT_ALIAS_MAP[subjectName.toLowerCase()] || SAT_ALIAS_MAP[normalizedSubject];
+  if (subjectAliases) {
+    subjectAliases.forEach((a) => candidates.add(normalizeLookupKey(a)));
+  }
+
   const examSetResult = await supabase
     .from("exam_sets")
-    .select("import_key, slug, title_en")
+    .select("id, import_key, slug, title_en")
     .eq("department_id", departmentId)
     .eq("is_published", true)
     .order("published_at", { ascending: false, nullsFirst: false });
@@ -54,18 +80,22 @@ async function resolveImportedExamSetKey(
   }
 
   const rows = (examSetResult.data ?? []) as Array<{
+    id?: string;
     import_key?: string;
     slug?: string;
     title_en?: string;
   }>;
 
-  return rows.find((row) => {
+  const matched = rows.find((row) => {
     const haystacks = [row.import_key, row.slug, row.title_en].filter(Boolean) as string[];
     return haystacks.some((value) => {
       const normalizedValue = normalizeLookupKey(value);
-      return candidates.has(normalizedValue) || normalizedValue.includes(normalizedSubject);
+      const cleanSlug = normalizedValue.replace(/^[a-f0-9]+-/, "");
+      return candidates.has(normalizedValue) || candidates.has(cleanSlug) || Array.from(candidates).some((c) => normalizedValue.includes(c));
     });
-  })?.import_key ?? null;
+  });
+
+  return matched?.import_key ?? matched?.id ?? matched?.slug ?? null;
 }
 
 export async function POST(request: NextRequest) {

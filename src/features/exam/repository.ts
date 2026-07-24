@@ -389,7 +389,9 @@ export class ExamContentRepository {
   }
 
   async getExamSetByImportKey(importKey: string) {
-    const examSetResult = await this.supabase
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(importKey);
+
+    let examSetResult = await this.supabase
       .from("exam_sets")
       .select(`
         id,
@@ -400,11 +402,12 @@ export class ExamContentRepository {
         departments:department_id(name_en),
         topics:topic_id(name_en)
       `)
-      .eq("import_key", importKey)
-      .single();
+      .or(isUuid ? `id.eq.${importKey},import_key.eq.${importKey},slug.eq.${importKey}` : `import_key.eq.${importKey},slug.eq.${importKey}`)
+      .limit(1)
+      .maybeSingle();
 
-    if (examSetResult.error) {
-      throw examSetResult.error;
+    if (examSetResult.error || !examSetResult.data) {
+      throw examSetResult.error || new Error(`Exam set not found: ${importKey}`);
     }
 
     return this.buildExamSetFromRow(examSetResult.data);
