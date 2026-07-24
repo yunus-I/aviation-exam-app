@@ -220,6 +220,9 @@ function SetCard({
 
 // ─── Main Content ─────────────────────────────────────────────────────────────
 
+import { getAllowedDepartmentId } from "@/lib/session";
+import { AccessRestrictedGuard } from "@/components/common/access-restricted-guard";
+
 function SubjectsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -233,6 +236,19 @@ function SubjectsContent() {
     const s = loadSession();
     if (!s) { router.replace("/"); return; }
     setSession(s);
+
+    if (!s.isApproved && !s.isAdmin) {
+      return;
+    }
+
+    if (!s.isAdmin) {
+      const allowedDeptId = getAllowedDepartmentId(s.department);
+      if (allowedDeptId && allowedDeptId !== deptId.toLowerCase()) {
+        router.replace(`/subjects?dept=${allowedDeptId}`);
+        return;
+      }
+    }
+
     const d = getDepartment(deptId) ?? DEPARTMENTS[0];
     setDept(d ?? null);
   }, [router, deptId]);
@@ -263,11 +279,24 @@ function SubjectsContent() {
     router.push(`/notes?dept=${deptId}`);
   }
 
-  if (!session || !dept) {
+  if (!session) {
     return (
       <div className="loading-center" style={{ minHeight: "100vh" }}>
         <div className="spinner" />
         <span>Loading…</span>
+      </div>
+    );
+  }
+
+  if (!session.isApproved && !session.isAdmin) {
+    return <AccessRestrictedGuard status={session.registrationStatus} name={session.name} />;
+  }
+
+  if (!dept) {
+    return (
+      <div className="loading-center" style={{ minHeight: "100vh" }}>
+        <div className="spinner" />
+        <span>Loading department…</span>
       </div>
     );
   }

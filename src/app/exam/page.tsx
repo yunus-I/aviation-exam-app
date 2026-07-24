@@ -2,12 +2,12 @@
 
 import { useEffect, useMemo, useState, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { loadSession } from "@/lib/session";
-import { saveHistoryEntry } from "@/lib/session";
+import { loadSession, saveHistoryEntry, getAllowedDepartmentId } from "@/lib/session";
 import { DEMO_EXAM_SETS, DEMO_EXAM_SET } from "@/features/exam/mock-data";
 import { calculateExamResult, formatExamTime } from "@/features/exam/utils";
 import type { ExamQuestion, ExamSet, ExamAnswerMap, ExamFlagMap } from "@/features/exam/types";
 import { MathText } from "@/components/common/math-text";
+import { AccessRestrictedGuard } from "@/components/common/access-restricted-guard";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -211,6 +211,19 @@ function ExamContent() {
     if (!session) {
       router.replace("/");
       return;
+    }
+
+    if (!session.isApproved && !session.isAdmin) {
+      setReady(true);
+      return;
+    }
+
+    if (!session.isAdmin) {
+      const allowedDeptId = getAllowedDepartmentId(session.department);
+      if (allowedDeptId && allowedDeptId !== deptId.toLowerCase()) {
+        router.replace(`/exam?set=${encodeURIComponent(examSetId)}&mode=${examMode}&dept=${allowedDeptId}&subject=${encodeURIComponent(subjectName)}`);
+        return;
+      }
     }
 
     let isActive = true;
@@ -601,6 +614,11 @@ function ExamContent() {
   }
 
   // ─── ACTIVE EXAM VIEW ────────────────────────────────────────────────────────
+
+  const currentSession = loadSession();
+  if (currentSession && !currentSession.isApproved && !currentSession.isAdmin) {
+    return <AccessRestrictedGuard status={currentSession.registrationStatus} name={currentSession.name} />;
+  }
 
   if (!ready || !currentQ) {
     return (

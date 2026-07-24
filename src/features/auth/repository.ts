@@ -13,12 +13,22 @@ export type MiniAppCandidateSession = {
   regionName: string | null;
   approvedAt: string | null;
   rejectedAt: string | null;
+  isAdmin: boolean;
 };
 
 export class AuthRepository {
   private readonly supabase = getSupabaseAdminClient();
 
   async getCandidateSessionByTelegramUserId(telegramUserId: number) {
+    const adminCheck = await this.supabase
+      .from("admin_accounts")
+      .select("id, display_name")
+      .eq("telegram_user_id", telegramUserId)
+      .eq("is_active", true)
+      .maybeSingle();
+
+    const isAdmin = Boolean(adminCheck.data);
+
     const result = await this.supabase
       .from("candidates")
       .select(
@@ -43,6 +53,21 @@ export class AuthRepository {
     }
 
     if (!result.data) {
+      if (isAdmin) {
+        return {
+          candidateId: `admin-${telegramUserId}`,
+          telegramUserId,
+          fullName: adminCheck.data?.display_name || "Admin",
+          preferredLanguage: "en",
+          registrationStatus: "approved",
+          departmentId: "all",
+          departmentName: "All Departments",
+          regionName: null,
+          approvedAt: new Date().toISOString(),
+          rejectedAt: null,
+          isAdmin: true,
+        } satisfies MiniAppCandidateSession;
+      }
       return null;
     }
 
@@ -51,14 +76,15 @@ export class AuthRepository {
     return {
       candidateId: row.id as string,
       telegramUserId: Number(row.telegram_user_id),
-      fullName: (row.full_name as string | null) ?? null,
-      preferredLanguage: row.preferred_language as AppLanguage,
-      registrationStatus: row.current_registration_status as RegistrationStatus,
-      departmentId: (row.selected_department_id as string | null) ?? null,
-      departmentName: (row.departments?.name_en as string | null) ?? null,
+      fullName: (row.full_name as string | null) ?? (isAdmin ? "Admin" : null),
+      preferredLanguage: (row.preferred_language as AppLanguage) || "en",
+      registrationStatus: isAdmin ? "approved" : (row.current_registration_status as RegistrationStatus),
+      departmentId: (row.selected_department_id as string | null) ?? (isAdmin ? "all" : null),
+      departmentName: (row.departments?.name_en as string | null) ?? (isAdmin ? "All Departments" : null),
       regionName: (row.regions?.name_en as string | null) ?? null,
       approvedAt: (row.approved_at as string | null) ?? null,
       rejectedAt: (row.rejected_at as string | null) ?? null,
+      isAdmin,
     } satisfies MiniAppCandidateSession;
   }
 }

@@ -220,6 +220,8 @@ function formatDuration(sec: number) {
   return `${m}m ${s}s`;
 }
 
+import { AccessRestrictedGuard } from "@/components/common/access-restricted-guard";
+
 export default function DashboardPage() {
   const router = useRouter();
   const [session, setSession] = useState<StudentSession | null>(null);
@@ -229,7 +231,9 @@ export default function DashboardPage() {
     const s = loadSession();
     if (!s) { router.replace("/"); return; }
     setSession(s);
-    setHistory(loadHistory());
+    if (s.isApproved || s.isAdmin) {
+      setHistory(loadHistory());
+    }
   }, [router]);
 
   function handleLogout() {
@@ -244,6 +248,10 @@ export default function DashboardPage() {
         <span>Loading…</span>
       </div>
     );
+  }
+
+  if (!session.isApproved && !session.isAdmin) {
+    return <AccessRestrictedGuard status={session.registrationStatus} name={session.name} />;
   }
 
   // Compute stats

@@ -27,7 +27,7 @@ type CopyTree = {
 export const BOT_COPY: Record<AppLanguage, CopyTree> = {
   en: {
     welcome:
-      "👋 Welcome! / እንኳን ደህና መጡ!\n\nTo begin, please select your language.",
+      "✈️ Welcome to Airline Gateway\n\nWelcome to Airline Gateway, Ethiopia's biggest aviation preparation platform.\n\nThis mini app is designed to help you prepare for airline recruitment across all categories. Inside, you'll find previous written exam questions collected over many years, practice questions, study notes, and interview guidance to strengthen your preparation.\n\nStudy each lesson carefully, practice consistently, and give every question your best effort.\n\nWe wish you the very best on your airline journey. Good luck! ✈️",
     chooseLanguage: "Choose your language below.",
     languageChanged: "Language selected. Let's continue your registration.",
     askFullName: "Please enter your full name.",
@@ -60,7 +60,7 @@ export const BOT_COPY: Record<AppLanguage, CopyTree> = {
   },
   am: {
     welcome:
-      "👋 Welcome! / እንኳን ደህና መጡ!\n\nለመጀመር ቋንቋዎን ይምረጡ።",
+      "✈️ Welcome to Airline Gateway\n\nWelcome to Airline Gateway, Ethiopia's biggest aviation preparation platform.\n\nThis mini app is designed to help you prepare for airline recruitment across all categories. Inside, you'll find previous written exam questions collected over many years, practice questions, study notes, and interview guidance to strengthen your preparation.\n\nStudy each lesson carefully, practice consistently, and give every question your best effort.\n\nWe wish you the very best on your airline journey. Good luck! ✈️",
     chooseLanguage: "እባክዎ ቋንቋዎን ከታች ይምረጡ።",
     languageChanged: "ቋንቋው ተመርጧል። ምዝገባውን እንቀጥል።",
     askFullName: "እባክዎ ሙሉ ስምዎን ያስገቡ።",

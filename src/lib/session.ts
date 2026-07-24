@@ -7,6 +7,9 @@ export type StudentSession = {
   department: string;
   avatarInitials: string;
   loginAt: number;
+  isApproved?: boolean;
+  isAdmin?: boolean;
+  registrationStatus?: string;
 };
 
 export type ExamHistoryEntry = {

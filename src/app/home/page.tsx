@@ -211,6 +211,8 @@ function Sidebar({ active }: { active: string }) {
   );
 }
 
+import { AccessRestrictedGuard } from "@/components/common/access-restricted-guard";
+
 export default function HomePage() {
   const router = useRouter();
   const [session, setSession] = useState<StudentSession | null>(null);
@@ -221,11 +223,19 @@ export default function HomePage() {
     const s = loadSession();
     if (!s) { router.replace("/"); return; }
     setSession(s);
-    const allowedDeptId = getAllowedDepartmentId(s.department);
-    if (allowedDeptId) {
-      router.replace(`/subjects?dept=${allowedDeptId}`);
-      return;
+
+    if (!s.isApproved && !s.isAdmin) {
+      return; // Handled by AccessRestrictedGuard below
     }
+
+    if (!s.isAdmin) {
+      const allowedDeptId = getAllowedDepartmentId(s.department);
+      if (allowedDeptId) {
+        router.replace(`/subjects?dept=${allowedDeptId}`);
+        return;
+      }
+    }
+
     setSelectedDeptId(null);
     setHistory(loadHistory().slice(0, 3));
   }, [router]);
@@ -246,6 +256,10 @@ export default function HomePage() {
         <span>Loading…</span>
       </div>
     );
+  }
+
+  if (!session.isApproved && !session.isAdmin) {
+    return <AccessRestrictedGuard status={session.registrationStatus} name={session.name} />;
   }
 
   return (

@@ -34,7 +34,7 @@ export default function EntryPage() {
       })
         .then(async (res) => {
           const payload = await res.json();
-          if (payload.ok && payload.session?.registrationStatus === "approved") {
+          if (payload.ok && payload.session && (payload.session.registrationStatus === "approved" || payload.session.isAdmin)) {
             const ts = payload.session;
             const newSession = {
               id: ts.candidateId,
@@ -43,43 +43,46 @@ export default function EntryPage() {
               department: ts.departmentName || "General",
               avatarInitials: (ts.fullName || payload.telegramUser?.first_name || "T")[0].toUpperCase(),
               loginAt: Date.now(),
+              isApproved: true,
+              isAdmin: Boolean(ts.isAdmin),
+              registrationStatus: "approved",
             };
             saveSession(newSession);
             router.replace("/home");
           } else {
-            // Not approved yet -> Demo access
-            loginAsDemo();
+            // Not approved -> save restricted session
+            saveRestrictedSession(payload.session?.registrationStatus, payload.telegramUser?.first_name);
           }
         })
         .catch(() => {
-          // API failed but we're inside Telegram — always fall back to demo
-          // to avoid loading a stale cached session from a different user
-          loginAsDemo();
+          saveRestrictedSession();
         });
     } else {
-      // Outside Telegram (browser preview, etc.) — allow loading a local session
-      fallbackToLocalOrDemo();
+      fallbackToLocalOrRestricted();
     }
 
-    function fallbackToLocalOrDemo() {
+    function fallbackToLocalOrRestricted() {
       const existing = loadSession();
       if (existing) {
         router.replace("/home");
       } else {
-        loginAsDemo();
+        saveRestrictedSession();
       }
     }
 
-    function loginAsDemo() {
-      const demoSession = {
+    function saveRestrictedSession(status?: string, firstName?: string) {
+      const restrictedSession = {
         id: crypto.randomUUID(),
-        name: "Demo Student",
-        studentId: "demo",
-        department: "", // empty so they can choose department on /home
-        avatarInitials: "DS",
+        name: firstName || "Student",
+        studentId: "unapproved",
+        department: "",
+        avatarInitials: (firstName || "S")[0].toUpperCase(),
         loginAt: Date.now(),
+        isApproved: false,
+        isAdmin: false,
+        registrationStatus: status || "unregistered",
       };
-      saveSession(demoSession);
+      saveSession(restrictedSession);
       router.replace("/home");
     }
   }, [router]);

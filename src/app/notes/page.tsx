@@ -107,12 +107,13 @@ function Navbar({ session, onLogout }: { session: StudentSession; onLogout: () =
 
 // ─── Notes Content ────────────────────────────────────────────────────────────
 
+import { getAllowedDepartmentId } from "@/lib/session";
+import { AccessRestrictedGuard } from "@/components/common/access-restricted-guard";
+
 function NotesContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const deptId = searchParams.get("dept") ?? "amt";
-  // "set" = note set name (e.g. "Note 1") — passed from subjects page
-  // "title" = legacy exact-title filter
   const noteSet = searchParams.get("set");
   const noteTitle = searchParams.get("title");
 
@@ -127,9 +128,27 @@ function NotesContent() {
     const s = loadSession();
     if (!s) { router.replace("/"); return; }
     setSession(s);
-  }, [router]);
+
+    if (!s.isApproved && !s.isAdmin) {
+      return;
+    }
+
+    if (!s.isAdmin) {
+      const allowedDeptId = getAllowedDepartmentId(s.department);
+      if (allowedDeptId && allowedDeptId !== deptId.toLowerCase()) {
+        router.replace(`/notes?dept=${allowedDeptId}`);
+        return;
+      }
+    }
+  }, [router, deptId]);
 
   useEffect(() => {
+    const s = loadSession();
+    if (s && !s.isApproved && !s.isAdmin) {
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     setError(null);
     fetch(`/api/notes?dept=${encodeURIComponent(deptId)}`)
@@ -138,12 +157,10 @@ function NotesContent() {
         if (!res.ok || !payload.ok) throw new Error(payload.error ?? "Failed to load notes.");
         let fetchedNotes: (Note & { set_name?: string })[] = payload.notes ?? [];
         if (noteSet) {
-          // Filter by set_name (e.g. "Note 1", "Note 2")
           fetchedNotes = fetchedNotes.filter((n) =>
             (n.set_name ?? "Note 1").toLowerCase() === noteSet.toLowerCase()
           );
         } else if (noteTitle) {
-          // Legacy: exact title match
           fetchedNotes = fetchedNotes.filter((n) =>
             n.title.toLowerCase() === noteTitle.toLowerCase()
           );
@@ -168,6 +185,10 @@ function NotesContent() {
         <span>Loading…</span>
       </div>
     );
+  }
+
+  if (!session.isApproved && !session.isAdmin) {
+    return <AccessRestrictedGuard status={session.registrationStatus} name={session.name} />;
   }
 
   return (
