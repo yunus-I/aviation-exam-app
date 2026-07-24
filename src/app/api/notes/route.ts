@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
       .from("notes")
       .select("id, dept, title, content, created_at, set_name")
       .eq("dept", dept)
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: true });
 
     if (error) {
       console.error("[notes GET]", error);

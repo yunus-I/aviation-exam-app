@@ -312,7 +312,7 @@ export function AdminNotesClient() {
  return;
  }
  const merged: Note[] = results.flatMap((r) => (r.ok ? (r.notes as Note[]) : []));
- merged.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+ merged.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
  setNotes(merged);
  } else {
  const res = await fetch(`/api/notes?dept=${encodeURIComponent(filterDept)}`);
