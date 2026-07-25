@@ -65,7 +65,7 @@ function makeExamSets(deptId: string): ExamSet[] {
       { id: "others-exam-3", label: "SAT Physics Exam", questionCount: 60, durationMinutes: 60, examSetId: getExamSetImportKey("others", 3) },
     ];
   }
-  return [1, 2, 3].map((n) => ({
+  return [1, 2, 3, 4].map((n) => ({
     id: `${deptId}-exam-${n}`,
     label: `Exam ${n}`,
     questionCount: 60,
@@ -131,5 +131,7 @@ export const DEPARTMENTS: Department[] = [
 ];
 
 export function getDepartment(id: string): Department | undefined {
-  return DEPARTMENTS.find((d) => d.id === id);
+  const norm = id === "mkt" ? "marketing" : id;
+  return DEPARTMENTS.find((d) => d.id === norm || (norm === "marketing" && (d.id === "marketing" || d.id === "mkt")));
 }
+

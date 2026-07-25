@@ -9,9 +9,13 @@ export const runtime = "nodejs";
 
 const DEPT_MAP: Record<string, string> = {
   amt: "AMT",
+  "amt-maintenance": "AMT",
   pilot: "PILOT",
   cabin: "CABIN",
+  "cabin-crew": "CABIN",
+  "cabin crew": "CABIN",
   marketing: "MKT",
+  mkt: "MKT",
   mgmt: "MKT",
   aero: "AMT",
   atc: "PILOT",
@@ -115,7 +119,9 @@ export async function POST(request: NextRequest) {
     if (examSetId) {
       try {
         const examSet = await repo.getExamSetByImportKey(examSetId);
-        return NextResponse.json({ ok: true, examSet });
+        if (examSet && examSet.questions && examSet.questions.length > 0) {
+          return NextResponse.json({ ok: true, examSet });
+        }
       } catch (error) {
         console.error("Failed to load via importKey, falling back to legacy fetch:", error);
       }
@@ -123,13 +129,21 @@ export async function POST(request: NextRequest) {
 
     // 1. Get Department
     const dbDeptCode = DEPT_MAP[deptId] ?? deptId.toUpperCase();
-    const deptResult = (await supabase
+    let deptResult = (await supabase
       .from("departments")
-      .select("id, name_en")
+      .select("id, name_en, code, slug")
       .eq("code", dbDeptCode)
-      .single()) as any;
+      .maybeSingle()) as any;
 
-    if (deptResult.error) {
+    if (!deptResult.data) {
+      deptResult = (await supabase
+        .from("departments")
+        .select("id, name_en, code, slug")
+        .or(`slug.eq.${deptId},slug.eq.${deptId}-crew`)
+        .maybeSingle()) as any;
+    }
+
+    if (deptResult.error || !deptResult.data) {
       return NextResponse.json({ ok: false, error: "department_not_found" });
     }
 
@@ -143,26 +157,36 @@ export async function POST(request: NextRequest) {
     if (resolvedExamSetKey) {
       try {
         const examSet = await repo.getExamSetByImportKey(resolvedExamSetKey);
-        return NextResponse.json({ ok: true, examSet });
+        if (examSet && examSet.questions && examSet.questions.length > 0) {
+          return NextResponse.json({ ok: true, examSet });
+        }
       } catch (error) {
         console.error("Failed to resolve imported exam set:", error);
       }
     }
 
-    // 2. Get Topic
-    const dbTopicSlug = getTopicSlug(subjectName);
-    const topicResult = (await supabase
-      .from("topics")
-      .select("id, name_en")
-      .eq("slug", dbTopicSlug)
-      .single()) as any;
+    // 2. Resolve Candidate Topic Slugs
+    const rawSubject = (subjectName || "").trim().toLowerCase();
+    const candidateTopicSlugs = Array.from(
+      new Set([
+        rawSubject,
+        rawSubject.replace(/\s+/g, "-"),
+        rawSubject.replace(/-/g, " "),
+        normalizeLookupKey(subjectName),
+        getTopicSlug(subjectName),
+      ])
+    );
 
-    if (topicResult.error) {
-      return NextResponse.json({ ok: false, error: "topic_not_found" });
-    }
+    const topicsResult = (await supabase
+      .from("topics")
+      .select("id, name_en, slug")
+      .in("slug", candidateTopicSlugs)) as any;
+
+    const topicIds = (topicsResult.data ?? []).map((t: any) => t.id);
+    const topicName = topicsResult.data?.[0]?.name_en || subjectName;
 
     // 3. Get Questions with options and media
-    let questionsResult = (await supabase
+    let questionsQuery = supabase
       .from("questions")
       .select(`
         id,
@@ -176,18 +200,25 @@ export async function POST(request: NextRequest) {
         question_options(id, option_key, option_text_en, is_correct, sort_order)
       `)
       .eq("department_id", deptResult.data.id)
-      .eq("topic_id", topicResult.data.id)
-      .eq("is_active", true)
+      .eq("is_active", true);
+
+    if (topicIds.length > 0) {
+      questionsQuery = questionsQuery.in("topic_id", topicIds);
+    }
+
+    let questionsResult = (await questionsQuery
       .order("question_num", { ascending: true, nullsFirst: false })
       .order("created_at", { ascending: true })) as any;
 
-    if (questionsResult.error && (questionsResult.error.code === "42703" || questionsResult.error.message?.includes("instruction_text"))) {
+    // Fallback: If no questions for specific topic_id, fetch all active questions for department
+    if (questionsResult.error || !questionsResult.data || questionsResult.data.length === 0) {
       questionsResult = (await supabase
         .from("questions")
         .select(`
           id,
           question_num,
           question_type,
+          instruction_text,
           passage_text,
           prompt_en,
           explanation_en,
@@ -195,26 +226,6 @@ export async function POST(request: NextRequest) {
           question_options(id, option_key, option_text_en, is_correct, sort_order)
         `)
         .eq("department_id", deptResult.data.id)
-        .eq("topic_id", topicResult.data.id)
-        .eq("is_active", true)
-        .order("question_num", { ascending: true, nullsFirst: false })
-        .order("created_at", { ascending: true })) as any;
-    }
-
-    if (questionsResult.error && (questionsResult.error.code === "42703" || questionsResult.error.message?.includes("passage_text"))) {
-      questionsResult = (await supabase
-        .from("questions")
-        .select(`
-          id,
-          question_num,
-          question_type,
-          prompt_en,
-          explanation_en,
-          question_media(storage_path, sort_order),
-          question_options(id, option_key, option_text_en, is_correct, sort_order)
-        `)
-        .eq("department_id", deptResult.data.id)
-        .eq("topic_id", topicResult.data.id)
         .eq("is_active", true)
         .order("question_num", { ascending: true, nullsFirst: false })
         .order("created_at", { ascending: true })) as any;
@@ -245,7 +256,7 @@ export async function POST(request: NextRequest) {
       questions.push({
         id: q.id,
         type: q.question_type as any,
-        topic: topicResult.data.name_en,
+        topic: topicName,
         instruction: q.instruction_text || undefined,
         passage: q.passage_text || undefined,
         prompt: q.prompt_en,
@@ -264,11 +275,11 @@ export async function POST(request: NextRequest) {
 
     // Build Mock / Practice ExamSet wrapper
     const examSet: ExamSet = {
-      id: `${deptId}-${dbTopicSlug}-live`,
-      title: `${deptResult.data.name_en} — ${topicResult.data.name_en} Practice`,
-      subject: topicResult.data.name_en,
+      id: `${deptId}-${normalizeLookupKey(subjectName)}-live`,
+      title: `${deptResult.data.name_en} — ${subjectName}`,
+      subject: subjectName,
       department: deptResult.data.name_en,
-      durationMinutes: 45, // default duration
+      durationMinutes: 45,
       modeLabel: "Live Supabase Database",
       instructions: [
         "This exam was loaded from the live PostgreSQL database.",
