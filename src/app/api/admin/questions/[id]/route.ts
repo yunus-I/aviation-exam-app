@@ -118,6 +118,8 @@ export async function DELETE(
 
   await supabase.from("attempt_answers").delete().eq("question_id", id);
   await supabase.from("exam_set_questions").delete().eq("question_id", id);
+  await supabase.from("question_options").delete().eq("question_id", id);
+  await supabase.from("question_media").delete().eq("question_id", id);
 
   const { error } = await supabase.from("questions").delete().eq("id", id);
 

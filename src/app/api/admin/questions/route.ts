@@ -137,3 +137,40 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  const admin = await getAdminUser(request);
+  if (!admin) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const body = await request.json();
+    const { ids } = body;
+
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return NextResponse.json({ error: "No question IDs provided" }, { status: 400 });
+    }
+
+    const supabase = getSupabaseAdminClient() as any;
+
+    await supabase.from("attempt_answers").delete().in("question_id", ids);
+    await supabase.from("exam_set_questions").delete().in("question_id", ids);
+    await supabase.from("question_options").delete().in("question_id", ids);
+    await supabase.from("question_media").delete().in("question_id", ids);
+
+    const { error } = await supabase.from("questions").delete().in("id", ids);
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ ok: true, count: ids.length });
+  } catch (err) {
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "Internal server error" },
+      { status: 500 },
+    );
+  }
+}
+
