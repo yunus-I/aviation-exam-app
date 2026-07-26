@@ -89,3 +89,15 @@ export const BOT_COPY: Record<AppLanguage, CopyTree> = {
 export function getCopy(language: AppLanguage) {
   return BOT_COPY[language];
 }
+
+export function formatAdminReviewNotification(
+  action: "approve" | "reject",
+  userName: string,
+  adminName: string,
+): string {
+  if (action === "approve") {
+    return `✅ User ${userName} approved by ${adminName}`;
+  }
+  return `❌ User ${userName} rejected by ${adminName}`;
+}
+

@@ -2,7 +2,7 @@ import { Bot, InlineKeyboard } from "grammy";
 import type { Context } from "grammy";
 import { env } from "@/lib/env";
 import { hashPassword } from "@/lib/security";
-import { getCopy } from "@/features/bot/copy";
+import { formatAdminReviewNotification, getCopy } from "@/features/bot/copy";
 import {
   createAdminReviewKeyboard,
   createDepartmentKeyboard,
@@ -109,13 +109,17 @@ function getAdminChatIds(): number[] {
     .filter((id) => !isNaN(id) && id > 0);
 }
 
+async function getAllAdminChatIds(): Promise<number[]> {
+  const envAdminIds = getAdminChatIds();
+  const dbAdminIds = await getRepository().getActiveAdminTelegramUserIds().catch(() => []);
+  return Array.from(new Set([...envAdminIds, ...dbAdminIds]));
+}
+
 async function notifyAdminWithReviewCard(
   ctx: BotContext,
   summary: Awaited<ReturnType<BotRepository["submitDraft"]>>,
 ) {
-  const envAdminIds = getAdminChatIds();
-  const dbAdminIds = await getRepository().getActiveAdminTelegramUserIds().catch(() => []);
-  const allAdminIds = Array.from(new Set([...envAdminIds, ...dbAdminIds]));
+  const allAdminIds = await getAllAdminChatIds();
 
   if (allAdminIds.length === 0) {
     throw new Error("No admin chat IDs configured.");
@@ -388,19 +392,56 @@ async function handleCallbackQuery(ctx: BotContext) {
       action: review.action,
     });
 
-    await ctx.answerCallbackQuery();
-    await ctx.api.sendMessage(
-      submission.telegramUserId,
-      review.action === "approve"
-        ? getCopy(submission.preferredLanguage).userApproved
-        : getCopy(submission.preferredLanguage).userRejected,
+    await ctx.answerCallbackQuery({
+      text: review.action === "approve" ? "Approved" : "Rejected",
+    });
+
+    try {
+      await ctx.api.sendMessage(
+        submission.telegramUserId,
+        review.action === "approve"
+          ? getCopy(submission.preferredLanguage).userApproved
+          : getCopy(submission.preferredLanguage).userRejected,
+      );
+    } catch (error) {
+      console.error(
+        `Failed to send decision notification to candidate ${submission.telegramUserId}:`,
+        error,
+      );
+    }
+
+    const adminName =
+      [user.first_name, user.last_name].filter(Boolean).join(" ").trim() ||
+      (user.username ? `@${user.username}` : `Admin ${user.id}`);
+
+    const adminHandle = user.username ? `@${user.username}` : null;
+    const fullAdminLabel =
+      adminHandle && !adminName.includes(adminHandle)
+        ? `${adminName} (${adminHandle})`
+        : adminName;
+
+    const userName =
+      submission.fullName +
+      (submission.telegramUsername ? ` (@${submission.telegramUsername})` : "");
+
+    const adminNotificationMessage = formatAdminReviewNotification(
+      review.action,
+      userName,
+      fullAdminLabel,
     );
 
-    await ctx.reply(
-      review.action === "approve"
-        ? getCopy("en").adminApproved
-        : getCopy("en").adminRejected,
-    );
+    const allAdminIds = await getAllAdminChatIds();
+
+    for (const chatId of allAdminIds) {
+      try {
+        await ctx.api.sendMessage(chatId, adminNotificationMessage);
+      } catch (error) {
+        console.error(
+          `Failed to send review decision notification to admin ${chatId}:`,
+          error,
+        );
+      }
+    }
   }
 }
 
