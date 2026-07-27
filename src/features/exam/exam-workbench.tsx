@@ -21,13 +21,14 @@ type LiveExamResponse = {
 };
 
 function createDefaultSession(examSet: ExamSet): PersistedExamSession {
+  const duration = examSet.durationMinutes > 0 ? 90 : 0;
   return {
     version: STORAGE_VERSION,
     stage: "intro",
     currentIndex: 0,
     startedAt: null,
     expiresAt: null,
-    remainingSeconds: examSet.durationMinutes * 60,
+    remainingSeconds: duration * 60,
     answers: {},
     flags: {},
     result: null,
@@ -226,13 +227,14 @@ export function ExamWorkbench({
   function startExam() {
     const now = Date.now();
     setShowDetailedReview(false);
+    const duration = examSet.durationMinutes > 0 ? 90 : 0;
 
     setSession({
       ...createDefaultSession(examSet),
       stage: "active",
       startedAt: now,
-      expiresAt: now + examSet.durationMinutes * 60 * 1000,
-      remainingSeconds: examSet.durationMinutes * 60,
+      expiresAt: now + duration * 60 * 1000,
+      remainingSeconds: duration * 60,
     });
   }
 

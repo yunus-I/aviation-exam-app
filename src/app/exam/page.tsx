@@ -199,7 +199,7 @@ function ExamContent() {
     flags: {},
     startedAt: Date.now(),
     submittedAt: null,
-    remainingSeconds: DEMO_EXAM_SET.durationMinutes * 60,
+    remainingSeconds: 90 * 60,
     feedbackShown: false,
   }));
 
@@ -239,7 +239,7 @@ function ExamContent() {
         flags: {},
         startedAt: Date.now(),
         submittedAt: null,
-        remainingSeconds: nextExamSet.durationMinutes * 60,
+        remainingSeconds: (examMode !== "practice" ? 90 : (nextExamSet.durationMinutes || 90)) * 60,
         feedbackShown: false,
       });
     };
@@ -322,7 +322,7 @@ function ExamContent() {
     [state.answers],
   );
   const progress = questions.length > 0 ? (answered / questions.length) * 100 : 0;
-  const isTimed = examMode !== "practice" && examSet.durationMinutes > 0;
+  const isTimed = examMode !== "practice";
   const timerWarning = isTimed && state.remainingSeconds < 120;
 
   // Compute result for submitted state
@@ -593,7 +593,7 @@ function ExamContent() {
                   flags: {},
                   startedAt: Date.now(),
                   submittedAt: null,
-                  remainingSeconds: examSet.durationMinutes * 60,
+                  remainingSeconds: (examMode !== "practice" ? 90 : (examSet.durationMinutes || 90)) * 60,
                   feedbackShown: false,
                 });
               }}

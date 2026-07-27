@@ -131,10 +131,12 @@ function Navbar({ session, onLogout }: { session: StudentSession; onLogout: () =
                 }}
                 onClick={() => {
                   setOpen(false);
-                  const url = `https://t.me/${process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME?.replace('@', '') || 'ETaviation_bot'}`;
-                  if (typeof window !== "undefined" && (window as any).Telegram?.WebApp?.openLink) {
+                  const url = "https://t.me/airlinegatewayy";
+                  if (typeof window !== "undefined" && (window as any).Telegram?.WebApp?.openTelegramLink) {
+                    (window as any).Telegram.WebApp.openTelegramLink(url);
+                  } else if (typeof window !== "undefined" && (window as any).Telegram?.WebApp?.openLink) {
                     (window as any).Telegram.WebApp.openLink(url);
-                  } else {
+                  } else if (typeof window !== "undefined") {
                     window.open(url, "_blank", "noopener,noreferrer");
                   }
                 }}

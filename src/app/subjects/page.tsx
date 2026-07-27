@@ -77,6 +77,31 @@ function Navbar({ session, onLogout }: { session: StudentSession; onLogout: () =
             </div>
             <hr style={{ width: "100%", border: 0, borderTop: "1px solid var(--border)", margin: "4px 0" }} />
             <div style={{ display: "flex", flexDirection: "column", width: "100%", gap: 8 }}>
+              <button
+                className="btn btn--secondary btn--full btn--sm"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 8,
+                  fontSize: 13,
+                  fontWeight: 600,
+                }}
+                onClick={() => {
+                  setOpen(false);
+                  const url = "https://t.me/airlinegatewayy";
+                  if (typeof window !== "undefined" && (window as any).Telegram?.WebApp?.openTelegramLink) {
+                    (window as any).Telegram.WebApp.openTelegramLink(url);
+                  } else if (typeof window !== "undefined" && (window as any).Telegram?.WebApp?.openLink) {
+                    (window as any).Telegram.WebApp.openLink(url);
+                  } else if (typeof window !== "undefined") {
+                    window.open(url, "_blank", "noopener,noreferrer");
+                  }
+                }}
+              >
+                💬 Get Help / Support
+              </button>
+
               {(() => {
                 const isOnDashboard = pathname?.startsWith("/dashboard");
                 const isOnDepartments = pathname?.startsWith("/home") || pathname?.startsWith("/subjects");

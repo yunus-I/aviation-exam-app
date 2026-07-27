@@ -279,7 +279,7 @@ export async function POST(request: NextRequest) {
       title: `${deptResult.data.name_en} — ${subjectName}`,
       subject: subjectName,
       department: deptResult.data.name_en,
-      durationMinutes: 45,
+      durationMinutes: 90,
       modeLabel: "Live Supabase Database",
       instructions: [
         "This exam was loaded from the live PostgreSQL database.",

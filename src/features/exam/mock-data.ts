@@ -189,7 +189,7 @@ function makeDemoExamSet(
     title,
     subject,
     department: "Aviation Entrance",
-    durationMinutes: 18,
+    durationMinutes: 90,
     modeLabel: "Practice Exam",
     instructions: sharedInstructions,
     questions: allQuestions.filter((question) => questionIds.includes(question.id)),
