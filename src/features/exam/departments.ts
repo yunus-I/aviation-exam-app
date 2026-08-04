@@ -75,7 +75,7 @@ function makeExamSets(deptId: string): ExamSet[] {
 }
 
 function makeNoteSets(deptId: string): NoteSet[] {
-  return [1, 2, 3, 4].map((n) => ({
+  return [1].map((n) => ({
     id: `${deptId}-note-${n}`,
     label: `Note ${n}`,
     noteId: `${deptId}-note-${n}`,

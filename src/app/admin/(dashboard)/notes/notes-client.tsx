@@ -119,9 +119,6 @@ function NoteFormModal({
  className="w-full px-3.5 py-2.5 border border-[#E4E8F0] rounded-xl text-sm text-[#1A202C] focus:outline-none focus:border-brand focus:ring-2 /10 transition bg-white"
  >
  <option value="Note 1">Note 1</option>
- <option value="Note 2">Note 2</option>
- <option value="Note 3">Note 3</option>
- <option value="Note 4">Note 4</option>
  </select>
  </div>
  </div>
