@@ -300,7 +300,7 @@ export default function HomePage() {
                     <div className="dept-card__desc">{dept.description}</div>
                     <div className="dept-card__footer">
                       <span className="dept-card__count">
-                        4 practice · 3 exams
+                        {dept.practiceSets.length} practice · {dept.examSets.length} exams
                       </span>
                       <button
                         id={`practice-btn-${dept.id}`}

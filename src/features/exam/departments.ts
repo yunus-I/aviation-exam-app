@@ -65,7 +65,7 @@ function makeExamSets(deptId: string): ExamSet[] {
       { id: "others-exam-3", label: "SAT Physics Exam", questionCount: 60, durationMinutes: 90, examSetId: getExamSetImportKey("others", 3) },
     ];
   }
-  return [1, 2, 3, 4].map((n) => ({
+  return [1, 2, 3].map((n) => ({
     id: `${deptId}-exam-${n}`,
     label: `Exam ${n}`,
     questionCount: 60,
