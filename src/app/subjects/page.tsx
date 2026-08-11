@@ -248,6 +248,8 @@ function SetCard({
 import { getAllowedDepartmentId } from "@/lib/session";
 import { AccessRestrictedGuard } from "@/components/common/access-restricted-guard";
 
+import { syncTelegramSession } from "@/lib/telegram-session";
+
 function SubjectsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -258,24 +260,40 @@ function SubjectsContent() {
   const [activeMode, setActiveMode] = useState<"practice" | "exam" | "notes">("practice");
 
   useEffect(() => {
-    const s = loadSession();
-    if (!s) { router.replace("/"); return; }
-    setSession(s);
+    let isMounted = true;
 
-    if (!s.isApproved && !s.isAdmin) {
-      return;
-    }
+    async function init() {
+      const s = await syncTelegramSession();
+      if (!isMounted) return;
 
-    if (!s.isAdmin) {
-      const allowedDeptId = getAllowedDepartmentId(s.department);
-      if (allowedDeptId && allowedDeptId !== deptId.toLowerCase()) {
-        router.replace(`/subjects?dept=${allowedDeptId}`);
+      if (!s) {
+        router.replace("/");
         return;
       }
+
+      setSession(s);
+
+      if (!s.isApproved && !s.isAdmin) {
+        return;
+      }
+
+      if (!s.isAdmin) {
+        const allowedDeptId = getAllowedDepartmentId(s.department);
+        if (allowedDeptId && allowedDeptId !== deptId.toLowerCase()) {
+          router.replace(`/subjects?dept=${allowedDeptId}`);
+          return;
+        }
+      }
+
+      const d = getDepartment(deptId) ?? DEPARTMENTS[0];
+      setDept(d ?? null);
     }
 
-    const d = getDepartment(deptId) ?? DEPARTMENTS[0];
-    setDept(d ?? null);
+    init();
+
+    return () => {
+      isMounted = false;
+    };
   }, [router, deptId]);
 
   function handleStartNotes(setLabel: string) {

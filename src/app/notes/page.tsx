@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef, Suspense } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { loadSession, clearSession } from "@/lib/session";
+import { syncTelegramSession } from "@/lib/telegram-session";
 import type { StudentSession } from "@/lib/session";
 import { getDepartment, DEPARTMENTS } from "@/features/exam/departments";
 
@@ -149,53 +150,67 @@ function NotesContent() {
   const dept = getDepartment(deptId) ?? DEPARTMENTS[0];
 
   useEffect(() => {
-    const s = loadSession();
-    if (!s) { router.replace("/"); return; }
-    setSession(s);
+    let isMounted = true;
 
-    if (!s.isApproved && !s.isAdmin) {
-      return;
-    }
+    async function init() {
+      const s = await syncTelegramSession();
+      if (!isMounted) return;
 
-    if (!s.isAdmin) {
-      const allowedDeptId = getAllowedDepartmentId(s.department);
-      if (allowedDeptId && allowedDeptId !== deptId.toLowerCase()) {
-        router.replace(`/notes?dept=${allowedDeptId}`);
+      if (!s) {
+        router.replace("/");
         return;
       }
-    }
-  }, [router, deptId]);
 
-  useEffect(() => {
-    const s = loadSession();
-    if (s && !s.isApproved && !s.isAdmin) {
-      setLoading(false);
-      return;
-    }
+      setSession(s);
 
-    setLoading(true);
-    setError(null);
-    fetch(`/api/notes?dept=${encodeURIComponent(deptId)}`)
-      .then(async (res) => {
-        const payload = await res.json();
-        if (!res.ok || !payload.ok) throw new Error(payload.error ?? "Failed to load notes.");
-        let fetchedNotes: (Note & { set_name?: string })[] = payload.notes ?? [];
-        if (noteSet) {
-          fetchedNotes = fetchedNotes.filter((n) =>
-            (n.set_name ?? "Note 1").toLowerCase() === noteSet.toLowerCase()
-          );
-        } else if (noteTitle) {
-          fetchedNotes = fetchedNotes.filter((n) =>
-            n.title.toLowerCase() === noteTitle.toLowerCase()
-          );
+      if (!s.isApproved && !s.isAdmin) {
+        setLoading(false);
+        return;
+      }
+
+      if (!s.isAdmin) {
+        const allowedDeptId = getAllowedDepartmentId(s.department);
+        if (allowedDeptId && allowedDeptId !== deptId.toLowerCase()) {
+          router.replace(`/notes?dept=${allowedDeptId}`);
+          return;
         }
-        setNotes(fetchedNotes);
-      })
-      .catch((e: unknown) => {
-        setError(e instanceof Error ? e.message : "Failed to load notes.");
-      })
-      .finally(() => setLoading(false));
-  }, [deptId, noteSet, noteTitle]);
+      }
+
+      setLoading(true);
+      setError(null);
+      fetch(`/api/notes?dept=${encodeURIComponent(deptId)}`)
+        .then(async (res) => {
+          const payload = await res.json();
+          if (!res.ok || !payload.ok) throw new Error(payload.error ?? "Failed to load notes.");
+          let fetchedNotes: (Note & { set_name?: string })[] = payload.notes ?? [];
+          if (noteSet) {
+            fetchedNotes = fetchedNotes.filter((n) =>
+              (n.set_name ?? "Note 1").toLowerCase() === noteSet.toLowerCase()
+            );
+          } else if (noteTitle) {
+            fetchedNotes = fetchedNotes.filter((n) =>
+              n.title.toLowerCase() === noteTitle.toLowerCase()
+            );
+          }
+          if (isMounted) setNotes(fetchedNotes);
+        })
+        .catch((e: unknown) => {
+          if (isMounted) {
+            setNotes([]);
+            setError(e instanceof Error ? e.message : "Failed to load notes.");
+          }
+        })
+        .finally(() => {
+          if (isMounted) setLoading(false);
+        });
+    }
+
+    init();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [router, deptId, noteSet, noteTitle]);
 
   function handleLogout() {
     clearSession();

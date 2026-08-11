@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { loadSession, saveHistoryEntry, getAllowedDepartmentId } from "@/lib/session";
+import { syncTelegramSession } from "@/lib/telegram-session";
 import { DEMO_EXAM_SETS, DEMO_EXAM_SET } from "@/features/exam/mock-data";
 import { calculateExamResult, formatExamTime } from "@/features/exam/utils";
 import type { ExamQuestion, ExamSet, ExamAnswerMap, ExamFlagMap } from "@/features/exam/types";
@@ -207,73 +208,79 @@ function ExamContent() {
 
   // Load exam set & session
   useEffect(() => {
-    const session = loadSession();
-    if (!session) {
-      router.replace("/");
-      return;
-    }
-
-    if (!session.isApproved && !session.isAdmin) {
-      setReady(true);
-      return;
-    }
-
-    if (!session.isAdmin) {
-      const allowedDeptId = getAllowedDepartmentId(session.department);
-      if (allowedDeptId && allowedDeptId !== deptId.toLowerCase()) {
-        router.replace(`/exam?set=${encodeURIComponent(examSetId)}&mode=${examMode}&dept=${allowedDeptId}&subject=${encodeURIComponent(subjectName)}`);
-        return;
-      }
-    }
-
     let isActive = true;
     setReady(false);
 
-    const applyExamSet = (nextExamSet: ExamSet) => {
+    async function init() {
+      const session = await syncTelegramSession();
       if (!isActive) return;
-      setExamSet(nextExamSet);
-      setState({
-        stage: "active",
-        currentIndex: 0,
-        answers: {},
-        flags: {},
-        startedAt: Date.now(),
-        submittedAt: null,
-        remainingSeconds: (examMode !== "practice" ? 90 : (nextExamSet.durationMinutes || 90)) * 60,
-        feedbackShown: false,
-      });
-    };
 
-    fetch("/api/exams/live", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ dept: deptId, subject: subjectName, examSetId }),
-    })
-      .then(async (res) => {
-        const payload = await res.json();
+      if (!session) {
+        router.replace("/");
+        return;
+      }
+
+      if (!session.isApproved && !session.isAdmin) {
+        setReady(true);
+        return;
+      }
+
+      if (!session.isAdmin) {
+        const allowedDeptId = getAllowedDepartmentId(session.department);
+        if (allowedDeptId && allowedDeptId !== deptId.toLowerCase()) {
+          router.replace(`/exam?set=${encodeURIComponent(examSetId)}&mode=${examMode}&dept=${allowedDeptId}&subject=${encodeURIComponent(subjectName)}`);
+          return;
+        }
+      }
+
+      const applyExamSet = (nextExamSet: ExamSet) => {
         if (!isActive) return;
-        if (payload.ok && payload.examSet && payload.examSet.questions?.length > 0) {
-          applyExamSet(payload.examSet);
-        } else {
+        setExamSet(nextExamSet);
+        setState({
+          stage: "active",
+          currentIndex: 0,
+          answers: {},
+          flags: {},
+          startedAt: Date.now(),
+          submittedAt: null,
+          remainingSeconds: (examMode !== "practice" ? 90 : (nextExamSet.durationMinutes || 90)) * 60,
+          feedbackShown: false,
+        });
+      };
+
+      fetch("/api/exams/live", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ dept: deptId, subject: subjectName, examSetId }),
+      })
+        .then(async (res) => {
+          const payload = await res.json();
+          if (!isActive) return;
+          if (payload.ok && payload.examSet && payload.examSet.questions?.length > 0) {
+            applyExamSet(payload.examSet);
+          } else {
+            const found = DEMO_EXAM_SETS.find((s) => s.id === examSetId) ?? DEMO_EXAM_SET;
+            applyExamSet(found);
+          }
+        })
+        .catch(() => {
+          if (!isActive) return;
           const found = DEMO_EXAM_SETS.find((s) => s.id === examSetId) ?? DEMO_EXAM_SET;
           applyExamSet(found);
-        }
-      })
-      .catch(() => {
-        if (!isActive) return;
-        const found = DEMO_EXAM_SETS.find((s) => s.id === examSetId) ?? DEMO_EXAM_SET;
-        applyExamSet(found);
-      })
-      .finally(() => {
-        if (isActive) {
-          setReady(true);
-        }
-      });
+        })
+        .finally(() => {
+          if (isActive) {
+            setReady(true);
+          }
+        });
+    }
+
+    init();
 
     return () => {
       isActive = false;
     };
-  }, [examSetId, router, deptId, subjectName]);
+  }, [examSetId, router, deptId, subjectName, examMode]);
 
   // Countdown timer
   useEffect(() => {

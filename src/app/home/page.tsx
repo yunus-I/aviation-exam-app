@@ -213,6 +213,7 @@ function Sidebar({ active }: { active: string }) {
   );
 }
 
+import { syncTelegramSession } from "@/lib/telegram-session";
 import { AccessRestrictedGuard } from "@/components/common/access-restricted-guard";
 
 export default function HomePage() {
@@ -222,24 +223,50 @@ export default function HomePage() {
   const [selectedDeptId, setSelectedDeptId] = useState<string | null>(null);
 
   useEffect(() => {
-    const s = loadSession();
-    if (!s) { router.replace("/"); return; }
-    setSession(s);
+    let isMounted = true;
 
-    if (!s.isApproved && !s.isAdmin) {
-      return; // Handled by AccessRestrictedGuard below
-    }
+    async function init() {
+      const s = await syncTelegramSession();
+      if (!isMounted) return;
 
-    if (!s.isAdmin) {
-      const allowedDeptId = getAllowedDepartmentId(s.department);
-      if (allowedDeptId) {
-        router.replace(`/subjects?dept=${allowedDeptId}`);
+      if (!s) {
+        setSession({
+          id: "fallback",
+          name: "Student",
+          studentId: "unapproved",
+          department: "",
+          avatarInitials: "S",
+          loginAt: Date.now(),
+          isApproved: false,
+          isAdmin: false,
+          registrationStatus: "unregistered",
+        });
         return;
       }
+
+      setSession(s);
+
+      if (!s.isApproved && !s.isAdmin) {
+        return; // Handled by AccessRestrictedGuard below
+      }
+
+      if (!s.isAdmin) {
+        const allowedDeptId = getAllowedDepartmentId(s.department);
+        if (allowedDeptId) {
+          router.replace(`/subjects?dept=${allowedDeptId}`);
+          return;
+        }
+      }
+
+      setSelectedDeptId(null);
+      setHistory(loadHistory().slice(0, 3));
     }
 
-    setSelectedDeptId(null);
-    setHistory(loadHistory().slice(0, 3));
+    init();
+
+    return () => {
+      isMounted = false;
+    };
   }, [router]);
 
   function handleLogout() {

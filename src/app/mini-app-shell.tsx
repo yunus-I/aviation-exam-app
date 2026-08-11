@@ -40,17 +40,7 @@ type StatusDetails = {
   tone: StatusTone;
 };
 
-declare global {
-  interface Window {
-    Telegram?: {
-      WebApp?: {
-        initData: string;
-        ready: () => void;
-        expand: () => void;
-      };
-    };
-  }
-}
+
 
 function getStatusTone(status: RegistrationStatus | "not_found") {
   switch (status) {
@@ -123,16 +113,29 @@ export function MiniAppShell() {
   const [activeTab, setActiveTab] = useState<TabId>("exam");
 
   useEffect(() => {
-    const webApp = window.Telegram?.WebApp;
-    const initDataRaw = webApp?.initData?.trim();
+    let isMounted = true;
 
-    if (!webApp || !initDataRaw) {
-      setState({ kind: "outside_telegram" });
-      return;
-    }
+    async function load() {
+      const webApp = window.Telegram?.WebApp;
+      let initDataRaw = webApp?.initData?.trim();
 
-    webApp.ready();
-    webApp.expand();
+      if (webApp && !initDataRaw) {
+        for (let i = 0; i < 5; i++) {
+          await new Promise((resolve) => setTimeout(resolve, 60));
+          initDataRaw = window.Telegram?.WebApp?.initData?.trim();
+          if (initDataRaw) break;
+        }
+      }
+
+      if (!webApp || !initDataRaw) {
+        if (isMounted) setState({ kind: "outside_telegram" });
+        return;
+      }
+
+      try {
+        webApp.ready();
+        webApp.expand();
+      } catch {}
 
     void fetch("/api/mini-app/session", {
       method: "POST",
@@ -148,17 +151,26 @@ export function MiniAppShell() {
           throw new Error(payload.error ?? "Unable to load session.");
         }
 
-        setState({
-          kind: "ready",
-          telegramUser: payload.telegramUser,
-          session: payload.session ?? null,
-        });
+        if (isMounted) {
+          setState({
+            kind: "ready",
+            telegramUser: payload.telegramUser,
+            session: payload.session ?? null,
+          });
+        }
       })
       .catch((error: unknown) => {
         const message =
           error instanceof Error ? error.message : "Unable to load session.";
-        setState({ kind: "error", message });
+        if (isMounted) setState({ kind: "error", message });
       });
+    }
+
+    load();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const session = state.kind === "ready" ? state.session : null;

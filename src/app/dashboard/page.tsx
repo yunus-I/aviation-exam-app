@@ -222,6 +222,7 @@ function formatDuration(sec: number) {
   return `${m}m ${s}s`;
 }
 
+import { syncTelegramSession } from "@/lib/telegram-session";
 import { AccessRestrictedGuard } from "@/components/common/access-restricted-guard";
 
 export default function DashboardPage() {
@@ -230,12 +231,28 @@ export default function DashboardPage() {
   const [history, setHistory] = useState<ExamHistoryEntry[]>([]);
 
   useEffect(() => {
-    const s = loadSession();
-    if (!s) { router.replace("/"); return; }
-    setSession(s);
-    if (s.isApproved || s.isAdmin) {
-      setHistory(loadHistory());
+    let isMounted = true;
+
+    async function init() {
+      const s = await syncTelegramSession();
+      if (!isMounted) return;
+
+      if (!s) {
+        router.replace("/");
+        return;
+      }
+
+      setSession(s);
+      if (s.isApproved || s.isAdmin) {
+        setHistory(loadHistory());
+      }
     }
+
+    init();
+
+    return () => {
+      isMounted = false;
+    };
   }, [router]);
 
   function handleLogout() {
