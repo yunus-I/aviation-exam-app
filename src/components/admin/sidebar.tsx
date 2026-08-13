@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Wrench, Plane, Users, Megaphone, GraduationCap, Image, Settings, LogOut, ChevronLeft, PanelLeftClose, PanelLeft, BookOpen } from "lucide-react";
+import { LayoutDashboard, Wrench, Plane, Users, UserCheck, Megaphone, GraduationCap, Image, Settings, LogOut, ChevronLeft, PanelLeftClose, PanelLeft, BookOpen } from "lucide-react";
 import { useState } from "react";
 import { DEPTS, DEPT_SLUGS, type DeptSlug } from "@/lib/admin/constants";
 import { createClient } from "@/lib/supabase/client";
@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 
 const navItems = [
  { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
+ { label: "Users & Depts", href: "/admin/users", icon: UserCheck },
 ];
 
 const deptIconMap: Record<DeptSlug, typeof Wrench> = {

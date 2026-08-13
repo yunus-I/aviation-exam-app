@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Wrench, Plane, Users, Megaphone, GraduationCap, HelpCircle, Plus, ArrowRight, Clock, FileText, HardDrive } from "lucide-react";
+import { Wrench, Plane, Users, UserCheck, Megaphone, GraduationCap, HelpCircle, Plus, ArrowRight, Clock, FileText, HardDrive } from "lucide-react";
 import { Card, Badge } from "@/components/admin/admin-ui";
 
 interface Props {
@@ -128,6 +128,19 @@ export function DashboardClient({ total, counts, recentQuestions }: Props) {
  })}
  </div>
  </Card>
+
+ <Link href="/admin/users">
+ <Card hover className="p-5 flex items-center gap-4 cursor-pointer border-blue-100 bg-gradient-to-r from-blue-50/50 to-white">
+ <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-[#003580] flex-shrink-0">
+ <UserCheck className="w-5 h-5" />
+ </div>
+ <div className="flex-1 min-w-0">
+ <h2 className="text-sm font-bold text-[#1A202C]">Switch User Department</h2>
+ <p className="text-xs text-[#64748B] mt-0.5">Search candidates & update their department</p>
+ </div>
+ <ArrowRight className="w-4 h-4 text-[#003580]" />
+ </Card>
+ </Link>
 
  <Card>
  <div className="p-5 flex items-center gap-3">
