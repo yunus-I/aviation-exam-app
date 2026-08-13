@@ -73,15 +73,23 @@ export class AuthRepository {
 
     const row = result.data as Record<string, any>;
 
+    const deptObj = Array.isArray(row.departments) ? row.departments[0] : row.departments;
+    const regionObj = Array.isArray(row.regions) ? row.regions[0] : row.regions;
+
+    const departmentName =
+      (deptObj?.name_en as string | null) ?? (isAdmin && !row.selected_department_id ? "All Departments" : null);
+    const departmentId =
+      (row.selected_department_id as string | null) ?? (isAdmin ? "all" : null);
+
     return {
       candidateId: row.id as string,
       telegramUserId: Number(row.telegram_user_id),
       fullName: (row.full_name as string | null) ?? (isAdmin ? "Admin" : null),
       preferredLanguage: (row.preferred_language as AppLanguage) || "en",
       registrationStatus: isAdmin ? "approved" : (row.current_registration_status as RegistrationStatus),
-      departmentId: (row.selected_department_id as string | null) ?? (isAdmin ? "all" : null),
-      departmentName: (row.departments?.name_en as string | null) ?? (isAdmin ? "All Departments" : null),
-      regionName: (row.regions?.name_en as string | null) ?? null,
+      departmentId,
+      departmentName,
+      regionName: (regionObj?.name_en as string | null) ?? null,
       approvedAt: (row.approved_at as string | null) ?? null,
       rejectedAt: (row.rejected_at as string | null) ?? null,
       isAdmin,

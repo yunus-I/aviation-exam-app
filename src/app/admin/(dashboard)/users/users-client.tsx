@@ -12,6 +12,9 @@ import {
   X,
   Phone,
   Send,
+  ChevronLeft,
+  ChevronRight,
+  Filter,
 } from "lucide-react";
 import {
   Card,
@@ -47,9 +50,17 @@ export interface Candidate {
   departments: Department | null;
 }
 
+export interface PaginationInfo {
+  page: number;
+  limit: number;
+  totalCount: number;
+  totalPages: number;
+}
+
 interface UsersClientProps {
   initialCandidates: Candidate[];
   initialDepartments: Department[];
+  initialPagination: PaginationInfo;
 }
 
 const statusVariants: Record<string, "success" | "warning" | "danger" | "neutral"> = {
@@ -69,11 +80,19 @@ const statusLabels: Record<string, string> = {
 export function UsersClient({
   initialCandidates,
   initialDepartments,
+  initialPagination,
 }: UsersClientProps) {
   const { toast } = useToast();
   const [candidates, setCandidates] = useState<Candidate[]>(initialCandidates);
   const [departments] = useState<Department[]>(initialDepartments);
+  const [pagination, setPagination] = useState<PaginationInfo>(initialPagination);
+
+  // Filters state
   const [query, setQuery] = useState("");
+  const [departmentFilter, setDepartmentFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(20);
   const [loading, setLoading] = useState(false);
 
   // Edit Modal State
@@ -81,35 +100,72 @@ export function UsersClient({
   const [selectedDeptId, setSelectedDeptId] = useState<string>("");
   const [updating, setUpdating] = useState(false);
 
-  const fetchUsers = useCallback(async (searchQuery: string) => {
-    setLoading(true);
-    try {
-      const res = await fetch(
-        `/api/admin/users?query=${encodeURIComponent(searchQuery)}`
-      );
-      if (!res.ok) {
-        throw new Error("Failed to search users");
-      }
-      const data = await res.json();
-      setCandidates(data.candidates || []);
-    } catch (err: any) {
-      toast("error", err.message || "Failed to load users");
-    } finally {
-      setLoading(false);
-    }
-  }, [toast]);
+  const fetchUsers = useCallback(
+    async (
+      searchQuery: string,
+      targetPage: number,
+      targetLimit: number,
+      deptFilter: string,
+      statFilter: string
+    ) => {
+      setLoading(true);
+      try {
+        const url = `/api/admin/users?query=${encodeURIComponent(
+          searchQuery
+        )}&page=${targetPage}&limit=${targetLimit}&departmentId=${deptFilter}&status=${statFilter}`;
 
-  // Debounce search input
+        const res = await fetch(url);
+        if (!res.ok) {
+          throw new Error("Failed to load users");
+        }
+        const data = await res.json();
+        setCandidates(data.candidates || []);
+        if (data.pagination) {
+          setPagination(data.pagination);
+        }
+      } catch (err: any) {
+        toast("error", err.message || "Failed to load users");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [toast]
+  );
+
+  // Trigger search on query / page / limit / filters change
   useEffect(() => {
     const timer = setTimeout(() => {
-      fetchUsers(query);
+      fetchUsers(query, page, limit, departmentFilter, statusFilter);
     }, 300);
     return () => clearTimeout(timer);
-  }, [query, fetchUsers]);
+  }, [query, page, limit, departmentFilter, statusFilter, fetchUsers]);
+
+  // Reset to page 1 when query or filters change
+  const handleQueryChange = (val: string) => {
+    setQuery(val);
+    setPage(1);
+  };
+
+  const handleDeptFilterChange = (val: string) => {
+    setDepartmentFilter(val);
+    setPage(1);
+  };
+
+  const handleStatusFilterChange = (val: string) => {
+    setStatusFilter(val);
+    setPage(1);
+  };
+
+  const handleLimitChange = (val: number) => {
+    setLimit(val);
+    setPage(1);
+  };
 
   const handleOpenEditModal = (candidate: Candidate) => {
     setEditingCandidate(candidate);
-    setSelectedDeptId(candidate.selected_department_id || (departments[0]?.id ?? ""));
+    setSelectedDeptId(
+      candidate.selected_department_id || (departments[0]?.id ?? "")
+    );
   };
 
   const handleCloseModal = () => {
@@ -140,7 +196,7 @@ export function UsersClient({
         throw new Error(data.error || "Failed to update department");
       }
 
-      // Update local state optimistically / with returned record
+      // Update candidate in local state
       setCandidates((prev) =>
         prev.map((c) => (c.id === editingCandidate.id ? data.candidate : c))
       );
@@ -164,24 +220,28 @@ export function UsersClient({
     }
   };
 
-  const approvedCount = candidates.filter(
-    (c) => c.current_registration_status === "approved"
-  ).length;
+  const startRecord = (pagination.page - 1) * pagination.limit + 1;
+  const endRecord = Math.min(
+    pagination.page * pagination.limit,
+    pagination.totalCount
+  );
 
   return (
     <div className="space-y-8">
       {/* Header */}
       <PageHeader
         title="Users & Department Switch"
-        description="Search candidate names or Telegram usernames and update their assigned department."
+        description="Search across all 7,000+ candidates and instantly update their assigned department."
         action={
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => fetchUsers(query)}
+            onClick={() =>
+              fetchUsers(query, page, limit, departmentFilter, statusFilter)
+            }
             loading={loading}
           >
-            <RefreshCw className="w-4 h-4" /> Refresh List
+            <RefreshCw className="w-4 h-4" /> Refresh
           </Button>
         }
       />
@@ -195,9 +255,9 @@ export function UsersClient({
             </div>
             <div>
               <p className="text-3xl font-bold text-[#1A202C] tracking-tight">
-                {candidates.length}
+                {pagination.totalCount.toLocaleString()}
               </p>
-              <p className="text-xs text-[#64748B] mt-0.5">Total Users Found</p>
+              <p className="text-xs text-[#64748B] mt-0.5">Total Registered Students</p>
             </div>
           </div>
         </Card>
@@ -209,9 +269,11 @@ export function UsersClient({
             </div>
             <div>
               <p className="text-3xl font-bold text-[#1A202C] tracking-tight">
-                {approvedCount}
+                Page {pagination.page} of {pagination.totalPages}
               </p>
-              <p className="text-xs text-[#64748B] mt-0.5">Approved Active Users</p>
+              <p className="text-xs text-[#64748B] mt-0.5">
+                Showing {pagination.totalCount > 0 ? `${startRecord} - ${endRecord}` : "0"}
+              </p>
             </div>
           </div>
         </Card>
@@ -231,25 +293,58 @@ export function UsersClient({
         </Card>
       </div>
 
-      {/* Search & Main List */}
+      {/* Main Table & Filters */}
       <Card>
-        {/* Search Bar */}
-        <div className="p-5 border-b border-[#E4E8F0]">
-          <div className="relative max-w-md">
-            <Input
-              icon={<Search className="w-4 h-4" />}
-              placeholder="Search by full name, telegram username or phone..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            {query && (
-              <button
-                onClick={() => setQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#94A3B8] hover:text-[#1A202C]"
+        {/* Filter Controls Bar */}
+        <div className="p-5 border-b border-[#E4E8F0] space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+            {/* Search Input */}
+            <div className="relative">
+              <Input
+                icon={<Search className="w-4 h-4" />}
+                placeholder="Search by full name, telegram username or phone..."
+                value={query}
+                onChange={(e) => handleQueryChange(e.target.value)}
+              />
+              {query && (
+                <button
+                  onClick={() => handleQueryChange("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#94A3B8] hover:text-[#1A202C]"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+
+            {/* Department Filter */}
+            <div className="flex items-center gap-2">
+              <Filter className="w-4 h-4 text-[#94A3B8] flex-shrink-0" />
+              <Select
+                value={departmentFilter}
+                onChange={(e) => handleDeptFilterChange(e.target.value)}
+                className="w-full"
               >
-                Clear
-              </button>
-            )}
+                <option value="all">All Departments</option>
+                {departments.map((d) => (
+                  <option key={d.id} value={d.id}>
+                    {d.name_en} ({d.code})
+                  </option>
+                ))}
+              </Select>
+            </div>
+
+            {/* Registration Status Filter */}
+            <Select
+              value={statusFilter}
+              onChange={(e) => handleStatusFilterChange(e.target.value)}
+              className="w-full"
+            >
+              <option value="all">All Registration Statuses</option>
+              <option value="approved">Approved</option>
+              <option value="pending_review">Pending Review</option>
+              <option value="draft">Draft</option>
+              <option value="rejected">Rejected</option>
+            </Select>
           </div>
         </div>
 
@@ -258,7 +353,7 @@ export function UsersClient({
           <table className="w-full text-left text-sm text-[#1A202C]">
             <thead className="bg-[#F7F8FC] border-b border-[#E4E8F0] text-xs font-semibold text-[#64748B] uppercase tracking-wider">
               <tr>
-                <th className="px-6 py-3.5">Candidate</th>
+                <th className="px-6 py-3.5">Student</th>
                 <th className="px-6 py-3.5">Contact / Telegram</th>
                 <th className="px-6 py-3.5">Status</th>
                 <th className="px-6 py-3.5">Current Department</th>
@@ -270,7 +365,7 @@ export function UsersClient({
                 <tr>
                   <td colSpan={5} className="px-6 py-12 text-center text-[#64748B]">
                     <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-[#003580]" />
-                    Searching users...
+                    Searching database...
                   </td>
                 </tr>
               ) : candidates.length === 0 ? (
@@ -280,9 +375,9 @@ export function UsersClient({
                       icon={<Users className="w-8 h-8" />}
                       title="No candidates found"
                       description={
-                        query
-                          ? `No candidates match "${query}". Try searching with a different name or phone number.`
-                          : "No candidate records registered yet."
+                        query || departmentFilter !== "all" || statusFilter !== "all"
+                          ? "No candidates match the selected filters. Try broadening your search query."
+                          : "No candidate records found in database."
                       }
                     />
                   </td>
@@ -333,8 +428,13 @@ export function UsersClient({
 
                       {/* Registration Status */}
                       <td className="px-6 py-4">
-                        <Badge variant={statusVariants[c.current_registration_status] || "neutral"}>
-                          {statusLabels[c.current_registration_status] || c.current_registration_status}
+                        <Badge
+                          variant={
+                            statusVariants[c.current_registration_status] || "neutral"
+                          }
+                        >
+                          {statusLabels[c.current_registration_status] ||
+                            c.current_registration_status}
                         </Badge>
                       </td>
 
@@ -364,18 +464,65 @@ export function UsersClient({
             </tbody>
           </table>
         </div>
+
+        {/* Pagination Footer */}
+        <div className="p-4 border-t border-[#E4E8F0] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B]">
+          <div className="flex items-center gap-4">
+            <span>
+              Showing {pagination.totalCount > 0 ? startRecord : 0} to {endRecord} of{" "}
+              <strong>{pagination.totalCount.toLocaleString()}</strong> students
+            </span>
+
+            {/* Per Page Selector */}
+            <div className="flex items-center gap-1.5">
+              <span>Per page:</span>
+              <select
+                value={limit}
+                onChange={(e) => handleLimitChange(Number(e.target.value))}
+                className="bg-white border border-[#E4E8F0] rounded-lg px-2 py-1 text-xs text-[#1A202C] focus:outline-none"
+              >
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Page Buttons */}
+          <div className="flex items-center gap-2">
+            <Button
+              variant="secondary"
+              size="sm"
+              disabled={page <= 1 || loading}
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+            >
+              <ChevronLeft className="w-4 h-4" /> Previous
+            </Button>
+
+            <span className="px-3 py-1 font-semibold text-[#1A202C]">
+              {page} / {pagination.totalPages}
+            </span>
+
+            <Button
+              variant="secondary"
+              size="sm"
+              disabled={page >= pagination.totalPages || loading}
+              onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
+            >
+              Next <ChevronRight className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
       </Card>
 
       {/* Edit Department Modal */}
       {editingCandidate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Backdrop */}
           <div
             className="fixed inset-0 bg-black/30 backdrop-blur-sm"
             onClick={handleCloseModal}
           />
 
-          {/* Modal Content */}
           <div className="relative bg-white rounded-2xl shadow-xl border border-[#E4E8F0] p-6 w-full max-w-lg z-10 space-y-6">
             <div className="flex items-center justify-between border-b border-[#E4E8F0] pb-4">
               <div>
@@ -383,7 +530,7 @@ export function UsersClient({
                   Change Candidate Department
                 </h3>
                 <p className="text-xs text-[#64748B] mt-0.5">
-                  Update department assignment for Telegram user
+                  Update department assignment across Supabase database & Web App
                 </p>
               </div>
               <button
@@ -394,7 +541,7 @@ export function UsersClient({
               </button>
             </div>
 
-            {/* Candidate Details Card */}
+            {/* Candidate Details Summary */}
             <div className="bg-[#F7F8FC] rounded-xl p-4 border border-[#E4E8F0] space-y-2 text-xs">
               <div className="flex justify-between">
                 <span className="text-[#64748B]">Name:</span>
@@ -404,6 +551,12 @@ export function UsersClient({
                       .filter(Boolean)
                       .join(" ") ||
                     "N/A"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-[#64748B]">Telegram ID:</span>
+                <span className="font-medium text-[#1A202C]">
+                  {editingCandidate.telegram_user_id}
                 </span>
               </div>
               {editingCandidate.telegram_username && (

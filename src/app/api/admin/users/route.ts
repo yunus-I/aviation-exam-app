@@ -2,6 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAdminUser } from "@/lib/supabase/api-admin";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 
+function parseJoinedDepartment(row: Record<string, any>) {
+  const dept = Array.isArray(row.departments) ? row.departments[0] : row.departments;
+  if (!dept) return null;
+  return {
+    id: dept.id,
+    slug: dept.slug,
+    code: dept.code,
+    name_en: dept.name_en,
+    name_am: dept.name_am,
+  };
+}
+
 export async function GET(request: NextRequest) {
   const admin = await getAdminUser(request);
   if (!admin) {
@@ -11,10 +23,17 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const query = (searchParams.get("query") || "").trim();
+    const departmentFilter = (searchParams.get("departmentId") || "").trim();
+    const statusFilter = (searchParams.get("status") || "").trim();
+    
+    const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
+    const limit = Math.min(100, Math.max(1, parseInt(searchParams.get("limit") || "20", 10)));
+    const fromIndex = (page - 1) * limit;
+    const toIndex = fromIndex + limit - 1;
 
     const supabase = getSupabaseAdminClient() as any;
 
-    // Fetch active departments for selection
+    // Fetch active departments for select dropdowns
     const { data: departments, error: deptError } = await supabase
       .from("departments")
       .select("id, slug, code, name_en, name_am")
@@ -25,7 +44,7 @@ export async function GET(request: NextRequest) {
       throw deptError;
     }
 
-    // Build candidates query
+    // Build query with exact count
     let candidatesQuery = supabase
       .from("candidates")
       .select(
@@ -42,7 +61,8 @@ export async function GET(request: NextRequest) {
         created_at,
         updated_at,
         departments:selected_department_id(id, slug, code, name_en, name_am)
-      `
+      `,
+        { count: "exact" }
       );
 
     if (query) {
@@ -52,17 +72,39 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const { data: candidates, error: candError } = await candidatesQuery
+    if (departmentFilter && departmentFilter !== "all") {
+      candidatesQuery = candidatesQuery.eq("selected_department_id", departmentFilter);
+    }
+
+    if (statusFilter && statusFilter !== "all") {
+      candidatesQuery = candidatesQuery.eq("current_registration_status", statusFilter);
+    }
+
+    const { data: rawCandidates, count, error: candError } = await candidatesQuery
       .order("updated_at", { ascending: false })
-      .limit(100);
+      .range(fromIndex, toIndex);
 
     if (candError) {
       throw candError;
     }
 
+    const formattedCandidates = (rawCandidates || []).map((row: any) => ({
+      ...row,
+      departments: parseJoinedDepartment(row),
+    }));
+
+    const totalCount = count ?? formattedCandidates.length;
+    const totalPages = Math.max(1, Math.ceil(totalCount / limit));
+
     return NextResponse.json({
-      candidates: candidates || [],
+      candidates: formattedCandidates,
       departments: departments || [],
+      pagination: {
+        page,
+        limit,
+        totalCount,
+        totalPages,
+      },
     });
   } catch (error: any) {
     console.error("[API Admin Users GET Error]:", error);
@@ -113,32 +155,61 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
+    // First find candidate by UUID or Telegram User ID
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(candidateId);
+    let findQuery = supabase.from("candidates").select("id, telegram_user_id");
+    if (isUuid) {
+      findQuery = findQuery.eq("id", candidateId);
+    } else {
+      findQuery = findQuery.eq("telegram_user_id", Number(candidateId));
+    }
+
+    const { data: candidateRow, error: findError } = await findQuery.maybeSingle();
+
+    if (findError || !candidateRow) {
+      return NextResponse.json(
+        { error: "Candidate record not found" },
+        { status: 404 }
+      );
+    }
+
+    const actualCandidateId = candidateRow.id;
+    const telegramUserId = candidateRow.telegram_user_id;
     const now = new Date().toISOString();
 
-    // Update candidate's department
+    // 1. Update candidate's department
     const { error: updateCandidateError } = await supabase
       .from("candidates")
       .update({
         selected_department_id: departmentId,
         updated_at: now,
       })
-      .eq("id", candidateId);
+      .eq("id", actualCandidateId);
 
     if (updateCandidateError) {
       throw updateCandidateError;
     }
 
-    // Also update any registration submissions for this candidate to keep them in sync
+    // 2. Update registration_submissions table
     await supabase
       .from("registration_submissions")
       .update({
         department_id: departmentId,
         updated_at: now,
       })
-      .eq("candidate_id", candidateId);
+      .or(`candidate_id.eq.${actualCandidateId},telegram_user_id.eq.${telegramUserId}`);
+
+    // 3. Update registration_drafts table
+    await supabase
+      .from("registration_drafts")
+      .update({
+        department_id: departmentId,
+        updated_at: now,
+      })
+      .eq("candidate_id", actualCandidateId);
 
     // Fetch updated candidate record
-    const { data: updatedCandidate, error: fetchUpdatedError } = await supabase
+    const { data: updatedCandidateRaw, error: fetchUpdatedError } = await supabase
       .from("candidates")
       .select(
         `
@@ -156,16 +227,21 @@ export async function PATCH(request: NextRequest) {
         departments:selected_department_id(id, slug, code, name_en, name_am)
       `
       )
-      .eq("id", candidateId)
+      .eq("id", actualCandidateId)
       .single();
 
     if (fetchUpdatedError) {
       throw fetchUpdatedError;
     }
 
+    const formattedCandidate = {
+      ...updatedCandidateRaw,
+      departments: parseJoinedDepartment(updatedCandidateRaw),
+    };
+
     return NextResponse.json({
       success: true,
-      candidate: updatedCandidate,
+      candidate: formattedCandidate,
     });
   } catch (error: any) {
     console.error("[API Admin Users PATCH Error]:", error);

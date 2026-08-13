@@ -3,6 +3,18 @@ import { UsersClient } from "./users-client";
 
 export const dynamic = "force-dynamic";
 
+function parseJoinedDepartment(row: Record<string, any>) {
+  const dept = Array.isArray(row.departments) ? row.departments[0] : row.departments;
+  if (!dept) return null;
+  return {
+    id: dept.id,
+    slug: dept.slug,
+    code: dept.code,
+    name_en: dept.name_en,
+    name_am: dept.name_am,
+  };
+}
+
 export default async function AdminUsersPage() {
   const supabase = getSupabaseAdminClient() as any;
 
@@ -13,8 +25,8 @@ export default async function AdminUsersPage() {
     .eq("is_active", true)
     .order("name_en", { ascending: true });
 
-  // Fetch initial list of candidates (top 50)
-  const { data: candidates } = await supabase
+  // Fetch initial candidates with total exact count
+  const { data: candidates, count } = await supabase
     .from("candidates")
     .select(
       `
@@ -30,15 +42,29 @@ export default async function AdminUsersPage() {
       created_at,
       updated_at,
       departments:selected_department_id(id, slug, code, name_en, name_am)
-    `
+    `,
+      { count: "exact" }
     )
     .order("updated_at", { ascending: false })
-    .limit(50);
+    .range(0, 19);
+
+  const formattedCandidates = (candidates || []).map((row: any) => ({
+    ...row,
+    departments: parseJoinedDepartment(row),
+  }));
+
+  const totalCount = count ?? formattedCandidates.length;
 
   return (
     <UsersClient
-      initialCandidates={candidates || []}
+      initialCandidates={formattedCandidates}
       initialDepartments={departments || []}
+      initialPagination={{
+        page: 1,
+        limit: 20,
+        totalCount,
+        totalPages: Math.max(1, Math.ceil(totalCount / 20)),
+      }}
     />
   );
 }
