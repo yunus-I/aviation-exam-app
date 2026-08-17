@@ -29,6 +29,11 @@ export default async function EditDeptQuestionPage({ params }: Props) {
  const options = (optsResult.data as any[]) ?? [];
  const topics = ((topicsResult.data as { id: string; slug: string; name_en: string }[]) ?? [])
    .filter((t) => t.slug !== "aptitude" && t.slug !== "english");
+
+ if (!topics.some((t) => t.slug === "model-exam-1" || t.name_en?.toLowerCase() === "model exam 1")) {
+   topics.push({ id: "model-exam-1", slug: "model-exam-1", name_en: "Model Exam 1" });
+ }
+
  const mediaItems = (mediaResult.data as any[]) ?? [];
 
  const optMap: Record<string, string> = {};

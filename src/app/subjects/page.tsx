@@ -258,6 +258,7 @@ function SubjectsContent() {
   const [session, setSession] = useState<StudentSession | null>(null);
   const [dept, setDept] = useState<Department | null>(null);
   const [activeMode, setActiveMode] = useState<"practice" | "exam" | "notes">("practice");
+  const [modelExamInfo, setModelExamInfo] = useState<{ hasModelExam: boolean; count: number }>({ hasModelExam: false, count: 0 });
 
   useEffect(() => {
     let isMounted = true;
@@ -287,6 +288,19 @@ function SubjectsContent() {
 
       const d = getDepartment(deptId) ?? DEPARTMENTS[0];
       setDept(d ?? null);
+
+      // Check if Model Exam 1 questions exist for this department
+      try {
+        const res = await fetch(`/api/exams/check-model-exam?dept=${encodeURIComponent(deptId)}`);
+        const data = await res.json();
+        if (isMounted && data.ok && data.hasModelExam) {
+          setModelExamInfo({ hasModelExam: true, count: data.questionCount });
+        } else if (isMounted) {
+          setModelExamInfo({ hasModelExam: false, count: 0 });
+        }
+      } catch {
+        if (isMounted) setModelExamInfo({ hasModelExam: false, count: 0 });
+      }
     }
 
     init();
@@ -493,7 +507,20 @@ function SubjectsContent() {
                   <span>📝</span> Exam Sets
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  {dept.examSets.map((set) => (
+                  {[
+                    ...dept.examSets,
+                    ...(modelExamInfo.hasModelExam
+                      ? [
+                          {
+                            id: `${dept.id}-model-exam-1`,
+                            label: "Model Exam 1",
+                            questionCount: modelExamInfo.count || 60,
+                            durationMinutes: 90,
+                            examSetId: `${dept.id}-model-exam-1`,
+                          },
+                        ]
+                      : []),
+                  ].map((set) => (
                     <SetCard
                       key={set.id}
                       id={set.id}

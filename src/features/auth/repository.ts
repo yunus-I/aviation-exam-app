@@ -39,11 +39,10 @@ export class AuthRepository {
         preferred_language,
         current_registration_status,
         selected_department_id,
+        selected_region_id,
         approved_at,
-        rejected_at,
-        departments:selected_department_id(name_en),
-        regions:selected_region_id(name_en)
-      `,
+        rejected_at
+      `
       )
       .eq("telegram_user_id", telegramUserId)
       .maybeSingle();
@@ -73,13 +72,36 @@ export class AuthRepository {
 
     const row = result.data as Record<string, any>;
 
-    const deptObj = Array.isArray(row.departments) ? row.departments[0] : row.departments;
-    const regionObj = Array.isArray(row.regions) ? row.regions[0] : row.regions;
+    let departmentName: string | null = null;
+    let departmentId: string | null = (row.selected_department_id as string | null) ?? null;
 
-    const departmentName =
-      (deptObj?.name_en as string | null) ?? (isAdmin && !row.selected_department_id ? "All Departments" : null);
-    const departmentId =
-      (row.selected_department_id as string | null) ?? (isAdmin ? "all" : null);
+    if (departmentId) {
+      const deptRes = await this.supabase
+        .from("departments")
+        .select("name_en")
+        .eq("id", departmentId)
+        .maybeSingle();
+      if (deptRes.data?.name_en) {
+        departmentName = deptRes.data.name_en;
+      }
+    }
+
+    if (!departmentName && isAdmin) {
+      departmentName = "All Departments";
+      departmentId = "all";
+    }
+
+    let regionName: string | null = null;
+    if (row.selected_region_id) {
+      const regionRes = await this.supabase
+        .from("regions")
+        .select("name_en")
+        .eq("id", row.selected_region_id)
+        .maybeSingle();
+      if (regionRes.data?.name_en) {
+        regionName = regionRes.data.name_en;
+      }
+    }
 
     return {
       candidateId: row.id as string,
@@ -89,7 +111,7 @@ export class AuthRepository {
       registrationStatus: isAdmin ? "approved" : (row.current_registration_status as RegistrationStatus),
       departmentId,
       departmentName,
-      regionName: (regionObj?.name_en as string | null) ?? null,
+      regionName,
       approvedAt: (row.approved_at as string | null) ?? null,
       rejectedAt: (row.rejected_at as string | null) ?? null,
       isAdmin,

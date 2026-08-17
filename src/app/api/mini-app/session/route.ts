@@ -3,6 +3,14 @@ import { verifyTelegramInitData } from "@/lib/telegram";
 import { AuthRepository } from "@/features/auth/repository";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+const noCacheHeaders = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+  Pragma: "no-cache",
+  Expires: "0",
+};
 
 export async function POST(request: NextRequest) {
   try {
@@ -33,18 +41,21 @@ export async function POST(request: NextRequest) {
           ok: false,
           error: "missing_identifier",
         },
-        { status: 400 },
+        { status: 400, headers: noCacheHeaders },
       );
     }
 
     const repository = new AuthRepository();
     const session = await repository.getCandidateSessionByTelegramUserId(telegramUserId);
 
-    return NextResponse.json({
-      ok: true,
-      telegramUser: telegramUser || (session ? { id: telegramUserId, first_name: session.fullName } : null),
-      session,
-    });
+    return NextResponse.json(
+      {
+        ok: true,
+        telegramUser: telegramUser || (session ? { id: telegramUserId, first_name: session.fullName } : null),
+        session,
+      },
+      { headers: noCacheHeaders },
+    );
   } catch (error) {
     console.error("Mini App session error", error);
     return NextResponse.json(
@@ -52,7 +63,7 @@ export async function POST(request: NextRequest) {
         ok: false,
         error: "session_failed",
       },
-      { status: 500 },
+      { status: 500, headers: noCacheHeaders },
     );
   }
 }

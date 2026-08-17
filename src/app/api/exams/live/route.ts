@@ -180,7 +180,7 @@ export async function POST(request: NextRequest) {
     const topicsResult = (await supabase
       .from("topics")
       .select("id, name_en, slug")
-      .in("slug", candidateTopicSlugs)) as any;
+      .or(`slug.in.(${candidateTopicSlugs.map((s) => `"${s}"`).join(",")}),name_en.ilike."${subjectName}"`)) as any;
 
     const topicIds = (topicsResult.data ?? []).map((t: any) => t.id);
     const topicName = topicsResult.data?.[0]?.name_en || subjectName;
@@ -202,6 +202,8 @@ export async function POST(request: NextRequest) {
       .eq("department_id", deptResult.data.id)
       .eq("is_active", true);
 
+    const isSpecificTopic = topicIds.length > 0 || rawSubject.includes("model");
+
     if (topicIds.length > 0) {
       questionsQuery = questionsQuery.in("topic_id", topicIds);
     }
@@ -210,8 +212,8 @@ export async function POST(request: NextRequest) {
       .order("question_num", { ascending: true, nullsFirst: false })
       .order("created_at", { ascending: true })) as any;
 
-    // Fallback: If no questions for specific topic_id, fetch all active questions for department
-    if (questionsResult.error || !questionsResult.data || questionsResult.data.length === 0) {
+    // Fallback: ONLY if no specific topic filter was requested, fetch active questions for department
+    if (!isSpecificTopic && (questionsResult.error || !questionsResult.data || questionsResult.data.length === 0)) {
       questionsResult = (await supabase
         .from("questions")
         .select(`

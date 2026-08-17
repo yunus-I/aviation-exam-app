@@ -21,6 +21,10 @@ export default async function NewDeptQuestionPage({ params }: Props) {
  const topics = ((_topics as { id: string; slug: string; name_en: string }[]) ?? [])
    .filter((t) => t.slug !== "aptitude" && t.slug !== "english");
 
+  if (!topics.some((t) => t.slug === "model-exam-1" || t.name_en?.toLowerCase() === "model exam 1")) {
+    topics.push({ id: "model-exam-1", slug: "model-exam-1", name_en: "Model Exam 1" });
+  }
+
  return (
  <div className="space-y-6">
  <div>

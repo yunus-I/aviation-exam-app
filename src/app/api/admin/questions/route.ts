@@ -34,7 +34,17 @@ export async function POST(request: NextRequest) {
           .select("id")
           .eq("slug", topicSlug)
           .maybeSingle();
-      if (topic) topic_id = (topic as any).id;
+      if (topic) {
+        topic_id = (topic as any).id;
+      } else {
+        const topicName = topicSlug === "model-exam-1" ? "Model Exam 1" : topicSlug;
+        const { data: newTopic } = await (supabase as any)
+          .from("topics")
+          .upsert({ slug: topicSlug, name_en: topicName, is_active: true }, { onConflict: "slug" })
+          .select("id")
+          .single();
+        if (newTopic) topic_id = newTopic.id;
+      }
     }
 
     let question_bank_id: string | null = null;

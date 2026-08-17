@@ -111,59 +111,61 @@ function StatusCard({
 export function MiniAppShell() {
   const [state, setState] = useState<ViewState>({ kind: "loading" });
   const [activeTab, setActiveTab] = useState<TabId>("exam");
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  useEffect(() => {
-    let isMounted = true;
+  const loadSession = async () => {
+    const webApp = window.Telegram?.WebApp;
+    let initDataRaw = webApp?.initData?.trim();
 
-    async function load() {
-      const webApp = window.Telegram?.WebApp;
-      let initDataRaw = webApp?.initData?.trim();
-
-      if (webApp && !initDataRaw) {
-        for (let i = 0; i < 5; i++) {
-          await new Promise((resolve) => setTimeout(resolve, 60));
-          initDataRaw = window.Telegram?.WebApp?.initData?.trim();
-          if (initDataRaw) break;
-        }
+    if (webApp && !initDataRaw) {
+      for (let i = 0; i < 5; i++) {
+        await new Promise((resolve) => setTimeout(resolve, 60));
+        initDataRaw = window.Telegram?.WebApp?.initData?.trim();
+        if (initDataRaw) break;
       }
+    }
 
-      if (!webApp || !initDataRaw) {
-        if (isMounted) setState({ kind: "outside_telegram" });
-        return;
-      }
+    if (!webApp || !initDataRaw) {
+      setState({ kind: "outside_telegram" });
+      return;
+    }
 
-      try {
-        webApp.ready();
-        webApp.expand();
-      } catch {}
+    try {
+      webApp.ready();
+      webApp.expand();
+    } catch {}
 
-    void fetch("/api/mini-app/session", {
+    const response = await fetch("/api/mini-app/session", {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify({ initDataRaw }),
-    })
-      .then(async (response) => {
-        const payload = (await response.json()) as SessionResponse;
+    });
+    const payload = (await response.json()) as SessionResponse;
 
-        if (!response.ok || !payload.ok || !payload.telegramUser) {
-          throw new Error(payload.error ?? "Unable to load session.");
-        }
+    if (!response.ok || !payload.ok || !payload.telegramUser) {
+      throw new Error(payload.error ?? "Unable to load session.");
+    }
 
-        if (isMounted) {
-          setState({
-            kind: "ready",
-            telegramUser: payload.telegramUser,
-            session: payload.session ?? null,
-          });
-        }
-      })
-      .catch((error: unknown) => {
+    setState({
+      kind: "ready",
+      telegramUser: payload.telegramUser,
+      session: payload.session ?? null,
+    });
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function load() {
+      try {
+        await loadSession();
+      } catch (error: unknown) {
         const message =
           error instanceof Error ? error.message : "Unable to load session.";
         if (isMounted) setState({ kind: "error", message });
-      });
+      }
     }
 
     load();
@@ -172,6 +174,19 @@ export function MiniAppShell() {
       isMounted = false;
     };
   }, []);
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      await loadSession();
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Unable to refresh session.";
+      setState({ kind: "error", message });
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
 
   const session = state.kind === "ready" ? state.session : null;
   const telegramUser = state.kind === "ready" ? state.telegramUser : null;
@@ -311,6 +326,15 @@ export function MiniAppShell() {
                     style={{ padding: '8px 12px', borderRadius: 8 }}
                   >
                     📈 My Progress
+                  </button>
+                  <button
+                    className="btn btn--neutral"
+                    onClick={handleRefresh}
+                    disabled={isRefreshing}
+                    type="button"
+                    style={{ padding: '8px 12px', borderRadius: 8, opacity: isRefreshing ? 0.6 : 1 }}
+                  >
+                    {isRefreshing ? '🔄 Refreshing...' : '🔄 Refresh Data'}
                   </button>
                 </div>
               </section>
