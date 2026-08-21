@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminUser } from "@/lib/supabase/api-admin";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
+import { parse } from "csv-parse/sync";
 
 function parseCsvLine(line: string): string[] {
   const result: string[] = [];
@@ -28,9 +29,36 @@ function parseCsvLine(line: string): string[] {
 }
 
 function parseCsv(text: string): string[][] {
+  try {
+    const records = parse(text, {
+      relax_quotes: true,
+      relax_column_count: true,
+      skip_empty_lines: true,
+      trim: true,
+      bom: true,
+    }) as string[][];
+    if (records && records.length > 0) {
+      return records;
+    }
+  } catch {
+    // Fallback if csv-parse encounters malformed syntax
+  }
+
   const lines = text.split(/\r?\n/).filter((line) => line.trim() !== "");
   if (lines.length === 0) return [];
   return lines.map((line) => parseCsvLine(line));
+}
+
+function findHeaderIdx(headers: string[], ...aliases: string[]): number {
+  for (const alias of aliases) {
+    const cleanAlias = alias.toLowerCase().replace(/[^a-z0-9]/g, "");
+    const idx = headers.findIndex((h) => {
+      const cleanH = h.replace(/^\uFEFF/, "").toLowerCase().replace(/[^a-z0-9]/g, "");
+      return cleanH === cleanAlias;
+    });
+    if (idx !== -1) return idx;
+  }
+  return -1;
 }
 
 function slugify(text: string): string {
@@ -63,28 +91,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "CSV file is empty or has no data rows" }, { status: 400 });
     }
 
-    const headers = rows[0].map((h) => h.toLowerCase().trim());
+    const headers = rows[0].map((h) => h.trim());
 
-    if (headers.length < 5) {
-      return NextResponse.json(
-        { error: `Only ${headers.length} columns found. Headers: [${headers.join(", ")}]. Expected at least: prompt, correct, optA, optB` },
-        { status: 400 },
-      );
-    }
-
-    const promptIdx = headers.indexOf("prompt");
-    const correctIdx = headers.indexOf("correct");
-    const optAIdx = headers.indexOf("opta");
-    const optBIdx = headers.indexOf("optb");
-    const optCIdx = headers.indexOf("optc");
-    const optDIdx = headers.indexOf("optd");
-    const optEIdx = headers.indexOf("opte");
-    const typeIdx = headers.indexOf("type");
-    const numIdx = headers.indexOf("question_num");
-    const explanationIdx = headers.indexOf("explanation");
-    const topicIdx = headers.indexOf("topic");
-    const durationIdx = headers.indexOf("duration_minutes");
-    const passageIdx = headers.indexOf("passage");
+    const promptIdx = findHeaderIdx(headers, "prompt", "question", "prompt_en", "prompten", "stem", "text");
+    const correctIdx = findHeaderIdx(headers, "correct", "correct_answer", "answer", "ans", "key", "correctoption");
+    const optAIdx = findHeaderIdx(headers, "opta", "opt_a", "option_a", "optiona", "a");
+    const optBIdx = findHeaderIdx(headers, "optb", "opt_b", "option_b", "optionb", "b");
+    const optCIdx = findHeaderIdx(headers, "optc", "opt_c", "option_c", "optionc", "c");
+    const optDIdx = findHeaderIdx(headers, "optd", "opt_d", "option_d", "optiond", "d");
+    const optEIdx = findHeaderIdx(headers, "opte", "opt_e", "option_e", "optione", "e");
+    const instructionIdx = findHeaderIdx(headers, "instruction", "instruction_text", "instructions", "direction", "directions", "instructiontext");
+    const typeIdx = findHeaderIdx(headers, "type", "question_type", "questiontype", "qtype");
+    const numIdx = findHeaderIdx(headers, "question_num", "questionnum", "num", "number", "qnum", "q_num", "-question_num");
+    const explanationIdx = findHeaderIdx(headers, "explanation", "explanation_en", "explanation_text", "explanationtext", "exp", "reason");
+    const topicIdx = findHeaderIdx(headers, "topic", "topics", "topic_slug", "topic_name", "category", "subject");
+    const durationIdx = findHeaderIdx(headers, "duration_minutes", "durationminutes", "duration", "duration_min", "time", "time_minutes");
+    const passageIdx = findHeaderIdx(headers, "passage", "passage_text", "passages", "reading_passage", "context");
 
     const missing: string[] = [];
     if (promptIdx === -1) missing.push("prompt");
@@ -222,29 +244,55 @@ export async function POST(request: NextRequest) {
         ? parseInt(row[numIdx].trim(), 10)
         : null;
 
+      const instruction = instructionIdx !== -1 ? row[instructionIdx]?.trim() || null : null;
       const explanation = explanationIdx !== -1 ? row[explanationIdx]?.trim() || null : null;
       const passage = passageIdx !== -1 ? row[passageIdx]?.trim() || null : null;
       const duration = durationIdx !== -1 && row[durationIdx]?.trim()
         ? parseInt(row[durationIdx].trim(), 10)
         : 1;
 
-      const { data: question, error: qError } = await supabase
+      let insertPayload: Record<string, any> = {
+        question_bank_id,
+        department_id: departmentId,
+        topic_id,
+        question_type: questionType,
+        instruction_text: instruction,
+        passage_text: passage,
+        prompt_en: prompt,
+        explanation_en: explanation,
+        question_num: questionNum,
+        duration_minutes: duration,
+        is_active: true,
+        created_by_admin_id: admin.id,
+      };
+
+      let { data: question, error: qError } = await supabase
         .from("questions")
-        .insert({
-          question_bank_id,
-          department_id: departmentId,
-          topic_id,
-          question_type: questionType,
-          passage_text: passage,
-          prompt_en: prompt,
-          explanation_en: explanation,
-          question_num: questionNum,
-          duration_minutes: duration,
-          is_active: true,
-          created_by_admin_id: admin.id,
-        })
+        .insert(insertPayload)
         .select("id")
         .single();
+
+      if (qError && (qError.code === "42703" || qError.message?.includes("instruction_text"))) {
+        delete insertPayload.instruction_text;
+        const retry = await supabase
+          .from("questions")
+          .insert(insertPayload)
+          .select("id")
+          .single();
+        question = retry.data;
+        qError = retry.error;
+      }
+
+      if (qError && (qError.code === "42703" || qError.message?.includes("passage_text"))) {
+        delete insertPayload.passage_text;
+        const retry = await supabase
+          .from("questions")
+          .insert(insertPayload)
+          .select("id")
+          .single();
+        question = retry.data;
+        qError = retry.error;
+      }
 
       if (qError) {
         errors.push({ row: i + 1, error: qError.message });

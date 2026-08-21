@@ -13,17 +13,20 @@ const dept = departmentCode.toLowerCase().replace(/[^a-z0-9]/g, "-");
 const prefix = dept;
 
 const questions = rows.map((r) => ({
-  key: `q-${r.question_num}`,
-  topicSlug: r.topicSlug || undefined,
-  type: r.type,
-  prompt: r.prompt,
+  key: `q-${r.question_num || r['-question_num'] || r['#']}`,
+  topicSlug: r.topicSlug || r.Topic || r.topic || undefined,
+  type: r.type || "single_choice",
+  instruction: r.instruction || r.instruction_text || r.instructions || r.direction || undefined,
+  passage: r.passage || r.passage_text || undefined,
+  prompt: r.prompt || r.question,
   explanation: r.explanation || undefined,
   imageStoragePath: r.image || undefined,
   options: [
-    { key: "A", text: r.optA, isCorrect: r.correct?.toUpperCase() === "A" },
-    { key: "B", text: r.optB, isCorrect: r.correct?.toUpperCase() === "B" },
-    { key: "C", text: r.optC, isCorrect: r.correct?.toUpperCase() === "C" },
-    { key: "D", text: r.optD, isCorrect: r.correct?.toUpperCase() === "D" },
+    { key: "A", text: r.optA || r.opt_a || r.a, isCorrect: (r.correct?.toUpperCase() === "A") },
+    { key: "B", text: r.optB || r.opt_b || r.b, isCorrect: (r.correct?.toUpperCase() === "B") },
+    { key: "C", text: r.optC || r.opt_c || r.c, isCorrect: (r.correct?.toUpperCase() === "C") },
+    { key: "D", text: r.optD || r.opt_d || r.d, isCorrect: (r.correct?.toUpperCase() === "D") },
+    { key: "E", text: r.optE || r.opt_e || r.e, isCorrect: (r.correct?.toUpperCase() === "E") },
   ].filter((o) => o.text),
 }));
 
