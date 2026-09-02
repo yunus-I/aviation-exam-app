@@ -714,14 +714,14 @@ function ExamContent() {
         <header className="exam-navbar">
           <div className="exam-navbar__brand">
             <div className="exam-navbar__logo">EAU</div>
-            <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)", marginLeft: 6 }}>
+            <div className="exam-navbar__mode-label" style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)", marginLeft: 6 }}>
               {examMode === "practice" ? "Practice" : "Exam"} Mode
             </div>
           </div>
           <div className="exam-navbar__title">
             {examSet.department} — {subjectName}
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div className="exam-navbar__actions" style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, minWidth: 0 }}>
             {isTimed ? (
               <div className={`exam-navbar__timer ${timerWarning ? "exam-navbar__timer--warning" : ""}`}>
                 ⏱ {formatExamTime(state.remainingSeconds)}
@@ -731,7 +731,7 @@ function ExamContent() {
               id="back-exam-btn"
               className="btn btn--ghost btn--sm"
               onClick={() => setShowBackConfirm(true)}
-              style={{ fontSize: 13, padding: "6px 14px", flexShrink: 0 }}
+              style={{ fontSize: 13, padding: "6px 12px", flexShrink: 0, whiteSpace: "nowrap" }}
             >
               ← Back
             </button>

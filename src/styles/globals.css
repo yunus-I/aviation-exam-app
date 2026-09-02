@@ -863,6 +863,8 @@ button { cursor: pointer; border: none; background: none; }
 
 .exam-shell {
   min-height: 100vh;
+  max-width: 100vw;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   background: var(--bg);
@@ -1773,11 +1775,57 @@ button { cursor: pointer; border: none; background: none; }
   .exam-options--tf { flex-direction: column; }
   .exam-dot-grid { max-height: 80px; }
   .results-stats { grid-template-columns: repeat(2, 1fr); }
-  .exam-body { padding: 20px 16px 100px; }
-  .exam-navbar { padding: 0 14px; }
-  .exam-navbar__title { font-size: 12px; }
-  .exam-question-card { padding: 18px; }
+  .exam-body { padding: 16px 12px 100px; width: 100%; max-width: 100vw; box-sizing: border-box; }
+  .exam-question-wrap { width: 100%; max-width: 100%; }
+  .exam-navbar { padding: 0 10px; gap: 8px; }
+  .exam-navbar__title {
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+  .exam-navbar__timer {
+    font-size: 13px;
+    padding: 4px 8px;
+    gap: 4px;
+    white-space: nowrap;
+  }
+  .exam-question-card {
+    padding: 16px 14px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
   .exam-prompt { font-size: 15px; }
+  .exam-passage {
+    padding: 12px 14px !important;
+    font-size: 14px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .exam-passage > div {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .exam-option {
+    padding: 12px 14px;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .exam-option__text {
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .katex-display, .katex-block-wrap {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+  }
+  .exam-navbar__mode-label { display: none; }
   .topic-bar-row__label { width: 100px; }
   .results-ctas { flex-direction: column; }
   .results-ctas .btn { width: 100%; }
@@ -1788,6 +1836,15 @@ button { cursor: pointer; border: none; background: none; }
   .navbar { padding: 0 16px; }
   .navbar__appname span { display: none; }
   .dashboard-stats { grid-template-columns: repeat(2, 1fr); }
-  .exam-bottombar { padding: 10px 12px; gap: 8px; }
-  .exam-dot { width: 24px; height: 24px; font-size: 9px; }
+  .exam-bottombar { padding: 10px 10px; gap: 6px; }
+  .exam-dot { width: 22px; height: 22px; font-size: 9px; }
+  .exam-navbar { padding: 0 8px; gap: 6px; }
+  .exam-navbar__logo { width: 28px; height: 28px; font-size: 12px; }
+  .exam-navbar__brand { gap: 4px; }
+  .exam-navbar__mode-label { display: none; }
+  .exam-navbar__timer { font-size: 12px; padding: 3px 6px; }
+  .exam-navbar__title { display: none; }
+  .exam-body { padding: 12px 8px 100px; }
+  .exam-question-card { padding: 14px 12px; border-radius: var(--radius-lg); }
+  .exam-img { max-height: 240px; }
 }
