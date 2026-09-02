@@ -467,19 +467,19 @@ function ExamContent() {
 
         {/* Minimal navbar */}
         <header className="exam-navbar" style={{ position: "sticky", top: 0, zIndex: 100 }}>
-          <div className="exam-navbar__brand">
-            <div className="exam-navbar__logo">EAU</div>
-          </div>
-          <div className="exam-navbar__title">
-            {subjectName} — Results
-          </div>
           <button
             className="btn btn--ghost btn--sm"
             onClick={() => router.push(`/subjects?dept=${deptId}`)}
-            style={{ fontSize: 13, padding: "6px 14px" }}
+            style={{ fontSize: 13, padding: "6px 14px", flexShrink: 0 }}
           >
             ← Back
           </button>
+          <div className="exam-navbar__title">
+            {subjectName} — Results
+          </div>
+          <div className="exam-navbar__brand" style={{ marginLeft: "auto" }}>
+            <div className="exam-navbar__logo">EAU</div>
+          </div>
         </header>
 
         <div className="results-page">
@@ -712,29 +712,31 @@ function ExamContent() {
       <div className="exam-shell">
         {/* Navbar */}
         <header className="exam-navbar">
-          <div className="exam-navbar__brand">
-            <div className="exam-navbar__logo">EAU</div>
-            <div className="exam-navbar__mode-label" style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)", marginLeft: 6 }}>
-              {examMode === "practice" ? "Practice" : "Exam"} Mode
-            </div>
-          </div>
+          <button
+            id="back-exam-btn"
+            className="btn btn--ghost btn--sm"
+            onClick={() => setShowBackConfirm(true)}
+            style={{ fontSize: 13, padding: "6px 12px", flexShrink: 0, whiteSpace: "nowrap" }}
+          >
+            ← Back
+          </button>
+
           <div className="exam-navbar__title">
             {examSet.department} — {subjectName}
           </div>
-          <div className="exam-navbar__actions" style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, minWidth: 0 }}>
+
+          <div className="exam-navbar__right" style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0, minWidth: 0, marginLeft: "auto" }}>
             {isTimed ? (
               <div className={`exam-navbar__timer ${timerWarning ? "exam-navbar__timer--warning" : ""}`}>
                 ⏱ {formatExamTime(state.remainingSeconds)}
               </div>
             ) : null}
-            <button
-              id="back-exam-btn"
-              className="btn btn--ghost btn--sm"
-              onClick={() => setShowBackConfirm(true)}
-              style={{ fontSize: 13, padding: "6px 12px", flexShrink: 0, whiteSpace: "nowrap" }}
-            >
-              ← Back
-            </button>
+            <div className="exam-navbar__brand">
+              <div className="exam-navbar__logo">EAU</div>
+              <div className="exam-navbar__mode-label" style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)", marginLeft: 6 }}>
+                {examMode === "practice" ? "Practice" : "Exam"} Mode
+              </div>
+            </div>
           </div>
         </header>
 
