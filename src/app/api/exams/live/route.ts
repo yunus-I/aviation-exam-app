@@ -95,7 +95,7 @@ async function resolveImportedExamSetKey(
     return haystacks.some((value) => {
       const normalizedValue = normalizeLookupKey(value);
       const cleanSlug = normalizedValue.replace(/^[a-f0-9]+-/, "");
-      return candidates.has(normalizedValue) || candidates.has(cleanSlug) || Array.from(candidates).some((c) => normalizedValue.includes(c));
+      return candidates.has(normalizedValue) || candidates.has(cleanSlug);
     });
   });
 
@@ -116,17 +116,6 @@ export async function POST(request: NextRequest) {
     const supabase = getSupabaseAdminClient();
     const repo = new ExamContentRepository();
 
-    if (examSetId) {
-      try {
-        const examSet = await repo.getExamSetByImportKey(examSetId);
-        if (examSet && examSet.questions && examSet.questions.length > 0) {
-          return NextResponse.json({ ok: true, examSet });
-        }
-      } catch (error) {
-        console.error("Failed to load via importKey, falling back to legacy fetch:", error);
-      }
-    }
-
     // 1. Get Department
     const dbDeptCode = DEPT_MAP[deptId] ?? deptId.toUpperCase();
     let deptResult = (await supabase
@@ -145,24 +134,6 @@ export async function POST(request: NextRequest) {
 
     if (deptResult.error || !deptResult.data) {
       return NextResponse.json({ ok: false, error: "department_not_found" });
-    }
-
-    const resolvedExamSetKey = await resolveImportedExamSetKey(
-      supabase,
-      deptResult.data.id,
-      subjectName,
-      examSetId,
-    );
-
-    if (resolvedExamSetKey) {
-      try {
-        const examSet = await repo.getExamSetByImportKey(resolvedExamSetKey);
-        if (examSet && examSet.questions && examSet.questions.length > 0) {
-          return NextResponse.json({ ok: true, examSet });
-        }
-      } catch (error) {
-        console.error("Failed to resolve imported exam set:", error);
-      }
     }
 
     // 2. Resolve Candidate Topic Slugs
@@ -185,8 +156,45 @@ export async function POST(request: NextRequest) {
     const topicIds = (topicsResult.data ?? []).map((t: any) => t.id);
     const topicName = topicsResult.data?.[0]?.name_en || subjectName;
 
-    // 3. Get Questions with options and media
-    let questionsQuery = supabase
+    // 3. Resolve Exam Set by Key / Title
+    const resolvedExamSetKey = await resolveImportedExamSetKey(
+      supabase,
+      deptResult.data.id,
+      subjectName,
+      examSetId,
+    );
+
+    if (resolvedExamSetKey) {
+      try {
+        const examSet = await repo.getExamSetByImportKey(resolvedExamSetKey);
+        if (examSet && examSet.questions && examSet.questions.length > 0) {
+          let validQuestions = examSet.questions;
+          if (topicIds.length > 0) {
+            const filtered = examSet.questions.filter((q) => {
+              const qTopic = (q.topic || "").trim().toLowerCase();
+              return (
+                candidateTopicSlugs.includes(qTopic) ||
+                candidateTopicSlugs.includes(normalizeLookupKey(qTopic)) ||
+                qTopic === rawSubject
+              );
+            });
+            if (filtered.length > 0) {
+              validQuestions = filtered;
+            }
+          }
+          return NextResponse.json({ ok: true, examSet: { ...examSet, questions: validQuestions } });
+        }
+      } catch (error) {
+        console.error("Failed to resolve imported exam set:", error);
+      }
+    }
+
+    // 4. Fallback: Query questions table directly filtered by department and resolved topic IDs
+    if (topicIds.length === 0) {
+      return NextResponse.json({ ok: false, error: "no_questions_found" });
+    }
+
+    let questionsResult = (await supabase
       .from("questions")
       .select(`
         id,
@@ -200,38 +208,10 @@ export async function POST(request: NextRequest) {
         question_options(id, option_key, option_text_en, is_correct, sort_order)
       `)
       .eq("department_id", deptResult.data.id)
-      .eq("is_active", true);
-
-    const isSpecificTopic = topicIds.length > 0 || rawSubject.includes("model");
-
-    if (topicIds.length > 0) {
-      questionsQuery = questionsQuery.in("topic_id", topicIds);
-    }
-
-    let questionsResult = (await questionsQuery
+      .eq("is_active", true)
+      .in("topic_id", topicIds)
       .order("question_num", { ascending: true, nullsFirst: false })
       .order("created_at", { ascending: true })) as any;
-
-    // Fallback: ONLY if no specific topic filter was requested, fetch active questions for department
-    if (!isSpecificTopic && (questionsResult.error || !questionsResult.data || questionsResult.data.length === 0)) {
-      questionsResult = (await supabase
-        .from("questions")
-        .select(`
-          id,
-          question_num,
-          question_type,
-          instruction_text,
-          passage_text,
-          prompt_en,
-          explanation_en,
-          question_media(storage_path, sort_order),
-          question_options(id, option_key, option_text_en, is_correct, sort_order)
-        `)
-        .eq("department_id", deptResult.data.id)
-        .eq("is_active", true)
-        .order("question_num", { ascending: true, nullsFirst: false })
-        .order("created_at", { ascending: true })) as any;
-    }
 
     if (questionsResult.error || !questionsResult.data || questionsResult.data.length === 0) {
       return NextResponse.json({ ok: false, error: "no_questions_found" });

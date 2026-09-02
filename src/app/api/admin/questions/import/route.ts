@@ -341,8 +341,8 @@ export async function POST(request: NextRequest) {
           .maybeSingle();
 
         if (!topicExamSet) {
-          // Determine mode: exam topics -> mock, practice topics -> practice
-          const mode = topicSlug.startsWith("exam") ? "mock" : "practice";
+          // Determine mode: exam / model topics -> mock, practice topics -> practice
+          const mode = (topicSlug.startsWith("exam") || topicSlug.includes("model")) ? "mock" : "practice";
           const { data: newEs } = await supabase
             .from("exam_sets")
             .upsert(
