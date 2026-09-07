@@ -226,40 +226,57 @@ export default function HomePage() {
     let isMounted = true;
 
     async function init() {
-      const s = await syncTelegramSession();
-      if (!isMounted) return;
+      try {
+        const s = await syncTelegramSession();
+        if (!isMounted) return;
 
-      if (!s) {
-        setSession({
-          id: "fallback",
-          name: "Student",
-          studentId: "unapproved",
-          department: "",
-          avatarInitials: "S",
-          loginAt: Date.now(),
-          isApproved: false,
-          isAdmin: false,
-          registrationStatus: "unregistered",
-        });
-        return;
-      }
-
-      setSession(s);
-
-      if (!s.isApproved && !s.isAdmin) {
-        return; // Handled by AccessRestrictedGuard below
-      }
-
-      if (!s.isAdmin) {
-        const allowedDeptId = getAllowedDepartmentId(s.department);
-        if (allowedDeptId) {
-          router.replace(`/subjects?dept=${allowedDeptId}`);
+        if (!s) {
+          setSession({
+            id: "fallback",
+            name: "Student",
+            studentId: "unapproved",
+            department: "",
+            avatarInitials: "S",
+            loginAt: Date.now(),
+            isApproved: false,
+            isAdmin: false,
+            registrationStatus: "unregistered",
+          });
           return;
         }
-      }
 
-      setSelectedDeptId(null);
-      setHistory(loadHistory().slice(0, 3));
+        setSession(s);
+
+        if (!s.isApproved && !s.isAdmin) {
+          return; // Handled by AccessRestrictedGuard below
+        }
+
+        if (!s.isAdmin) {
+          const allowedDeptId = getAllowedDepartmentId(s.department);
+          if (allowedDeptId) {
+            router.replace(`/subjects?dept=${allowedDeptId}`);
+            return;
+          }
+        }
+
+        setSelectedDeptId(null);
+        setHistory(loadHistory().slice(0, 3));
+      } catch (err) {
+        console.error("Home initialization error:", err);
+        if (isMounted) {
+          setSession({
+            id: "fallback",
+            name: "Student",
+            studentId: "unapproved",
+            department: "",
+            avatarInitials: "S",
+            loginAt: Date.now(),
+            isApproved: false,
+            isAdmin: false,
+            registrationStatus: "unregistered",
+          });
+        }
+      }
     }
 
     init();

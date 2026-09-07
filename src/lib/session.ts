@@ -97,6 +97,23 @@ const MOCK_STUDENTS: MockStudent[] = [
   { studentId: "demo",         password: "demo",     name: "Demo Student",    department: "Aircraft Maintenance Technician" },
 ];
 
+/**
+ * Safe UUID / random ID generator compatible with older mobile WebViews
+ * that do not support crypto.randomUUID (Chrome/WebView < 92, iOS Safari < 15.4).
+ */
+export function generateSafeId(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    try {
+      return crypto.randomUUID();
+    } catch {}
+  }
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 export function mockLogin(
   studentId: string,
   password: string,
@@ -114,7 +131,7 @@ export function mockLogin(
     .toUpperCase();
 
   const session: StudentSession = {
-    id: crypto.randomUUID(),
+    id: generateSafeId(),
     name: student.name,
     studentId: student.studentId,
     department: student.department,
@@ -123,3 +140,4 @@ export function mockLogin(
   };
   return session;
 }
+

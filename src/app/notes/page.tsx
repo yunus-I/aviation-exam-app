@@ -153,31 +153,32 @@ function NotesContent() {
     let isMounted = true;
 
     async function init() {
-      const s = await syncTelegramSession();
-      if (!isMounted) return;
+      try {
+        const s = await syncTelegramSession();
+        if (!isMounted) return;
 
-      if (!s) {
-        router.replace("/");
-        return;
-      }
-
-      setSession(s);
-
-      if (!s.isApproved && !s.isAdmin) {
-        setLoading(false);
-        return;
-      }
-
-      if (!s.isAdmin) {
-        const allowedDeptId = getAllowedDepartmentId(s.department);
-        if (allowedDeptId && allowedDeptId !== deptId.toLowerCase()) {
-          router.replace(`/notes?dept=${allowedDeptId}`);
+        if (!s) {
+          router.replace("/");
           return;
         }
-      }
 
-      setLoading(true);
-      setError(null);
+        setSession(s);
+
+        if (!s.isApproved && !s.isAdmin) {
+          setLoading(false);
+          return;
+        }
+
+        if (!s.isAdmin) {
+          const allowedDeptId = getAllowedDepartmentId(s.department);
+          if (allowedDeptId && allowedDeptId !== deptId.toLowerCase()) {
+            router.replace(`/notes?dept=${allowedDeptId}`);
+            return;
+          }
+        }
+
+        setLoading(true);
+        setError(null);
       fetch(`/api/notes?dept=${encodeURIComponent(deptId)}`)
         .then(async (res) => {
           const payload = await res.json();
@@ -200,9 +201,16 @@ function NotesContent() {
             setError(e instanceof Error ? e.message : "Failed to load notes.");
           }
         })
-        .finally(() => {
-          if (isMounted) setLoading(false);
-        });
+          .finally(() => {
+            if (isMounted) setLoading(false);
+          });
+      } catch (err) {
+        console.error("Notes init error:", err);
+        if (isMounted) {
+          setLoading(false);
+          setError("Failed to load session.");
+        }
+      }
     }
 
     init();

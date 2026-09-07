@@ -264,42 +264,49 @@ function SubjectsContent() {
     let isMounted = true;
 
     async function init() {
-      const s = await syncTelegramSession();
-      if (!isMounted) return;
+      try {
+        const s = await syncTelegramSession();
+        if (!isMounted) return;
 
-      if (!s) {
-        router.replace("/");
-        return;
-      }
-
-      setSession(s);
-
-      if (!s.isApproved && !s.isAdmin) {
-        return;
-      }
-
-      if (!s.isAdmin) {
-        const allowedDeptId = getAllowedDepartmentId(s.department);
-        if (allowedDeptId && allowedDeptId !== deptId.toLowerCase()) {
-          router.replace(`/subjects?dept=${allowedDeptId}`);
+        if (!s) {
+          router.replace("/");
           return;
         }
-      }
 
-      const d = getDepartment(deptId) ?? DEPARTMENTS[0];
-      setDept(d ?? null);
+        setSession(s);
 
-      // Check if Model Exam 1 questions exist for this department
-      try {
-        const res = await fetch(`/api/exams/check-model-exam?dept=${encodeURIComponent(deptId)}`);
-        const data = await res.json();
-        if (isMounted && data.ok && data.hasModelExam) {
-          setModelExamInfo({ hasModelExam: true, count: data.questionCount });
-        } else if (isMounted) {
-          setModelExamInfo({ hasModelExam: false, count: 0 });
+        if (!s.isApproved && !s.isAdmin) {
+          return;
         }
-      } catch {
-        if (isMounted) setModelExamInfo({ hasModelExam: false, count: 0 });
+
+        if (!s.isAdmin) {
+          const allowedDeptId = getAllowedDepartmentId(s.department);
+          if (allowedDeptId && allowedDeptId !== deptId.toLowerCase()) {
+            router.replace(`/subjects?dept=${allowedDeptId}`);
+            return;
+          }
+        }
+
+        const d = getDepartment(deptId) ?? DEPARTMENTS[0];
+        setDept(d ?? null);
+
+        // Check if Model Exam 1 questions exist for this department
+        try {
+          const res = await fetch(`/api/exams/check-model-exam?dept=${encodeURIComponent(deptId)}`);
+          const data = await res.json();
+          if (isMounted && data.ok && data.hasModelExam) {
+            setModelExamInfo({ hasModelExam: true, count: data.questionCount });
+          } else if (isMounted) {
+            setModelExamInfo({ hasModelExam: false, count: 0 });
+          }
+        } catch {
+          if (isMounted) setModelExamInfo({ hasModelExam: false, count: 0 });
+        }
+      } catch (err) {
+        console.error("Subjects init error:", err);
+        if (isMounted) {
+          router.replace("/");
+        }
       }
     }
 

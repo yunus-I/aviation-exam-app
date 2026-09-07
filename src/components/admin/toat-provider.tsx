@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import { generateSafeId } from "@/lib/session";
 
 type ToastType = "success" | "error" | "info";
 
@@ -24,7 +25,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
  const [toasts, setToasts] = useState<Toast[]>([]);
 
  const toast = useCallback((type: ToastType, message: string) => {
- const id = crypto.randomUUID();
+ const id = generateSafeId();
  setToasts((prev) => [...prev, { id, type, message }]);
  setTimeout(() => {
  setToasts((prev) => prev.filter((t) => t.id !== id));

@@ -234,17 +234,24 @@ export default function DashboardPage() {
     let isMounted = true;
 
     async function init() {
-      const s = await syncTelegramSession();
-      if (!isMounted) return;
+      try {
+        const s = await syncTelegramSession();
+        if (!isMounted) return;
 
-      if (!s) {
-        router.replace("/");
-        return;
-      }
+        if (!s) {
+          router.replace("/");
+          return;
+        }
 
-      setSession(s);
-      if (s.isApproved || s.isAdmin) {
-        setHistory(loadHistory());
+        setSession(s);
+        if (s.isApproved || s.isAdmin) {
+          setHistory(loadHistory());
+        }
+      } catch (err) {
+        console.error("Dashboard init error:", err);
+        if (isMounted) {
+          router.replace("/");
+        }
       }
     }
 
