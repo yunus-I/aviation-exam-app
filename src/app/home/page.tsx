@@ -221,6 +221,36 @@ export default function HomePage() {
   const [session, setSession] = useState<StudentSession | null>(null);
   const [history, setHistory] = useState<ExamHistoryEntry[]>([]);
   const [selectedDeptId, setSelectedDeptId] = useState<string | null>(null);
+  const [showSlowNotice, setShowSlowNotice] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSlowNotice(true);
+    }, 3500);
+
+    // Hard fallback: after 5 seconds, ensure session is set to unblock the screen
+    const hardTimer = setTimeout(() => {
+      setSession((prev) => {
+        if (prev) return prev;
+        return {
+          id: "fallback-timeout",
+          name: "Student",
+          studentId: "unapproved",
+          department: "",
+          avatarInitials: "S",
+          loginAt: Date.now(),
+          isApproved: false,
+          isAdmin: false,
+          registrationStatus: "unregistered",
+        };
+      });
+    }, 5000);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(hardTimer);
+    };
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -297,9 +327,82 @@ export default function HomePage() {
 
   if (!session) {
     return (
-      <div className="loading-center" style={{ minHeight: "100vh" }}>
+      <div
+        className="loading-center"
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 16,
+          padding: 24,
+          textAlign: "center",
+        }}
+      >
         <div className="spinner" />
-        <span>Loading…</span>
+        <span style={{ fontWeight: 600, fontSize: 16 }}>Loading portal…</span>
+
+        {showSlowNotice && (
+          <div
+            style={{
+              marginTop: 12,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 12,
+              maxWidth: 320,
+            }}
+          >
+            <p style={{ fontSize: 13, color: "var(--text-muted, #64748b)", margin: 0 }}>
+              Connection is slower than usual.
+            </p>
+            <div style={{ display: "flex", gap: 8 }}>
+              <button
+                onClick={() => {
+                  setSession({
+                    id: "fallback-manual",
+                    name: "Student",
+                    studentId: "unapproved",
+                    department: "",
+                    avatarInitials: "S",
+                    loginAt: Date.now(),
+                    isApproved: false,
+                    isAdmin: false,
+                    registrationStatus: "unregistered",
+                  });
+                }}
+                style={{
+                  padding: "8px 16px",
+                  borderRadius: "8px",
+                  background: "var(--brand, #003580)",
+                  color: "#ffffff",
+                  border: "none",
+                  fontWeight: 600,
+                  fontSize: 13,
+                  cursor: "pointer",
+                }}
+              >
+                Continue
+              </button>
+              <button
+                onClick={() => window.location.reload()}
+                style={{
+                  padding: "8px 16px",
+                  borderRadius: "8px",
+                  background: "var(--surface-hover, #e2e8f0)",
+                  color: "var(--text, #1e293b)",
+                  border: "none",
+                  fontWeight: 600,
+                  fontSize: 13,
+                  cursor: "pointer",
+                }}
+              >
+                Reload
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     );
   }

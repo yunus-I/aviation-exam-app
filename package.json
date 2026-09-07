@@ -40,5 +40,13 @@
     "eslint-config-next": "^16.0.0",
     "pg": "^8.22.0",
     "typescript": "^5.9.3"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "ios_saf >= 12",
+    "safari >= 12",
+    "android >= 6",
+    "chrome >= 70"
+  ]
 }
