@@ -122,7 +122,8 @@ async function notifyAdminWithReviewCard(
   const allAdminIds = await getAllAdminChatIds();
 
   if (allAdminIds.length === 0) {
-    throw new Error("No admin chat IDs configured.");
+    console.warn("No admin chat IDs configured for review notifications.");
+    return;
   }
 
   const caption = buildAdminReviewCaption(summary);
@@ -195,6 +196,23 @@ async function handleTextMessage(ctx: BotContext) {
 
   const repository = getRepository();
   const candidate = await repository.ensureCandidate(user);
+
+  if (candidate.current_registration_status === "approved") {
+    await ctx.reply(
+      getCopy(candidate.preferred_language).alreadyApproved,
+      createMiniAppWebAppButton(candidate.preferred_language === "am" ? "Mini App ክፈት" : "Open the Mini App"),
+    );
+    return;
+  }
+
+  if (candidate.current_registration_status === "pending_review") {
+    await ctx.reply(
+      getCopy(candidate.preferred_language).pendingReview,
+      createMiniAppWebAppButton(candidate.preferred_language === "am" ? "Mini App ክፈት" : "Open the Mini App"),
+    );
+    return;
+  }
+
   let draft = await repository.getDraft(candidate.id);
 
   if (!draft) {
@@ -443,6 +461,9 @@ async function handleCallbackQuery(ctx: BotContext) {
       }
     }
   }
+
+  // Always acknowledge callback query to stop the loading spinner
+  await ctx.answerCallbackQuery().catch(() => {});
 }
 
 export function createTelegramBot() {
@@ -450,7 +471,28 @@ export function createTelegramBot() {
     throw new Error("TELEGRAM_BOT_TOKEN is not configured.");
   }
 
-  const bot = new Bot(env.TELEGRAM_BOT_TOKEN);
+  const bot = new Bot(env.TELEGRAM_BOT_TOKEN, {
+    botInfo: {
+      id: 7237825646,
+      is_bot: true,
+      first_name: "Airline Gateway official",
+      username: "ETaviation_bot",
+      can_join_groups: true,
+      can_read_all_group_messages: false,
+      supports_inline_queries: false,
+      supports_guest_queries: false,
+      can_connect_to_business: false,
+      has_main_web_app: true,
+      has_topics_enabled: false,
+      allows_users_to_create_topics: false,
+      can_manage_bots: false,
+      supports_join_request_queries: false,
+    } as any,
+  });
+
+  bot.catch((err) => {
+    console.error("Telegram bot error caught by bot.catch:", err);
+  });
 
   bot.command("start", beginRegistration);
   bot.on("callback_query:data", handleCallbackQuery);

@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "import-content": "npx tsx scripts/import.ts",
-    "start-bot": "npx tsx scripts/start-bot.ts"
+    "start-bot": "npx tsx scripts/start-bot.ts",
+    "setup-webhook": "node scripts/setup-webhook.js"
   },
   "engines": {
     "node": ">=20.9.0"
