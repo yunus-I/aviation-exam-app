@@ -4,8 +4,6 @@
    Brand: #003580 (Navy) + #F5A623 (Gold)
    ================================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap');
-
 /* ---- TOKENS ---- */
 :root {
   --brand:          #003580;
@@ -48,7 +46,7 @@
 
   --transition: 160ms cubic-bezier(0.4,0,0.2,1);
 
-  --font: 'Inter', 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", 'Inter', 'Nunito', "Segoe UI", Roboto, sans-serif;
 
   --navbar-h: 60px;
   --sidebar-w: 240px;

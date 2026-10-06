@@ -18,6 +18,11 @@ interface TextSegment {
 function parseMathSegments(rawText: string): TextSegment[] {
   if (!rawText) return [];
 
+  // Fast-path: 95% of text has no LaTeX math delimiters ($ or \)
+  if (!rawText.includes("$") && !rawText.includes("\\")) {
+    return [{ type: "text", content: rawText }];
+  }
+
   const segments: TextSegment[] = [];
   // Regex matches:
   // 1. Block math: $$ ... $$ or \[ ... \]

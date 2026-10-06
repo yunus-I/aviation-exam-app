@@ -102,15 +102,28 @@ async function resolveImportedExamSetKey(
   return matched?.import_key ?? matched?.id ?? matched?.slug ?? null;
 }
 
+const liveExamCache = new Map<string, { data: { ok: boolean; examSet: ExamSet }; timestamp: number }>();
+const LIVE_CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes
+
 export async function POST(request: NextRequest) {
   try {
-    const body = (await request.json()) as { dept?: string; subject?: string; examSetId?: string };
+    const body = (await request.json().catch(() => ({}))) as { dept?: string; subject?: string; examSetId?: string };
     const deptId = body.dept?.toLowerCase();
     const subjectName = body.subject;
     const examSetId = body.examSetId;
 
     if (!deptId || !subjectName) {
       return NextResponse.json({ ok: false, error: "missing_parameters" }, { status: 400 });
+    }
+
+    const cacheKey = `${deptId}:${(subjectName || "").toLowerCase().trim()}:${(examSetId || "").toLowerCase().trim()}`;
+    const cached = liveExamCache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < LIVE_CACHE_TTL_MS) {
+      return NextResponse.json(cached.data, {
+        headers: {
+          "Cache-Control": "public, max-age=600, stale-while-revalidate=86400",
+        },
+      });
     }
 
     const supabase = getSupabaseAdminClient();
@@ -182,7 +195,11 @@ export async function POST(request: NextRequest) {
               validQuestions = filtered;
             }
           }
-          return NextResponse.json({ ok: true, examSet: { ...examSet, questions: validQuestions } });
+          const resultPayload = { ok: true, examSet: { ...examSet, questions: validQuestions } };
+          liveExamCache.set(cacheKey, { data: resultPayload, timestamp: Date.now() });
+          return NextResponse.json(resultPayload, {
+            headers: { "Cache-Control": "public, max-age=600, stale-while-revalidate=86400" },
+          });
         }
       } catch (error) {
         console.error("Failed to resolve imported exam set:", error);
@@ -271,9 +288,14 @@ export async function POST(request: NextRequest) {
       questions,
     };
 
-    return NextResponse.json({
+    const resultPayload = {
       ok: true,
       examSet,
+    };
+    liveExamCache.set(cacheKey, { data: resultPayload, timestamp: Date.now() });
+
+    return NextResponse.json(resultPayload, {
+      headers: { "Cache-Control": "public, max-age=600, stale-while-revalidate=86400" },
     });
   } catch (error) {
     console.error("Fetch live exam error:", error);

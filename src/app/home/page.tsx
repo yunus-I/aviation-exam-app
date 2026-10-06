@@ -218,8 +218,15 @@ import { AccessRestrictedGuard } from "@/components/common/access-restricted-gua
 
 export default function HomePage() {
   const router = useRouter();
-  const [session, setSession] = useState<StudentSession | null>(null);
-  const [history, setHistory] = useState<ExamHistoryEntry[]>([]);
+  const [session, setSession] = useState<StudentSession | null>(() => loadSession());
+  const [history, setHistory] = useState<ExamHistoryEntry[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        return loadHistory().slice(0, 3);
+      } catch {}
+    }
+    return [];
+  });
   const [selectedDeptId, setSelectedDeptId] = useState<string | null>(null);
   const [showSlowNotice, setShowSlowNotice] = useState(false);
 

@@ -227,8 +227,15 @@ import { AccessRestrictedGuard } from "@/components/common/access-restricted-gua
 
 export default function DashboardPage() {
   const router = useRouter();
-  const [session, setSession] = useState<StudentSession | null>(null);
-  const [history, setHistory] = useState<ExamHistoryEntry[]>([]);
+  const [session, setSession] = useState<StudentSession | null>(() => loadSession());
+  const [history, setHistory] = useState<ExamHistoryEntry[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        return loadHistory();
+      } catch {}
+    }
+    return [];
+  });
 
   useEffect(() => {
     let isMounted = true;

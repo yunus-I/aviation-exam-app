@@ -72,6 +72,42 @@ export function getActiveTelegramUserId(): number | null {
   return null;
 }
 
+async function refreshSessionInBackground(existingSession: StudentSession): Promise<void> {
+  try {
+    const webApp = window.Telegram?.WebApp;
+    const initDataRaw = webApp?.initData?.trim() || getRawInitDataFromLocation();
+    const activeTgId = getActiveTelegramUserId();
+
+    if (!initDataRaw && !activeTgId) return;
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 4000);
+    const res = await fetch("/api/mini-app/session", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        initDataRaw: initDataRaw || undefined,
+        telegramUserId: activeTgId || undefined,
+      }),
+      signal: controller.signal,
+    });
+    clearTimeout(timer);
+    const payload = await res.json();
+    if (payload.ok && payload.session) {
+      const ts = payload.session;
+      const isApproved = ts.registrationStatus === "approved" || Boolean(ts.isAdmin);
+      const updated: StudentSession = {
+        ...existingSession,
+        department: ts.departmentName || existingSession.department,
+        isApproved,
+        isAdmin: Boolean(ts.isAdmin),
+        registrationStatus: ts.registrationStatus,
+      };
+      saveSession(updated);
+    }
+  } catch {}
+}
+
 /**
  * Synchronizes and validates client session with Telegram WebApp initData.
  * Ensures that if the Telegram user changes (e.g. switching accounts on same device),
@@ -82,12 +118,23 @@ export async function syncTelegramSession(): Promise<StudentSession | null> {
   if (typeof window === "undefined") return null;
 
   try {
+    const existingSession = loadSession();
     let webApp = window.Telegram?.WebApp;
 
-    // 1. If Telegram script is still loading, poll briefly (up to 1.2s)
+    // Fast path: If we already have a valid session in local storage, return it instantly!
+    // This allows 0ms instant page loads without staring at spinners.
+    if (existingSession && (existingSession.isApproved || existingSession.isAdmin)) {
+      // Fire background verification without blocking UI
+      setTimeout(() => {
+        refreshSessionInBackground(existingSession);
+      }, 50);
+      return existingSession;
+    }
+
+    // 1. If Telegram script is still loading, poll briefly (up to 120ms max)
     if (!webApp) {
-      for (let i = 0; i < 12; i++) {
-        await new Promise((resolve) => setTimeout(resolve, 100));
+      for (let i = 0; i < 4; i++) {
+        await new Promise((resolve) => setTimeout(resolve, 30));
         webApp = window.Telegram?.WebApp;
         if (webApp) break;
       }
@@ -103,10 +150,10 @@ export async function syncTelegramSession(): Promise<StudentSession | null> {
 
     let initDataRaw = webApp?.initData?.trim();
 
-    // 2. If webApp exists but initData is not ready yet, wait briefly
+    // 2. If webApp exists but initData is not ready yet, wait briefly (up to 100ms)
     if (webApp && !initDataRaw) {
-      for (let i = 0; i < 6; i++) {
-        await new Promise((resolve) => setTimeout(resolve, 80));
+      for (let i = 0; i < 2; i++) {
+        await new Promise((resolve) => setTimeout(resolve, 50));
         initDataRaw = window.Telegram?.WebApp?.initData?.trim();
         if (initDataRaw) break;
       }
@@ -118,7 +165,6 @@ export async function syncTelegramSession(): Promise<StudentSession | null> {
     }
 
     const activeTgId = getActiveTelegramUserId();
-    const existingSession = loadSession();
 
     // Inside Telegram with initData available or Telegram user ID detected
     if (initDataRaw || activeTgId) {
@@ -128,16 +174,15 @@ export async function syncTelegramSession(): Promise<StudentSession | null> {
           ? Number(existingSession.studentId.replace("TG-", ""))
           : null;
 
-        // Session matches current Telegram user!
         if (storedTgId === activeTgId) {
           return existingSession;
         }
       }
 
-      // Fetch fresh session for active Telegram account with a 7-second timeout
+      // Fetch fresh session for active Telegram account with a 3.5s timeout
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 7000);
+        const timeoutId = setTimeout(() => controller.abort(), 3500);
 
         const res = await fetch("/api/mini-app/session", {
           method: "POST",

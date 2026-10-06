@@ -18,6 +18,9 @@ const DEPT_MAP: Record<string, string> = {
   others: "OTHERS",
 };
 
+const modelExamCache = new Map<string, { data: { ok: boolean; hasModelExam: boolean; questionCount: number }; timestamp: number }>();
+const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -25,6 +28,15 @@ export async function GET(request: NextRequest) {
 
     if (!deptId) {
       return NextResponse.json({ ok: false, error: "missing_dept" }, { status: 400 });
+    }
+
+    const cached = modelExamCache.get(deptId);
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
+      return NextResponse.json(cached.data, {
+        headers: {
+          "Cache-Control": "public, max-age=300, stale-while-revalidate=86400",
+        },
+      });
     }
 
     const supabase = getSupabaseAdminClient() as any;
@@ -46,7 +58,11 @@ export async function GET(request: NextRequest) {
     }
 
     if (deptResult.error || !deptResult.data) {
-      return NextResponse.json({ ok: true, hasModelExam: false, questionCount: 0 });
+      const resp = { ok: true, hasModelExam: false, questionCount: 0 };
+      modelExamCache.set(deptId, { data: resp, timestamp: Date.now() });
+      return NextResponse.json(resp, {
+        headers: { "Cache-Control": "public, max-age=300, stale-while-revalidate=86400" },
+      });
     }
 
     // 2. Resolve Topic for Model Exam 1
@@ -58,7 +74,11 @@ export async function GET(request: NextRequest) {
     const topicIds = (topicsResult.data ?? []).map((t: any) => t.id);
 
     if (topicIds.length === 0) {
-      return NextResponse.json({ ok: true, hasModelExam: false, questionCount: 0 });
+      const resp = { ok: true, hasModelExam: false, questionCount: 0 };
+      modelExamCache.set(deptId, { data: resp, timestamp: Date.now() });
+      return NextResponse.json(resp, {
+        headers: { "Cache-Control": "public, max-age=300, stale-while-revalidate=86400" },
+      });
     }
 
     // 3. Count active questions matching department and topic
@@ -75,10 +95,18 @@ export async function GET(request: NextRequest) {
     }
 
     const questionCount = count ?? 0;
-    return NextResponse.json({
+    const resp = {
       ok: true,
       hasModelExam: questionCount > 0,
       questionCount,
+    };
+
+    modelExamCache.set(deptId, { data: resp, timestamp: Date.now() });
+
+    return NextResponse.json(resp, {
+      headers: {
+        "Cache-Control": "public, max-age=300, stale-while-revalidate=86400",
+      },
     });
   } catch (err) {
     console.error("Check model exam endpoint error:", err);

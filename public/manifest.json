@@ -1,0 +1,16 @@
+{
+  "name": "EAU Exam Practice Portal",
+  "short_name": "EAU Exam",
+  "description": "Ethiopian Aviation University Entrance Exam Practice",
+  "start_url": "/home",
+  "display": "standalone",
+  "background_color": "#F7F8FC",
+  "theme_color": "#003580",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

@@ -142,7 +142,7 @@ function NotesContent() {
   const noteSet = searchParams.get("set");
   const noteTitle = searchParams.get("title");
 
-  const [session, setSession] = useState<StudentSession | null>(null);
+  const [session, setSession] = useState<StudentSession | null>(() => loadSession());
   const [notes, setNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

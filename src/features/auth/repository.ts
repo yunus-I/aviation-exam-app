@@ -16,10 +16,17 @@ export type MiniAppCandidateSession = {
   isAdmin: boolean;
 };
 
+const candidateSessionCache = new Map<number, { session: MiniAppCandidateSession | null; timestamp: number }>();
+const SESSION_CACHE_TTL_MS = 2 * 60 * 1000; // 2 minutes
+
 export class AuthRepository {
   private readonly supabase = getSupabaseAdminClient();
 
   async getCandidateSessionByTelegramUserId(telegramUserId: number) {
+    const cached = candidateSessionCache.get(telegramUserId);
+    if (cached && Date.now() - cached.timestamp < SESSION_CACHE_TTL_MS) {
+      return cached.session;
+    }
     const adminCheck = await this.supabase
       .from("admin_accounts")
       .select("id, display_name")
@@ -53,7 +60,7 @@ export class AuthRepository {
 
     if (!result.data) {
       if (isAdmin) {
-        return {
+        const adminSession = {
           candidateId: `admin-${telegramUserId}`,
           telegramUserId,
           fullName: adminCheck.data?.display_name || "Admin",
@@ -66,6 +73,8 @@ export class AuthRepository {
           rejectedAt: null,
           isAdmin: true,
         } satisfies MiniAppCandidateSession;
+        candidateSessionCache.set(telegramUserId, { session: adminSession, timestamp: Date.now() });
+        return adminSession;
       }
       return null;
     }
@@ -103,7 +112,7 @@ export class AuthRepository {
       }
     }
 
-    return {
+    const finalSession = {
       candidateId: row.id as string,
       telegramUserId: Number(row.telegram_user_id),
       fullName: (row.full_name as string | null) ?? (isAdmin ? "Admin" : null),
@@ -116,5 +125,8 @@ export class AuthRepository {
       rejectedAt: (row.rejected_at as string | null) ?? null,
       isAdmin,
     } satisfies MiniAppCandidateSession;
+
+    candidateSessionCache.set(telegramUserId, { session: finalSession, timestamp: Date.now() });
+    return finalSession;
   }
 }

@@ -9,6 +9,7 @@ import { calculateExamResult, formatExamTime } from "@/features/exam/utils";
 import type { ExamQuestion, ExamSet, ExamAnswerMap, ExamFlagMap } from "@/features/exam/types";
 import { MathText } from "@/components/common/math-text";
 import { AccessRestrictedGuard } from "@/components/common/access-restricted-guard";
+import { getCachedExamSet, saveCachedExamSet } from "@/lib/exam-cache";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -185,8 +186,12 @@ function ExamContent() {
   const deptId     = searchParams.get("dept") ?? "amt";
   const subjectName = searchParams.get("subject") ?? "Practice";
 
-  const [ready, setReady] = useState(false);
-  const [examSet, setExamSet] = useState<ExamSet>(DEMO_EXAM_SET);
+  const cachedInitial = useMemo(() => {
+    return getCachedExamSet(deptId, examSetId, subjectName);
+  }, [deptId, examSetId, subjectName]);
+
+  const [ready, setReady] = useState(() => Boolean(cachedInitial));
+  const [examSet, setExamSet] = useState<ExamSet>(() => cachedInitial ?? DEMO_EXAM_SET);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [showSubmitConfirm, setShowSubmitConfirm] = useState(false);
   const [showBackConfirm, setShowBackConfirm] = useState(false);
@@ -200,16 +205,20 @@ function ExamContent() {
     flags: {},
     startedAt: Date.now(),
     submittedAt: null,
-    remainingSeconds: 90 * 60,
+    remainingSeconds: (examMode !== "practice" ? 90 : (cachedInitial?.durationMinutes || 90)) * 60,
     feedbackShown: false,
   }));
-
-
 
   // Load exam set & session
   useEffect(() => {
     let isActive = true;
-    setReady(false);
+
+    // If not already ready from cache, check cache once more
+    const cached = getCachedExamSet(deptId, examSetId, subjectName);
+    if (cached && cached.questions?.length > 0) {
+      setExamSet(cached);
+      setReady(true);
+    }
 
     async function init() {
       try {
@@ -236,16 +245,23 @@ function ExamContent() {
 
         const applyExamSet = (nextExamSet: ExamSet) => {
           if (!isActive) return;
+          saveCachedExamSet(deptId, examSetId, subjectName, nextExamSet);
           setExamSet(nextExamSet);
-          setState({
-            stage: "active",
-            currentIndex: 0,
-            answers: {},
-            flags: {},
-            startedAt: Date.now(),
-            submittedAt: null,
-            remainingSeconds: (examMode !== "practice" ? 90 : (nextExamSet.durationMinutes || 90)) * 60,
-            feedbackShown: false,
+          setReady(true);
+          setState((prev) => {
+            if (prev.stage === "active" && Object.keys(prev.answers).length > 0) {
+              return prev;
+            }
+            return {
+              stage: "active",
+              currentIndex: 0,
+              answers: {},
+              flags: {},
+              startedAt: Date.now(),
+              submittedAt: null,
+              remainingSeconds: (examMode !== "practice" ? 90 : (nextExamSet.durationMinutes || 90)) * 60,
+              feedbackShown: false,
+            };
           });
         };
 

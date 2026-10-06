@@ -250,15 +250,25 @@ import { AccessRestrictedGuard } from "@/components/common/access-restricted-gua
 
 import { syncTelegramSession } from "@/lib/telegram-session";
 
+import { prefetchExamSet } from "@/lib/exam-cache";
+
 function SubjectsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const deptId = searchParams.get("dept") ?? "amt";
 
-  const [session, setSession] = useState<StudentSession | null>(null);
-  const [dept, setDept] = useState<Department | null>(null);
+  const [session, setSession] = useState<StudentSession | null>(() => loadSession());
+  const [dept, setDept] = useState<Department | null>(() => getDepartment(deptId) ?? DEPARTMENTS[0]);
   const [activeMode, setActiveMode] = useState<"practice" | "exam" | "notes">("practice");
-  const [modelExamInfo, setModelExamInfo] = useState<{ hasModelExam: boolean; count: number }>({ hasModelExam: false, count: 0 });
+  const [modelExamInfo, setModelExamInfo] = useState<{ hasModelExam: boolean; count: number }>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = sessionStorage.getItem(`eau_model_exam_${deptId}`);
+        if (stored) return JSON.parse(stored);
+      } catch {}
+    }
+    return { hasModelExam: false, count: 0 };
+  });
   const [showSlowNotice, setShowSlowNotice] = useState(false);
 
   useEffect(() => {
@@ -317,19 +327,18 @@ function SubjectsContent() {
         try {
           const res = await fetch(`/api/exams/check-model-exam?dept=${encodeURIComponent(deptId)}`);
           const data = await res.json();
-          if (isMounted && data.ok && data.hasModelExam) {
-            setModelExamInfo({ hasModelExam: true, count: data.questionCount });
-          } else if (isMounted) {
-            setModelExamInfo({ hasModelExam: false, count: 0 });
+          if (isMounted && data.ok) {
+            const info = { hasModelExam: Boolean(data.hasModelExam), count: data.questionCount || 0 };
+            setModelExamInfo(info);
+            try {
+              sessionStorage.setItem(`eau_model_exam_${deptId}`, JSON.stringify(info));
+            } catch {}
           }
         } catch {
-          if (isMounted) setModelExamInfo({ hasModelExam: false, count: 0 });
+          // Keep existing or cached value
         }
       } catch (err) {
         console.error("Subjects init error:", err);
-        if (isMounted) {
-          router.replace("/");
-        }
       }
     }
 
@@ -339,6 +348,20 @@ function SubjectsContent() {
       isMounted = false;
     };
   }, [router, deptId]);
+
+  // Background prefetch practice and exam sets so starting any exam is instant (0ms)
+  useEffect(() => {
+    if (!dept) return;
+    const sets = [
+      ...(dept.practiceSets || []).slice(0, 2),
+      ...(dept.examSets || []).slice(0, 2),
+    ];
+    sets.forEach((s, idx) => {
+      setTimeout(() => {
+        prefetchExamSet(dept.id, s.examSetId, s.label);
+      }, (idx + 1) * 800);
+    });
+  }, [dept]);
 
   function handleStartNotes(setLabel: string) {
     if (!dept) return;

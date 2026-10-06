@@ -21,10 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="manifest" href="/manifest.json" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Nunito:wght@600;700&display=swap"
           rel="stylesheet"
         />
         <script
@@ -52,12 +53,18 @@ export default function RootLayout({
                       return this[n];
                     };
                   }
+                  // Register Service Worker for instant offline/PWA performance
+                  if ('serviceWorker' in navigator) {
+                    window.addEventListener('load', function() {
+                      navigator.serviceWorker.register('/sw.js').catch(function() {});
+                    });
+                  }
                 } catch (e) {}
               })();
             `,
           }}
         />
-        {/* Native Telegram WebApp SDK loaded synchronously */}
+        {/* Native Telegram WebApp SDK */}
         <script src="https://telegram.org/js/telegram-web-app.js" />
         <script
           dangerouslySetInnerHTML={{
