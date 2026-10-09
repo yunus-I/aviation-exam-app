@@ -1,9 +1,9 @@
 // ============================================================
-// EAU Mini App Service Worker v4
+// EAU Mini App Service Worker v5
 // IMPORTANT: bump version number on every deployment to
 // invalidate stale caches and prevent black-screen issues.
 // ============================================================
-const CACHE_NAME = 'eau-miniapp-cache-v4';
+const CACHE_NAME = 'eau-miniapp-cache-v5';
 
 // Only pre-cache truly static, version-stable assets.
 // Do NOT pre-cache Next.js HTML pages — their JS chunk
@@ -96,8 +96,15 @@ self.addEventListener('fetch', (event) => {
   if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request).catch(() => {
-        // Only fall back to cache if network is completely unavailable
-        return caches.match(request);
+        // Try the cache; if that also misses, return a minimal 503
+        // rather than undefined (undefined causes an unhandled rejection
+        // on older Android WebViews which shows as a blank screen).
+        return caches.match(request).then((cached) => {
+          return cached || new Response(
+            '<html><body style="font-family:sans-serif;padding:24px"><h2>Offline</h2><p>Please check your connection and reopen the app from Telegram.</p></body></html>',
+            { status: 503, headers: { 'Content-Type': 'text/html' } }
+          );
+        });
       })
     );
     return;

@@ -114,12 +114,25 @@ export function MiniAppShell() {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const loadSession = async () => {
+    // ── Step 1: Wait for the async Telegram SDK script to load ──────────────
+    // The SDK is loaded with `async` in layout.tsx, so it may not be present
+    // yet when this component mounts (especially on cold starts / slow devices).
+    let sdkWaited = 0;
+    while (!window.Telegram?.WebApp && sdkWaited < 3000) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      sdkWaited += 100;
+    }
+
     const webApp = window.Telegram?.WebApp;
     let initDataRaw = webApp?.initData?.trim();
 
+    // ── Step 2: Wait for Telegram to inject initData ─────────────────────────
+    // On some Android devices the WebApp object exists but initData is
+    // populated asynchronously — up to ~1-2 s after the object is present.
+    // We poll for up to 3 seconds (20 × 150 ms) before giving up.
     if (webApp && !initDataRaw) {
-      for (let i = 0; i < 5; i++) {
-        await new Promise((resolve) => setTimeout(resolve, 60));
+      for (let i = 0; i < 20; i++) {
+        await new Promise((resolve) => setTimeout(resolve, 150));
         initDataRaw = window.Telegram?.WebApp?.initData?.trim();
         if (initDataRaw) break;
       }
