@@ -131,10 +131,10 @@ export async function syncTelegramSession(): Promise<StudentSession | null> {
       return existingSession;
     }
 
-    // 1. If Telegram script is still loading, poll briefly (up to 120ms max)
+    // 1. If Telegram script is still loading, poll briefly (up to 400ms max)
     if (!webApp) {
-      for (let i = 0; i < 4; i++) {
-        await new Promise((resolve) => setTimeout(resolve, 30));
+      for (let i = 0; i < 8; i++) {
+        await new Promise((resolve) => setTimeout(resolve, 50));
         webApp = window.Telegram?.WebApp;
         if (webApp) break;
       }
@@ -150,10 +150,12 @@ export async function syncTelegramSession(): Promise<StudentSession | null> {
 
     let initDataRaw = webApp?.initData?.trim();
 
-    // 2. If webApp exists but initData is not ready yet, wait briefly (up to 100ms)
+    // 2. If webApp exists but initData is not ready yet, wait up to 600ms.
+    // On slower Android WebViews and iOS Telegram builds the SDK populates
+    // initData asynchronously after the ready() call, so we need extra time.
     if (webApp && !initDataRaw) {
-      for (let i = 0; i < 2; i++) {
-        await new Promise((resolve) => setTimeout(resolve, 50));
+      for (let i = 0; i < 6; i++) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
         initDataRaw = window.Telegram?.WebApp?.initData?.trim();
         if (initDataRaw) break;
       }

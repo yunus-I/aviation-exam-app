@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        // Service worker must NEVER be cached by the browser or CDN.
+        // Stale service workers serving old cached HTML → black screen after deployments.
         source: "/sw.js",
         headers: [
           {
