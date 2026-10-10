@@ -246,7 +246,17 @@ export default function DashboardPage() {
         if (!isMounted) return;
 
         if (!s) {
-          router.replace("/");
+          setSession({
+            id: "fallback",
+            name: "Student",
+            studentId: "unapproved",
+            department: "",
+            avatarInitials: "S",
+            loginAt: Date.now(),
+            isApproved: false,
+            isAdmin: false,
+            registrationStatus: "unregistered",
+          });
           return;
         }
 
@@ -257,7 +267,17 @@ export default function DashboardPage() {
       } catch (err) {
         console.error("Dashboard init error:", err);
         if (isMounted) {
-          router.replace("/");
+          setSession({
+            id: "fallback-err",
+            name: "Student",
+            studentId: "unapproved",
+            department: "",
+            avatarInitials: "S",
+            loginAt: Date.now(),
+            isApproved: false,
+            isAdmin: false,
+            registrationStatus: "unregistered",
+          });
         }
       }
     }

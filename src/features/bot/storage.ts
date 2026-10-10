@@ -20,8 +20,22 @@ export async function uploadTelegramPhotoToReceiptsBucket(params: {
   }
 
   const arrayBuffer = await response.arrayBuffer();
-  const contentType = response.headers.get("content-type") ?? "image/jpeg";
-  const fileExtension = contentType.includes("png") ? "png" : "jpg";
+  let contentType = response.headers.get("content-type") ?? "image/jpeg";
+  let fileExtension = "jpg";
+  const lowerPath = params.filePath.toLowerCase();
+
+  if (lowerPath.endsWith(".pdf") || contentType.includes("pdf")) {
+    fileExtension = "pdf";
+    contentType = "application/pdf";
+  } else if (lowerPath.endsWith(".png") || contentType.includes("png")) {
+    fileExtension = "png";
+    contentType = "image/png";
+  } else if (lowerPath.endsWith(".webp") || contentType.includes("webp")) {
+    fileExtension = "webp";
+    contentType = "image/webp";
+  } else if (lowerPath.endsWith(".heic") || contentType.includes("heic")) {
+    fileExtension = "heic";
+  }
   const storagePath = `receipts/${params.telegramUserId}/${Date.now()}-${params.fileId}.${fileExtension}`;
 
   const upload = await getSupabaseAdminClient().storage

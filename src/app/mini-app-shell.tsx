@@ -138,6 +138,26 @@ export function MiniAppShell() {
       }
     }
 
+    if (!initDataRaw && typeof window !== "undefined") {
+      try {
+        const hash = window.location.hash.startsWith("#") ? window.location.hash.slice(1) : window.location.hash;
+        if (hash) {
+          const params = new URLSearchParams(hash);
+          initDataRaw = params.get("tgWebAppData") || (params.has("hash") ? hash : undefined);
+        }
+        if (!initDataRaw) {
+          const search = window.location.search.startsWith("?") ? window.location.search.slice(1) : window.location.search;
+          if (search) {
+            const params = new URLSearchParams(search);
+            initDataRaw = params.get("tgWebAppData") || (params.has("hash") ? search : undefined);
+          }
+        }
+        if (!initDataRaw) {
+          initDataRaw = sessionStorage.getItem("eau_raw_init_data") || undefined;
+        }
+      } catch {}
+    }
+
     if (!webApp || !initDataRaw) {
       setState({ kind: "outside_telegram" });
       return;

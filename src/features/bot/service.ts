@@ -273,17 +273,50 @@ async function handleTextMessage(ctx: BotContext) {
   }
 }
 
-async function handlePhotoMessage(ctx: BotContext) {
+async function handleReceiptMessage(ctx: BotContext) {
   const user = ctx.from;
-  const photo = ctx.message?.photo?.at(-1);
+  if (!user) {
+    return;
+  }
 
-  if (!user || !photo) {
+  // Support both compressed photo and document (uncompressed image / PDF)
+  const photo = ctx.message?.photo ? ctx.message.photo.slice(-1)[0] : null;
+  const document = ctx.message?.document;
+
+  if (!photo && !document) {
+    return;
+  }
+
+  let fileId: string;
+  let fileName: string | undefined;
+
+  if (photo) {
+    fileId = photo.file_id;
+  } else if (document) {
+    const mime = document.mime_type ?? "";
+    const name = document.file_name ?? "";
+    const isImageOrPdf =
+      mime.startsWith("image/") ||
+      mime === "application/pdf" ||
+      /\.(jpe?g|png|webp|heic|pdf)$/i.test(name);
+
+    if (!isImageOrPdf) {
+      const repository = getRepository();
+      const candidate = await repository.ensureCandidate(user);
+      const draft = await repository.getDraft(candidate.id);
+      const language = draft?.selected_language ?? candidate.preferred_language ?? "en";
+      await ctx.reply(getCopy(language).receiptOnly);
+      return;
+    }
+    fileId = document.file_id;
+    fileName = document.file_name;
+  } else {
     return;
   }
 
   const repository = getRepository();
   const candidate = await repository.ensureCandidate(user);
-  const draft = await repository.getDraft(candidate.id);
+  let draft = await repository.getDraft(candidate.id);
 
   if (!draft) {
     await beginRegistration(ctx);
@@ -293,37 +326,19 @@ async function handlePhotoMessage(ctx: BotContext) {
   const language = draft.selected_language ?? candidate.preferred_language ?? "en";
   const copy = getCopy(language);
 
-  if (draft.current_step !== "receipt") {
-    await ctx.reply(copy.receiptOnly);
+  // If already approved or pending review, notify candidate with mini app button
+  if (candidate.current_registration_status === "approved") {
+    await ctx.reply(
+      copy.alreadyApproved,
+      createMiniAppWebAppButton(language === "am" ? "Mini App ክፈት" : "Open the Mini App"),
+    );
     return;
   }
 
-  const telegramFile = await ctx.api.getFile(photo.file_id);
-
-  if (!telegramFile.file_path) {
-    throw new Error("Telegram file path is missing.");
-  }
-
-  const upload = await uploadTelegramPhotoToReceiptsBucket({
-    filePath: telegramFile.file_path,
-    fileId: photo.file_id,
-    telegramUserId: user.id,
-  });
-
-  const updatedDraft = await repository.updateDraft(candidate.id, {
-    receipt_storage_path: upload.storagePath,
-    receipt_telegram_file_id: photo.file_id,
-    receipt_file_name: upload.fileName,
-    receipt_mime_type: upload.contentType,
-    receipt_uploaded_at: new Date().toISOString(),
-    last_user_message_id: ctx.message?.message_id ?? null,
-  });
-
-  const summary = await repository.submitDraft(candidate, updatedDraft);
-
-  await notifyAdminWithReviewCard(ctx, summary);
-
-  if (env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME) {
+  if (
+    candidate.current_registration_status === "pending_review" ||
+    draft.current_step === "completed"
+  ) {
     await ctx.reply(
       copy.pendingReview,
       createMiniAppWebAppButton(language === "am" ? "Mini App ክፈት" : "Open the Mini App"),
@@ -331,7 +346,80 @@ async function handlePhotoMessage(ctx: BotContext) {
     return;
   }
 
-  await ctx.reply(copy.pendingReview);
+  // If candidate is not yet at receipt step, prompt them for what's actually missing
+  if (draft.current_step !== "receipt" && draft.current_step !== "password") {
+    // If phone number is already saved on draft, automatically accept receipt!
+    if (draft.phone_number) {
+      draft = await repository.updateDraft(candidate.id, {
+        current_step: "receipt",
+      });
+    } else {
+      switch (draft.current_step) {
+        case "language":
+          await ctx.reply(copy.chooseLanguage, { reply_markup: createLanguageKeyboard() });
+          return;
+        case "full_name":
+          await ctx.reply(copy.askFullName);
+          return;
+        case "department":
+          await promptForDepartment(ctx, language);
+          return;
+        case "region":
+          await promptForRegion(ctx, language);
+          return;
+        case "phone_number":
+          await ctx.reply(copy.askPhone);
+          return;
+        default:
+          await ctx.reply(copy.paymentInstructions);
+          return;
+      }
+    }
+  }
+
+  try {
+    const telegramFile = await ctx.api.getFile(fileId);
+
+    if (!telegramFile.file_path) {
+      throw new Error("Telegram file path is missing.");
+    }
+
+    const upload = await uploadTelegramPhotoToReceiptsBucket({
+      filePath: telegramFile.file_path,
+      fileId,
+      telegramUserId: user.id,
+    });
+
+    const updatedDraft = await repository.updateDraft(candidate.id, {
+      receipt_storage_path: upload.storagePath,
+      receipt_telegram_file_id: fileId,
+      receipt_file_name: fileName || upload.fileName,
+      receipt_mime_type: upload.contentType,
+      receipt_uploaded_at: new Date().toISOString(),
+      last_user_message_id: ctx.message?.message_id ?? null,
+    });
+
+    const summary = await repository.submitDraft(candidate, updatedDraft);
+
+    await notifyAdminWithReviewCard(ctx, summary);
+
+    if (env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME) {
+      await ctx.reply(
+        copy.pendingReview,
+        createMiniAppWebAppButton(language === "am" ? "Mini App ክፈት" : "Open the Mini App"),
+      );
+      return;
+    }
+
+    await ctx.reply(copy.pendingReview);
+  } catch (error) {
+    console.error("Receipt upload error:", error);
+    await ctx.reply(
+      language === "am"
+        ? "የደረሰኝ ምስል ማስገባት አልተሳካም። እባክዎ እንደገና ይሞክሩ።"
+        : "Failed to upload receipt. Please try sending the image again.",
+    );
+  }
 }
 
 async function handleCallbackQuery(ctx: BotContext) {
@@ -497,7 +585,8 @@ export function createTelegramBot() {
   bot.command("start", beginRegistration);
   bot.on("callback_query:data", handleCallbackQuery);
   bot.on("message:text", handleTextMessage);
-  bot.on("message:photo", handlePhotoMessage);
+  bot.on("message:photo", handleReceiptMessage);
+  bot.on("message:document", handleReceiptMessage);
 
   return bot;
 }

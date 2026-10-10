@@ -302,7 +302,17 @@ function SubjectsContent() {
         if (!isMounted) return;
 
         if (!s) {
-          router.replace("/");
+          setSession({
+            id: "fallback",
+            name: "Student",
+            studentId: "unapproved",
+            department: "",
+            avatarInitials: "S",
+            loginAt: Date.now(),
+            isApproved: false,
+            isAdmin: false,
+            registrationStatus: "unregistered",
+          });
           return;
         }
 

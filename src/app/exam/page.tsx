@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { loadSession, saveHistoryEntry, getAllowedDepartmentId, generateSafeId } from "@/lib/session";
+import { loadSession, saveSession, saveHistoryEntry, getAllowedDepartmentId, generateSafeId } from "@/lib/session";
 import { syncTelegramSession } from "@/lib/telegram-session";
 import { DEMO_EXAM_SETS, DEMO_EXAM_SET } from "@/features/exam/mock-data";
 import { calculateExamResult, formatExamTime } from "@/features/exam/utils";
@@ -226,7 +226,18 @@ function ExamContent() {
         if (!isActive) return;
 
         if (!session) {
-          router.replace("/");
+          saveSession({
+            id: "fallback",
+            name: "Student",
+            studentId: "unapproved",
+            department: "",
+            avatarInitials: "S",
+            loginAt: Date.now(),
+            isApproved: false,
+            isAdmin: false,
+            registrationStatus: "unregistered",
+          });
+          setReady(true);
           return;
         }
 

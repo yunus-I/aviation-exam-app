@@ -21,22 +21,43 @@ declare global {
 }
 
 /**
- * Extracts raw initData from URL hash or query params if Telegram SDK has not populated it yet.
+ * Extracts raw initData from URL hash, query params, or sessionStorage.
  */
 function getRawInitDataFromLocation(): string | null {
   if (typeof window === "undefined") return null;
   try {
+    // 1. Try reading from cached sessionStorage first
+    const cached = sessionStorage.getItem("eau_raw_init_data");
+    if (cached) return cached;
+
+    // 2. Try parsing location hash
     const hash = window.location.hash.startsWith("#") ? window.location.hash.slice(1) : window.location.hash;
     if (hash) {
       const params = new URLSearchParams(hash);
       const tgWebAppData = params.get("tgWebAppData");
-      if (tgWebAppData) return tgWebAppData;
+      if (tgWebAppData) {
+        try { sessionStorage.setItem("eau_raw_init_data", tgWebAppData); } catch {}
+        return tgWebAppData;
+      }
+      if (params.has("hash") && params.has("auth_date")) {
+        try { sessionStorage.setItem("eau_raw_init_data", hash); } catch {}
+        return hash;
+      }
     }
+
+    // 3. Try parsing location search
     const search = window.location.search.startsWith("?") ? window.location.search.slice(1) : window.location.search;
     if (search) {
       const params = new URLSearchParams(search);
       const tgWebAppData = params.get("tgWebAppData");
-      if (tgWebAppData) return tgWebAppData;
+      if (tgWebAppData) {
+        try { sessionStorage.setItem("eau_raw_init_data", tgWebAppData); } catch {}
+        return tgWebAppData;
+      }
+      if (params.has("hash") && params.has("auth_date")) {
+        try { sessionStorage.setItem("eau_raw_init_data", search); } catch {}
+        return search;
+      }
     }
   } catch {}
   return null;
@@ -81,7 +102,7 @@ async function refreshSessionInBackground(existingSession: StudentSession): Prom
     if (!initDataRaw && !activeTgId) return;
 
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 4000);
+    const timer = setTimeout(() => controller.abort(), 6000);
     const res = await fetch("/api/mini-app/session", {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -121,26 +142,43 @@ export async function syncTelegramSession(): Promise<StudentSession | null> {
     const existingSession = loadSession();
     let webApp = window.Telegram?.WebApp;
 
-    // Fast path: If we already have a valid session in local storage, return it instantly!
-    // This allows 0ms instant page loads without staring at spinners.
-    if (existingSession && (existingSession.isApproved || existingSession.isAdmin)) {
-      // Fire background verification without blocking UI
-      setTimeout(() => {
-        refreshSessionInBackground(existingSession);
-      }, 50);
-      return existingSession;
+    // Call ready & expand immediately to notify Telegram container
+    if (webApp) {
+      try {
+        webApp.ready();
+        webApp.expand();
+      } catch {}
     }
 
-    // 1. If Telegram script is still loading, poll briefly (up to 400ms max)
+    const activeTgId = getActiveTelegramUserId();
+
+    // Fast path: If we already have a valid session in local storage that matches
+    // active Telegram user, return it instantly!
+    if (existingSession && (existingSession.isApproved || existingSession.isAdmin)) {
+      if (activeTgId) {
+        const storedTgId = existingSession.studentId?.startsWith("TG-")
+          ? Number(existingSession.studentId.replace("TG-", ""))
+          : null;
+        if (storedTgId === activeTgId) {
+          setTimeout(() => { refreshSessionInBackground(existingSession); }, 50);
+          return existingSession;
+        }
+      } else {
+        // No activeTgId detected yet, trust existing approved session and verify in background
+        setTimeout(() => { refreshSessionInBackground(existingSession); }, 50);
+        return existingSession;
+      }
+    }
+
+    // 1. If Telegram script is still initializing, wait up to 1000ms
     if (!webApp) {
-      for (let i = 0; i < 8; i++) {
-        await new Promise((resolve) => setTimeout(resolve, 50));
+      for (let i = 0; i < 10; i++) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
         webApp = window.Telegram?.WebApp;
         if (webApp) break;
       }
     }
 
-    // Call ready & expand immediately to notify Telegram container
     if (webApp) {
       try {
         webApp.ready();
@@ -150,48 +188,48 @@ export async function syncTelegramSession(): Promise<StudentSession | null> {
 
     let initDataRaw = webApp?.initData?.trim();
 
-    // 2. If webApp exists but initData is not ready yet, wait up to 600ms.
-    // On slower Android WebViews and iOS Telegram builds the SDK populates
-    // initData asynchronously after the ready() call, so we need extra time.
+    // 2. If webApp exists but initData is not ready yet, wait up to 1000ms.
     if (webApp && !initDataRaw) {
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < 10; i++) {
         await new Promise((resolve) => setTimeout(resolve, 100));
         initDataRaw = window.Telegram?.WebApp?.initData?.trim();
         if (initDataRaw) break;
       }
     }
 
-    // 3. Fallback to location hash / search if still not available
+    // 3. Fallback to location hash / search / sessionStorage if still not available
     if (!initDataRaw) {
       initDataRaw = getRawInitDataFromLocation() ?? "";
+    } else {
+      try { sessionStorage.setItem("eau_raw_init_data", initDataRaw); } catch {}
     }
 
-    const activeTgId = getActiveTelegramUserId();
+    const currentTgId = activeTgId || getActiveTelegramUserId();
 
     // Inside Telegram with initData available or Telegram user ID detected
-    if (initDataRaw || activeTgId) {
+    if (initDataRaw || currentTgId) {
       // Check if existing session matches active Telegram user ID
-      if (existingSession && activeTgId) {
+      if (existingSession && currentTgId) {
         const storedTgId = existingSession.studentId?.startsWith("TG-")
           ? Number(existingSession.studentId.replace("TG-", ""))
           : null;
 
-        if (storedTgId === activeTgId) {
+        if (storedTgId === currentTgId && (existingSession.isApproved || existingSession.isAdmin)) {
           return existingSession;
         }
       }
 
-      // Fetch fresh session for active Telegram account with a 3.5s timeout
+      // Fetch fresh session for active Telegram account with an 8.0s timeout
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 3500);
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
 
         const res = await fetch("/api/mini-app/session", {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
             initDataRaw: initDataRaw || undefined,
-            telegramUserId: activeTgId || undefined,
+            telegramUserId: currentTgId || undefined,
           }),
           signal: controller.signal,
         });
@@ -209,7 +247,7 @@ export async function syncTelegramSession(): Promise<StudentSession | null> {
           const freshSession: StudentSession = {
             id: ts.candidateId || generateSafeId(),
             name: ts.fullName || payload.telegramUser?.first_name || "Telegram User",
-            studentId: `TG-${payload.telegramUser?.id ?? activeTgId}`,
+            studentId: `TG-${payload.telegramUser?.id ?? currentTgId}`,
             department: ts.departmentName || "General",
             avatarInitials: (ts.fullName || payload.telegramUser?.first_name || "T")[0]?.toUpperCase() || "T",
             loginAt: Date.now(),
@@ -223,7 +261,7 @@ export async function syncTelegramSession(): Promise<StudentSession | null> {
           const restrictedSession: StudentSession = {
             id: generateSafeId(),
             name: payload.telegramUser?.first_name || "Student",
-            studentId: payload.telegramUser?.id ? `TG-${payload.telegramUser.id}` : activeTgId ? `TG-${activeTgId}` : "unapproved",
+            studentId: payload.telegramUser?.id ? `TG-${payload.telegramUser.id}` : currentTgId ? `TG-${currentTgId}` : "unapproved",
             department: payload.session?.departmentName || "",
             avatarInitials: (payload.telegramUser?.first_name || "S")[0]?.toUpperCase() || "S",
             loginAt: Date.now(),
@@ -235,18 +273,15 @@ export async function syncTelegramSession(): Promise<StudentSession | null> {
           return restrictedSession;
         }
       } catch {
-        // If network fails and existing session matches active TG user, use existing
-        if (existingSession && activeTgId) {
-          const storedTgId = existingSession.studentId?.startsWith("TG-")
-            ? Number(existingSession.studentId.replace("TG-", ""))
-            : null;
-          if (storedTgId === activeTgId) return existingSession;
+        // If network fails and existing session exists, PRESERVE IT! Do not downgrade.
+        if (existingSession) {
+          return existingSession;
         }
 
         const restrictedSession: StudentSession = {
           id: generateSafeId(),
           name: "Student",
-          studentId: activeTgId ? `TG-${activeTgId}` : "unapproved",
+          studentId: currentTgId ? `TG-${currentTgId}` : "unapproved",
           department: "",
           avatarInitials: "S",
           loginAt: Date.now(),

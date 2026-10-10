@@ -27,13 +27,7 @@ export default function RootLayout({
         */}
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-        {/*
-          Allow Telegram to embed this app in an iframe.
-          Without this some hosting environments (Vercel default headers) will
-          block the frame load and the mini app silently never opens.
-        */}
-        <meta httpEquiv="Content-Security-Policy" content="frame-ancestors 'self' https://web.telegram.org https://*.telegram.org" />
-
+        {/* Preconnect to fonts */}
         <link rel="manifest" href="/manifest.json" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -42,7 +36,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
 
-        {/* Polyfills — must run before any other script */}
+        {/* Polyfills & Service Worker Cleanup — runs first before any hydration */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -68,11 +62,29 @@ export default function RootLayout({
                       return this[n];
                     };
                   }
-                  // Register Service Worker for PWA performance
+                  if (!Array.prototype.flat) {
+                    Array.prototype.flat = function(depth) {
+                      var d = depth === undefined ? 1 : Math.floor(depth);
+                      return d > 0 ? Array.prototype.reduce.call(this, function(acc, val) {
+                        return acc.concat(Array.isArray(val) ? val.flat(d - 1) : val);
+                      }, []) : Array.prototype.slice.call(this);
+                    };
+                  }
+                  // Unregister any legacy Service Workers to heal Android/iOS WebViews
                   if ('serviceWorker' in navigator) {
-                    window.addEventListener('load', function() {
-                      navigator.serviceWorker.register('/sw.js').catch(function() {});
-                    });
+                    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                      for (var i = 0; i < registrations.length; i++) {
+                        registrations[i].unregister();
+                      }
+                    }).catch(function() {});
+                  }
+                  // Clear legacy caches that cause white-screen freezes
+                  if ('caches' in window) {
+                    caches.keys().then(function(keys) {
+                      for (var i = 0; i < keys.length; i++) {
+                        caches.delete(keys[i]);
+                      }
+                    }).catch(function() {});
                   }
                 } catch (e) {}
               })();
@@ -81,19 +93,12 @@ export default function RootLayout({
         />
 
         {/*
-          Telegram WebApp SDK — loaded with async so it does NOT block rendering.
-          The mini-app-shell already has a retry loop to wait for initData;
-          the SDK itself dispatches a custom event when it is ready.
+          Telegram WebApp SDK:
+          Load local bundled copy first for instant, offline-resilient initialization.
+          Fallback to official CDN if local file fails.
         */}
         {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script src="https://telegram.org/js/telegram-web-app.js" async />
-
-        {/*
-          Call ready() + expand() as soon as the SDK script finishes loading.
-          We listen for the script's own load event rather than running inline,
-          which avoids the race where the inline script runs before the async
-          SDK has had a chance to initialise window.Telegram.WebApp.
-        */}
+        <script src="/telegram-web-app.js" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -107,14 +112,16 @@ export default function RootLayout({
                     }
                   } catch (e) {}
                 }
-                // If the SDK is already loaded (cached), run immediately
+
+                // If SDK already populated window.Telegram, signal ready immediately
                 if (window.Telegram && window.Telegram.WebApp) {
                   initTwa();
                 } else {
-                  // Otherwise wait for the async script to finish
-                  document.querySelector('script[src*="telegram-web-app"]')
-                    ? document.querySelector('script[src*="telegram-web-app"]').addEventListener('load', initTwa)
-                    : window.addEventListener('load', initTwa);
+                  // Fallback: load from official CDN if local file was unavailable
+                  var fallback = document.createElement('script');
+                  fallback.src = 'https://telegram.org/js/telegram-web-app.js';
+                  fallback.onload = initTwa;
+                  document.head.appendChild(fallback);
                 }
               })();
             `,

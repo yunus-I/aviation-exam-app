@@ -5,21 +5,13 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        // Allow Telegram to embed this app as a Mini App (iframe).
-        // This MUST be a server header — <meta http-equiv="CSP"> alone is
-        // ignored by browsers when the server sends X-Frame-Options.
-        // Vercel sends X-Frame-Options: SAMEORIGIN by default; we override it.
+        // Allow Telegram to embed this app as a Mini App (iframe / webview).
+        // CSP frame-ancestors is the standard directive for controlling iframe embedding.
         source: "/(.*)",
         headers: [
           {
-            // Remove the blanket X-Frame-Options that blocks Telegram embedding.
-            // We replace it with a stricter frame-ancestors CSP below.
-            key: "X-Frame-Options",
-            value: "ALLOWALL",
-          },
-          {
             key: "Content-Security-Policy",
-            value: "frame-ancestors 'self' https://web.telegram.org https://*.telegram.org",
+            value: "frame-ancestors 'self' https://web.telegram.org https://*.telegram.org https://webk.telegram.org https://webz.telegram.org https://t.me https://*.t.me",
           },
         ],
       },
