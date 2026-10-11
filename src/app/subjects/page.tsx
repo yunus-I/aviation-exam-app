@@ -275,16 +275,21 @@ function SubjectsContent() {
     const timer = setTimeout(() => setShowSlowNotice(true), 3500);
     const hardTimer = setTimeout(() => {
       setDept((prev) => prev || (getDepartment(deptId) ?? DEPARTMENTS[0]));
-      setSession((prev) => prev || {
-        id: "fallback-timeout",
-        name: "Student",
-        studentId: "unapproved",
-        department: "",
-        avatarInitials: "S",
-        loginAt: Date.now(),
-        isApproved: false,
-        isAdmin: false,
-        registrationStatus: "unregistered",
+      setSession((prev) => {
+        if (prev) return prev;
+        const existing = loadSession();
+        if (existing) return existing;
+        return {
+          id: "fallback-timeout",
+          name: "Student",
+          studentId: "unapproved",
+          department: "",
+          avatarInitials: "S",
+          loginAt: Date.now(),
+          isApproved: false,
+          isAdmin: false,
+          registrationStatus: "unregistered",
+        };
       });
     }, 5000);
     return () => {
@@ -302,6 +307,11 @@ function SubjectsContent() {
         if (!isMounted) return;
 
         if (!s) {
+          const existing = loadSession();
+          if (existing) {
+            setSession(existing);
+            return;
+          }
           setSession({
             id: "fallback",
             name: "Student",

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { clearSession, saveSession, loadSession } from "@/lib/session";
+import { getActiveTelegramUserId, getRawInitDataFromLocation } from "@/lib/telegram-session";
 
 export function AccessRestrictedGuard({
   status,
@@ -38,17 +39,25 @@ export function AccessRestrictedGuard({
     try {
       const existingSession = loadSession();
       const webApp = (typeof window !== "undefined" && (window as any).Telegram?.WebApp) || null;
-      const initDataRaw = webApp?.initData?.trim();
+      let initDataRaw = webApp?.initData?.trim() || getRawInitDataFromLocation();
+      let telegramUserId: number | undefined = getActiveTelegramUserId() ?? undefined;
 
-      let telegramUserId: number | undefined;
-      if (existingSession?.studentId?.startsWith("TG-")) {
+      if (!telegramUserId && existingSession?.studentId?.startsWith("TG-")) {
         const parsed = Number(existingSession.studentId.replace("TG-", ""));
         if (!isNaN(parsed) && parsed > 0) {
           telegramUserId = parsed;
         }
       }
 
+      // If neither is detected yet, give a brief 400ms pause for late script hydration
       if (!initDataRaw && !telegramUserId) {
+        await new Promise((resolve) => setTimeout(resolve, 400));
+        initDataRaw = (window as any).Telegram?.WebApp?.initData?.trim() || getRawInitDataFromLocation();
+        telegramUserId = getActiveTelegramUserId() ?? undefined;
+      }
+
+      if (!initDataRaw && !telegramUserId) {
+        setCheckMsg("Could not detect Telegram account. Please open this app from the Telegram bot @ETaviation_bot.");
         setChecking(false);
         return;
       }

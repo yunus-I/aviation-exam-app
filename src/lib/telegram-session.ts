@@ -23,15 +23,12 @@ declare global {
 /**
  * Extracts raw initData from URL hash, query params, or sessionStorage.
  */
-function getRawInitDataFromLocation(): string | null {
+export function getRawInitDataFromLocation(): string | null {
   if (typeof window === "undefined") return null;
   try {
-    // 1. Try reading from cached sessionStorage first
-    const cached = sessionStorage.getItem("eau_raw_init_data");
-    if (cached) return cached;
-
-    // 2. Try parsing location hash
-    const hash = window.location.hash.startsWith("#") ? window.location.hash.slice(1) : window.location.hash;
+    // 1. Try parsing location hash first (freshest data from Telegram launch)
+    const rawHash = window.location.hash || "";
+    const hash = rawHash.startsWith("#") ? rawHash.slice(1) : rawHash;
     if (hash) {
       const params = new URLSearchParams(hash);
       const tgWebAppData = params.get("tgWebAppData");
@@ -39,14 +36,20 @@ function getRawInitDataFromLocation(): string | null {
         try { sessionStorage.setItem("eau_raw_init_data", tgWebAppData); } catch {}
         return tgWebAppData;
       }
-      if (params.has("hash") && params.has("auth_date")) {
+      if (params.has("hash") && (params.has("auth_date") || params.has("user"))) {
         try { sessionStorage.setItem("eau_raw_init_data", hash); } catch {}
         return hash;
       }
+      if (hash.startsWith("tgWebAppData=")) {
+        const val = hash.slice("tgWebAppData=".length);
+        try { sessionStorage.setItem("eau_raw_init_data", val); } catch {}
+        return val;
+      }
     }
 
-    // 3. Try parsing location search
-    const search = window.location.search.startsWith("?") ? window.location.search.slice(1) : window.location.search;
+    // 2. Try parsing location search (some Telegram Web / Desktop clients)
+    const rawSearch = window.location.search || "";
+    const search = rawSearch.startsWith("?") ? rawSearch.slice(1) : rawSearch;
     if (search) {
       const params = new URLSearchParams(search);
       const tgWebAppData = params.get("tgWebAppData");
@@ -54,17 +57,21 @@ function getRawInitDataFromLocation(): string | null {
         try { sessionStorage.setItem("eau_raw_init_data", tgWebAppData); } catch {}
         return tgWebAppData;
       }
-      if (params.has("hash") && params.has("auth_date")) {
+      if (params.has("hash") && (params.has("auth_date") || params.has("user"))) {
         try { sessionStorage.setItem("eau_raw_init_data", search); } catch {}
         return search;
       }
     }
+
+    // 3. Try reading from cached sessionStorage if non-empty
+    const cached = sessionStorage.getItem("eau_raw_init_data");
+    if (cached && cached.trim().length > 5) return cached.trim();
   } catch {}
   return null;
 }
 
 /**
- * Extracts active Telegram user ID from initData, initDataUnsafe, or location hash
+ * Extracts active Telegram user ID from initData, initDataUnsafe, or location
  */
 export function getActiveTelegramUserId(): number | null {
   if (typeof window === "undefined") return null;
@@ -72,19 +79,31 @@ export function getActiveTelegramUserId(): number | null {
 
   // 1. Try initDataUnsafe.user.id
   if (webApp?.initDataUnsafe?.user?.id) {
-    return Number(webApp.initDataUnsafe.user.id);
+    const id = Number(webApp.initDataUnsafe.user.id);
+    if (!isNaN(id) && id > 0) return id;
   }
 
   // 2. Try parsing initData string directly from WebApp or location
   const initDataRaw = webApp?.initData?.trim() || getRawInitDataFromLocation();
   if (initDataRaw) {
     try {
-      const params = new URLSearchParams(initDataRaw);
-      const userStr = params.get("user");
+      let clean = initDataRaw;
+      if (clean.startsWith("#")) clean = clean.slice(1);
+      if (clean.startsWith("?")) clean = clean.slice(1);
+      if (clean.startsWith("tgWebAppData=")) clean = clean.slice("tgWebAppData=".length);
+
+      const params = new URLSearchParams(clean);
+      let userStr = params.get("user");
+      if (!userStr && clean.includes("user=")) {
+        const match = clean.match(/user=([^&]+)/);
+        if (match) userStr = match[1];
+      }
       if (userStr) {
+        try { userStr = decodeURIComponent(userStr); } catch {}
         const user = JSON.parse(userStr);
         if (user?.id) {
-          return Number(user.id);
+          const id = Number(user.id);
+          if (!isNaN(id) && id > 0) return id;
         }
       }
     } catch {}
@@ -145,8 +164,8 @@ export async function syncTelegramSession(): Promise<StudentSession | null> {
     // Call ready & expand immediately to notify Telegram container
     if (webApp) {
       try {
-        webApp.ready();
-        webApp.expand();
+        if (typeof webApp.ready === "function") webApp.ready();
+        if (typeof webApp.expand === "function") webApp.expand();
       } catch {}
     }
 
@@ -170,9 +189,9 @@ export async function syncTelegramSession(): Promise<StudentSession | null> {
       }
     }
 
-    // 1. If Telegram script is still initializing, wait up to 1000ms
+    // 1. If Telegram script is still initializing on slow devices, wait up to 2500ms
     if (!webApp) {
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 25; i++) {
         await new Promise((resolve) => setTimeout(resolve, 100));
         webApp = window.Telegram?.WebApp;
         if (webApp) break;
@@ -181,16 +200,16 @@ export async function syncTelegramSession(): Promise<StudentSession | null> {
 
     if (webApp) {
       try {
-        webApp.ready();
-        webApp.expand();
+        if (typeof webApp.ready === "function") webApp.ready();
+        if (typeof webApp.expand === "function") webApp.expand();
       } catch {}
     }
 
     let initDataRaw = webApp?.initData?.trim();
 
-    // 2. If webApp exists but initData is not ready yet, wait up to 1000ms.
+    // 2. If webApp exists but initData is not ready yet, wait up to 2000ms
     if (webApp && !initDataRaw) {
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 20; i++) {
         await new Promise((resolve) => setTimeout(resolve, 100));
         initDataRaw = window.Telegram?.WebApp?.initData?.trim();
         if (initDataRaw) break;

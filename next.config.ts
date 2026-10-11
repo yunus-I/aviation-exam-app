@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Content-Security-Policy",
-            value: "frame-ancestors 'self' https://web.telegram.org https://*.telegram.org https://webk.telegram.org https://webz.telegram.org https://t.me https://*.t.me",
+            value: "frame-ancestors 'self' https://web.telegram.org https://telegram.org https://*.telegram.org https://webk.telegram.org https://webz.telegram.org https://weba.telegram.org https://t.me https://*.t.me https://telegram-webview.com https://*.telegram-webview.com",
           },
         ],
       },

@@ -7,7 +7,19 @@
     locationHash = location.hash.toString();
   } catch (e) {}
 
+  var locationSearch = '';
+  try {
+    locationSearch = location.search.toString();
+  } catch (e) {}
+
   var initParams = urlParseHashParams(locationHash);
+  var searchParams = urlParseQueryString(locationSearch.replace(/^\?/, ''));
+  for (var skey in searchParams) {
+    if (typeof initParams[skey] === 'undefined' && searchParams[skey] !== null) {
+      initParams[skey] = searchParams[skey];
+    }
+  }
+
   var storedParams = sessionStorageGet('initParams');
   if (storedParams) {
     for (var key in storedParams) {
@@ -24,8 +36,9 @@
     if (isIframe) {
       window.addEventListener('message', function (event) {
         if (event.source !== window.parent) return;
+        var dataParsed;
         try {
-          var dataParsed = JSON.parse(event.data);
+          dataParsed = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
         } catch (e) {
           return;
         }
@@ -33,7 +46,7 @@
           return;
         }
         if (dataParsed.eventType == 'set_custom_style') {
-          if (event.origin === 'https://web.telegram.org') {
+          if (event.origin === 'https://web.telegram.org' || event.origin.indexOf('telegram.org') !== -1) {
             iFrameStyle.innerHTML = dataParsed.eventData;
           }
         } else if (dataParsed.eventType == 'reload_iframe') {

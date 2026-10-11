@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { MINI_APP_COPY } from "@/features/auth/copy";
 import type { MiniAppCandidateSession } from "@/features/auth/repository";
 import { ExamWorkbench } from "@/features/exam/exam-workbench";
+import { getActiveTelegramUserId, getRawInitDataFromLocation } from "@/lib/telegram-session";
 import type { RegistrationStatus } from "@/types/db";
 
 type TelegramUser = {
@@ -139,33 +140,19 @@ export function MiniAppShell() {
     }
 
     if (!initDataRaw && typeof window !== "undefined") {
-      try {
-        const hash = window.location.hash.startsWith("#") ? window.location.hash.slice(1) : window.location.hash;
-        if (hash) {
-          const params = new URLSearchParams(hash);
-          initDataRaw = params.get("tgWebAppData") || (params.has("hash") ? hash : undefined);
-        }
-        if (!initDataRaw) {
-          const search = window.location.search.startsWith("?") ? window.location.search.slice(1) : window.location.search;
-          if (search) {
-            const params = new URLSearchParams(search);
-            initDataRaw = params.get("tgWebAppData") || (params.has("hash") ? search : undefined);
-          }
-        }
-        if (!initDataRaw) {
-          initDataRaw = sessionStorage.getItem("eau_raw_init_data") || undefined;
-        }
-      } catch {}
+      initDataRaw = getRawInitDataFromLocation() || undefined;
     }
 
-    if (!webApp || !initDataRaw) {
+    const currentTgUserId = getActiveTelegramUserId();
+
+    if (!initDataRaw && !currentTgUserId) {
       setState({ kind: "outside_telegram" });
       return;
     }
 
     try {
-      webApp.ready();
-      webApp.expand();
+      if (typeof webApp?.ready === "function") webApp.ready();
+      if (typeof webApp?.expand === "function") webApp.expand();
     } catch {}
 
     const response = await fetch("/api/mini-app/session", {
@@ -173,7 +160,10 @@ export function MiniAppShell() {
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({ initDataRaw }),
+      body: JSON.stringify({
+        initDataRaw: initDataRaw || undefined,
+        telegramUserId: currentTgUserId || undefined,
+      }),
     });
     const payload = (await response.json()) as SessionResponse;
 
@@ -281,7 +271,7 @@ export function MiniAppShell() {
     },
     {
       label: "Status",
-      value: session ? session.registrationStatus.replaceAll("_", " ") : "Not registered",
+      value: session ? session.registrationStatus.replace(/_/g, " ") : "Not registered",
     },
     {
       label: "Access",

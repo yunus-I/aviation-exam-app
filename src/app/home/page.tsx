@@ -239,6 +239,8 @@ export default function HomePage() {
     const hardTimer = setTimeout(() => {
       setSession((prev) => {
         if (prev) return prev;
+        const existing = loadSession();
+        if (existing) return existing;
         return {
           id: "fallback-timeout",
           name: "Student",
@@ -268,6 +270,11 @@ export default function HomePage() {
         if (!isMounted) return;
 
         if (!s) {
+          const existing = loadSession();
+          if (existing) {
+            setSession(existing);
+            return;
+          }
           setSession({
             id: "fallback",
             name: "Student",
@@ -301,17 +308,22 @@ export default function HomePage() {
       } catch (err) {
         console.error("Home initialization error:", err);
         if (isMounted) {
-          setSession({
-            id: "fallback",
-            name: "Student",
-            studentId: "unapproved",
-            department: "",
-            avatarInitials: "S",
-            loginAt: Date.now(),
-            isApproved: false,
-            isAdmin: false,
-            registrationStatus: "unregistered",
-          });
+          const existing = loadSession();
+          if (existing) {
+            setSession(existing);
+          } else {
+            setSession({
+              id: "fallback",
+              name: "Student",
+              studentId: "unapproved",
+              department: "",
+              avatarInitials: "S",
+              loginAt: Date.now(),
+              isApproved: false,
+              isAdmin: false,
+              registrationStatus: "unregistered",
+            });
+          }
         }
       }
     }

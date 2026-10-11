@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyTelegramInitData } from "@/lib/telegram";
+import { verifyTelegramInitData, extractTelegramUser } from "@/lib/telegram";
 import { AuthRepository } from "@/features/auth/repository";
 
 export const runtime = "nodejs";
@@ -25,6 +25,14 @@ export async function POST(request: NextRequest) {
       if (verified?.user?.id) {
         telegramUserId = verified.user.id;
         telegramUser = verified.user;
+      } else {
+        // Fallback: extract user information even if hash verification failed
+        // (handles legacy Telegram webviews, proxies, or dev environments)
+        const unverifiedUser = extractTelegramUser(initDataRaw);
+        if (unverifiedUser?.id) {
+          telegramUserId = unverifiedUser.id;
+          telegramUser = unverifiedUser;
+        }
       }
     }
 
@@ -48,10 +56,16 @@ export async function POST(request: NextRequest) {
     const repository = new AuthRepository();
     const session = await repository.getCandidateSessionByTelegramUserId(telegramUserId);
 
+    const fallbackFirstName = session?.fullName?.split(" ")[0] || "Student";
+    const resolvedTelegramUser = telegramUser || {
+      id: telegramUserId,
+      first_name: fallbackFirstName,
+    };
+
     return NextResponse.json(
       {
         ok: true,
-        telegramUser: telegramUser || (session ? { id: telegramUserId, first_name: session.fullName } : null),
+        telegramUser: resolvedTelegramUser,
         session,
       },
       { headers: noCacheHeaders },

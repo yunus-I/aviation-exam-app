@@ -62,6 +62,14 @@ export default function RootLayout({
                       return this[n];
                     };
                   }
+                  if (!String.prototype.replaceAll) {
+                    String.prototype.replaceAll = function(searchValue, replaceValue) {
+                      if (Object.prototype.toString.call(searchValue).toLowerCase() === '[object regexp]') {
+                        return this.replace(searchValue, replaceValue);
+                      }
+                      return this.replace(new RegExp(String(searchValue).replace(/[.*+?^\${}()|[\\]\\\\]/g, '\\\\$&'), 'g'), replaceValue);
+                    };
+                  }
                   if (!Array.prototype.flat) {
                     Array.prototype.flat = function(depth) {
                       var d = depth === undefined ? 1 : Math.floor(depth);
@@ -70,6 +78,58 @@ export default function RootLayout({
                       }, []) : Array.prototype.slice.call(this);
                     };
                   }
+                  if (!Array.prototype.flatMap) {
+                    Array.prototype.flatMap = function(fn, thisArg) {
+                      return Array.prototype.map.call(this, fn, thisArg).flat(1);
+                    };
+                  }
+                  if (!Object.fromEntries) {
+                    Object.fromEntries = function(entries) {
+                      if (!entries) return {};
+                      var obj = {};
+                      for (var pair of entries) {
+                        if (pair && pair.length >= 2) obj[pair[0]] = pair[1];
+                      }
+                      return obj;
+                    };
+                  }
+                  if (!Promise.allSettled) {
+                    Promise.allSettled = function(promises) {
+                      return Promise.all(
+                        Array.from(promises).map(function(p) {
+                          return Promise.resolve(p).then(
+                            function(value) { return { status: 'fulfilled', value: value }; },
+                            function(reason) { return { status: 'rejected', reason: reason }; }
+                          );
+                        })
+                      );
+                    };
+                  }
+                  if (typeof crypto === 'undefined') {
+                    window.crypto = {};
+                  }
+                  if (!window.crypto.randomUUID) {
+                    window.crypto.randomUUID = function() {
+                      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                        var r = (Math.random() * 16) | 0;
+                        var v = c === 'x' ? r : (r & 0x3) | 0x8;
+                        return v.toString(16);
+                      });
+                    };
+                  }
+                  if (typeof structuredClone !== 'function') {
+                    window.structuredClone = function(obj) {
+                      return JSON.parse(JSON.stringify(obj));
+                    };
+                  }
+                  if (typeof ResizeObserver === 'undefined') {
+                    window.ResizeObserver = function() {
+                      this.observe = function() {};
+                      this.unobserve = function() {};
+                      this.disconnect = function() {};
+                    };
+                  }
+
                   // Unregister any legacy Service Workers to heal Android/iOS WebViews
                   if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.getRegistrations().then(function(registrations) {
@@ -103,21 +163,39 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                function initTwa() {
+                function applyTgProperties(twa) {
                   try {
-                    var twa = window.Telegram && window.Telegram.WebApp;
-                    if (twa) {
-                      twa.ready();
-                      twa.expand();
+                    if (twa.viewportHeight) {
+                      document.documentElement.style.setProperty('--tg-viewport-height', twa.viewportHeight + 'px');
+                    }
+                    if (twa.viewportStableHeight) {
+                      document.documentElement.style.setProperty('--tg-viewport-stable-height', twa.viewportStableHeight + 'px');
                     }
                   } catch (e) {}
                 }
 
-                // If SDK already populated window.Telegram, signal ready immediately
+                function initTwa() {
+                  try {
+                    var twa = window.Telegram && window.Telegram.WebApp;
+                    if (twa) {
+                      if (typeof twa.ready === 'function') twa.ready();
+                      if (typeof twa.expand === 'function') twa.expand();
+                      if (typeof twa.disableVerticalSwipes === 'function') {
+                        twa.disableVerticalSwipes();
+                      }
+                      applyTgProperties(twa);
+                      if (typeof twa.onEvent === 'function') {
+                        twa.onEvent('viewportChanged', function() {
+                          applyTgProperties(twa);
+                        });
+                      }
+                    }
+                  } catch (e) {}
+                }
+
                 if (window.Telegram && window.Telegram.WebApp) {
                   initTwa();
                 } else {
-                  // Fallback: load from official CDN if local file was unavailable
                   var fallback = document.createElement('script');
                   fallback.src = 'https://telegram.org/js/telegram-web-app.js';
                   fallback.onload = initTwa;
