@@ -24,6 +24,9 @@ export default async function NewDeptQuestionPage({ params }: Props) {
   if (!topics.some((t) => t.slug === "model-exam-1" || t.name_en?.toLowerCase() === "model exam 1")) {
     topics.push({ id: "model-exam-1", slug: "model-exam-1", name_en: "Model Exam 1" });
   }
+  if (!topics.some((t) => t.slug === "model-exam-2" || t.name_en?.toLowerCase() === "model exam 2")) {
+    topics.push({ id: "model-exam-2", slug: "model-exam-2", name_en: "Model Exam 2" });
+  }
 
  return (
  <div className="space-y-6">

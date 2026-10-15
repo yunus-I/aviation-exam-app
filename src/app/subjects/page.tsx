@@ -260,14 +260,37 @@ function SubjectsContent() {
   const [session, setSession] = useState<StudentSession | null>(() => loadSession());
   const [dept, setDept] = useState<Department | null>(() => getDepartment(deptId) ?? DEPARTMENTS[0]);
   const [activeMode, setActiveMode] = useState<"practice" | "exam" | "notes">("practice");
-  const [modelExamInfo, setModelExamInfo] = useState<{ hasModelExam: boolean; count: number }>(() => {
+  const [modelExamList, setModelExamList] = useState<
+    Array<{
+      id: string;
+      label: string;
+      questionCount: number;
+      durationMinutes: number;
+      examSetId: string;
+    }>
+  >(() => {
     if (typeof window !== "undefined") {
       try {
-        const stored = sessionStorage.getItem(`eau_model_exam_${deptId}`);
+        const stored = sessionStorage.getItem(`eau_model_exams_${deptId}`);
         if (stored) return JSON.parse(stored);
+        const legacy = sessionStorage.getItem(`eau_model_exam_${deptId}`);
+        if (legacy) {
+          const parsed = JSON.parse(legacy);
+          if (parsed.hasModelExam) {
+            return [
+              {
+                id: `${deptId}-model-exam-1`,
+                label: "Model Exam 1",
+                questionCount: parsed.count || 60,
+                durationMinutes: 90,
+                examSetId: `${deptId}-model-exam-1`,
+              },
+            ];
+          }
+        }
       } catch {}
     }
-    return { hasModelExam: false, count: 0 };
+    return [];
   });
   const [showSlowNotice, setShowSlowNotice] = useState(false);
 
@@ -343,15 +366,46 @@ function SubjectsContent() {
         const d = getDepartment(deptId) ?? DEPARTMENTS[0];
         setDept(d ?? null);
 
-        // Check if Model Exam 1 questions exist for this department
+        // Check if Model Exam questions exist for this department
         try {
           const res = await fetch(`/api/exams/check-model-exam?dept=${encodeURIComponent(deptId)}`);
           const data = await res.json();
           if (isMounted && data.ok) {
-            const info = { hasModelExam: Boolean(data.hasModelExam), count: data.questionCount || 0 };
-            setModelExamInfo(info);
+            let list: Array<{
+              id: string;
+              label: string;
+              questionCount: number;
+              durationMinutes: number;
+              examSetId: string;
+            }> = [];
+
+            if (Array.isArray(data.modelExams) && data.modelExams.length > 0) {
+              list = data.modelExams.map((m: any) => ({
+                id: m.id || `${deptId}-model-exam-${m.examNumber}`,
+                label: m.label || `Model Exam ${m.examNumber}`,
+                questionCount: m.questionCount || 60,
+                durationMinutes: m.durationMinutes || 90,
+                examSetId: m.examSetId || `${deptId}-model-exam-${m.examNumber}`,
+              }));
+            } else if (data.hasModelExam) {
+              list = [
+                {
+                  id: `${deptId}-model-exam-1`,
+                  label: "Model Exam 1",
+                  questionCount: data.questionCount || 60,
+                  durationMinutes: 90,
+                  examSetId: `${deptId}-model-exam-1`,
+                },
+              ];
+            }
+
+            setModelExamList(list);
             try {
-              sessionStorage.setItem(`eau_model_exam_${deptId}`, JSON.stringify(info));
+              sessionStorage.setItem(`eau_model_exams_${deptId}`, JSON.stringify(list));
+              sessionStorage.setItem(
+                `eau_model_exam_${deptId}`,
+                JSON.stringify({ hasModelExam: list.length > 0, count: list[0]?.questionCount || 0 })
+              );
             } catch {}
           }
         } catch {
@@ -369,19 +423,20 @@ function SubjectsContent() {
     };
   }, [router, deptId]);
 
-  // Background prefetch practice and exam sets so starting any exam is instant (0ms)
+  // Background prefetch practice, exam, and model exam sets so starting any exam is instant (0ms)
   useEffect(() => {
     if (!dept) return;
     const sets = [
       ...(dept.practiceSets || []).slice(0, 2),
       ...(dept.examSets || []).slice(0, 2),
+      ...modelExamList,
     ];
     sets.forEach((s, idx) => {
       setTimeout(() => {
         prefetchExamSet(dept.id, s.examSetId, s.label);
       }, (idx + 1) * 800);
     });
-  }, [dept]);
+  }, [dept, modelExamList]);
 
   function handleStartNotes(setLabel: string) {
     if (!dept) return;
@@ -667,17 +722,7 @@ function SubjectsContent() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {[
                     ...dept.examSets,
-                    ...(modelExamInfo.hasModelExam
-                      ? [
-                          {
-                            id: `${dept.id}-model-exam-1`,
-                            label: "Model Exam 1",
-                            questionCount: modelExamInfo.count || 60,
-                            durationMinutes: 90,
-                            examSetId: `${dept.id}-model-exam-1`,
-                          },
-                        ]
-                      : []),
+                    ...modelExamList,
                   ].map((set) => (
                     <SetCard
                       key={set.id}

@@ -35,7 +35,12 @@ export async function PUT(
       if (topic) {
         topic_id = (topic as any).id;
       } else {
-        const topicName = topicSlug === "model-exam-1" ? "Model Exam 1" : topicSlug;
+        const topicName =
+          topicSlug === "model-exam-1"
+            ? "Model Exam 1"
+            : topicSlug === "model-exam-2"
+            ? "Model Exam 2"
+            : topicSlug;
         const { data: newTopic } = await (supabase as any)
           .from("topics")
           .upsert({ slug: topicSlug, name_en: topicName, is_active: true }, { onConflict: "slug" })
